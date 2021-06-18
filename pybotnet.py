@@ -17,8 +17,8 @@ class PyBotNet:
 
         self.TELEGRAM_TOKEN = TELEGRAM_TOKEN
         self.ADMIN_CHAT_ID = ADMIN_CHAT_ID
-        self.show_log = show_log  # show and save logs
-        self.send_system_data = send_system_data
+        self.show_log = show_log  # show logs
+        self.send_system_data = send_system_data  # send system info in message
 
         # logging:
         if self.show_log:
