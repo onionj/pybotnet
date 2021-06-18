@@ -1,3 +1,4 @@
-- [x] Create project and add to github 
-- [ ] Create pybotnet.py and add PyBotNet
-- [ ] Create Util.py and add Functions
+- [x] Create project and add to github
+- [x] Create pybotnet.py and add PyBotNet
+- [x] Create util.py and add Functions
+- [ ] add more Features
