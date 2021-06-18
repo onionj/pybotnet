@@ -4,6 +4,10 @@
 import requests
 
 
+def make_send_message_api_url(TELEGRAM_TOKEN, ADMIN_CHAT_ID, message):
+    return f"https://api.telegram.org/{TELEGRAM_TOKEN}/SendMessage?chat_id={ADMIN_CHAT_ID}&text={message}"
+
+
 def post_data_by_third_party_proxy(URL):
     '''
     Send information using the http debugger site \n
