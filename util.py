@@ -20,6 +20,9 @@ def post_data_by_third_party_proxy(URL):
                "MethodList": "POST"
                }
 
-    res = requests.post(
-        "https://www.httpdebugger.com/Tools/ViewHttpHeaders.aspx", payload)
-    return res
+    try:
+        return requests.post(
+            "https://www.httpdebugger.com/Tools/ViewHttpHeaders.aspx", payload, timeout=5)
+
+    except requests.exceptions.Timeout:
+        return False
