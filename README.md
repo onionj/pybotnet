@@ -5,6 +5,7 @@
 ### See the [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD) if you want to help me
 
 ### Features:
+* send message to telegram admin
 
 ...
 
