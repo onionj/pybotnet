@@ -1,11 +1,11 @@
 - [x] method for get command from telegram
-- [ ] method for run command in system
-- [ ] method for sleep app and show some info
+- [x] method for run command in system
+- [x] method for sleep app and show message
+- [ ] method for get system info (ip, name, route, mac addres,...)
 - [ ] method for close app by telegram command 
 - [ ] method for download file
 - [ ] method for upload file
 - [ ] methods for dos
-- [ ] method for get system info (ip, name, route, mac addres,...)
 - [ ] Add asyncio feature
 
 
