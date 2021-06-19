@@ -6,5 +6,6 @@
 - [ ] method for upload file
 - [ ] methods for dos
 - [ ] method for get system info (ip, name, route, mac addres,...)
+- [ ] Add asyncio feature
 
 
