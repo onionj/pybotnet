@@ -1,4 +1,4 @@
-- [ ] method for get command from telegram
+- [x] method for get command from telegram
 - [ ] method for run command in system
 - [ ] method for sleep app and show some info
 - [ ] method for close app by telegram command 
