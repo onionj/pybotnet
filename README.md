@@ -1,4 +1,4 @@
-# pybotnet
+# pybotnet version 0.01
 
 ## A module for building windows botnets with Python and Telegram control panel
 
