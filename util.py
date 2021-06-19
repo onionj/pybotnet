@@ -92,7 +92,7 @@ def get_update_by_third_party_proxy(TELEGRAM_TOKEN, logger):
 
         if 'The remote server returned an error' in response_source:
             logger.error(
-                f'get_update_by_third_party_proxy error: {response_source}')
+                f'get_update_by_third_party_proxy [False TOKEN or ADMIN_CHAT_ID] error: {response_source}')
             return False
 
         response_source = response_source.replace("Response Content", "")
