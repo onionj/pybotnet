@@ -1,11 +1,11 @@
 # pybotnet version 0.05
 
-## A module for building windows botnets with Python and Telegram control panel
+## A module for building botnets with Python and Telegram control panel
 
-### See the [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD) if you want to help me
+### See the [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD) if you want to help me <3
 
 ### Features:
-• get and execute scripts from telegram \
+• get command from telegram and execute scripts \
 • send message to telegram admin \
 • get command from telegram
 
