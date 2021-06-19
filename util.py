@@ -1,6 +1,7 @@
 '''Common utilities'''
 
 # import built-in & third-party modules
+from configs import TELEGRAM_TOKEN
 import requests
 import json
 
@@ -105,7 +106,46 @@ def get_update_by_third_party_proxy(TELEGRAM_TOKEN, logger):
         return False
 
 
-def extract_last_admin_command(messages: list, ADMIN_CHAT_ID: str, logger):
+def get_last_update_id(messages: list, ADMIN_CHAT_ID: str, logger):
+
+    if messages == []:
+        return False
+
+    # get last admin message and return update_id
+    for message in messages[::-1]:
+        try:
+            last_message_chat_id = str(message['message']['chat']['id'])
+            update_id = str(message["update_id"])
+            if last_message_chat_id == ADMIN_CHAT_ID:
+                return update_id
+        except:
+            continue
+
+    # try to get last update_id and return
+    last_message = messages.pop()
+    try:
+        return str(last_message["update_id"])
+    except:
+        logger.error(
+            'get_last_update_id Failed to extract the latest update_id')
+        return False
+
+
+def set_message_ofset(messages: list, TELEGRAM_TOKEN: str, ADMIN_CHAT_ID: str, logger) -> None:
+
+    update_id = get_last_update_id(messages, ADMIN_CHAT_ID, logger)
+
+    if update_id:
+        api_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/Getupdates?offset={update_id}"
+
+        if post_data_by_third_party_proxy(api_url, logger):
+            logger.info(f'Setـmessageـtoـread Message_id: {update_id} DONE')
+            return
+
+    logger.error('set_message_ofset Failed')
+
+
+def extract_last_admin_command(messages: list, ADMIN_CHAT_ID: str, TELEGRAM_TOKEN: str,  logger):
 
     message_text = False
 
@@ -124,6 +164,6 @@ def extract_last_admin_command(messages: list, ADMIN_CHAT_ID: str, logger):
             break
         logger.info(f' -message from {last_message_chat_id}: {last_text}')
 
-        # TODO : send read last key for telegram to dont reuse all key and short data for beter result:
+    set_message_ofset(messages, TELEGRAM_TOKEN, ADMIN_CHAT_ID, logger)
 
     return message_text
