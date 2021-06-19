@@ -2,6 +2,9 @@
 
 # import built-in & third-party modules
 import requests
+import json
+
+from bs4 import BeautifulSoup
 
 
 def make_send_message_api_url(TELEGRAM_TOKEN, ADMIN_CHAT_ID, message) -> str:
@@ -13,14 +16,15 @@ def make_send_message_api_url(TELEGRAM_TOKEN, ADMIN_CHAT_ID, message) -> str:
 
 
 def post_data(url, logger) -> bool:
+    '''return False or response\n'''
     try:
-        res = requests.post(url=url, timeout=5)
-        if res.status_code == 200:
+        response = requests.post(url=url, timeout=5)
+        if response.status_code == 200:
             logger.info('post_data data sended response: 200')
-            return True
+            return response
 
         logger.error(
-            f'post_data error: data not sended response: {res.status_code}')
+            f'post_data error: data not sended response: {response.status_code}')
         return False
 
     except requests.exceptions.Timeout:
@@ -31,8 +35,9 @@ def post_data(url, logger) -> bool:
         return False
 
 
-def post_data_by_third_party_proxy(url, logger) -> bool:
+def post_data_by_third_party_proxy(url, logger):
     '''
+    return False or response \n
     Send information using the http debugger site \n
     Only for special situations: \n
     Internet restrictions in some countries
@@ -44,18 +49,18 @@ def post_data_by_third_party_proxy(url, logger) -> bool:
                }
 
     try:
-        res = requests.post(
+        response = requests.post(
             url="https://www.httpdebugger.com/Tools/ViewHttpHeaders.aspx",
             data=payload,
             timeout=5)
 
-        if res.status_code == 200:
+        if response.status_code == 200:
             logger.info(
                 'post_data_by_third_party_proxy data sended response: 200')
-            return True
+            return response
 
         logger.error(
-            f'post_data_by_third_party_proxy error: data not sended response: {res.status_code}')
+            f'post_data_by_third_party_proxy error: data not sended response: {response.status_code}')
         return False
 
     except requests.exceptions.Timeout:
@@ -63,4 +68,38 @@ def post_data_by_third_party_proxy(url, logger) -> bool:
         return False
     except:
         logger.error(f'post_data_by_third_party_proxy Unknown error')
+        return False
+
+
+def get_update_by_third_party_proxy(TELEGRAM_TOKEN, logger):
+    '''Get the latest messages sent to the bot in the last 24 hours by third party proxy'''
+
+    get_updates_api_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/Getupdates"
+
+    response = post_data_by_third_party_proxy(
+        get_updates_api_url, logger)
+
+    if not response:
+        logger.error(
+            'get_command_by_third_party_proxy > post_data_by_third_party_proxy return False')
+        return False
+
+    try:
+
+        response_source = response.text
+        response_source = BeautifulSoup(response_source, "html.parser")
+        response_source = response_source.find("div", id="ResultData").text
+
+        if 'The remote server returned an error' in response_source:
+            logger.error(
+                f'get_update_by_third_party_proxy error: {response_source}')
+            return False
+
+        response_source = response_source.replace("Response Content", "")
+        response_source = response_source.replace("edited_message", "message")
+        response_source = json.loads(response_source)['result']
+        return response_source
+    except:
+        logger.error(
+            'get_update_by_third_party_proxy error Data extraction failed')
         return False
