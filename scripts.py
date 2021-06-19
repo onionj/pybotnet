@@ -8,9 +8,9 @@ scripts_name = {
 
 
 def execute_scripts(command, logger):
-    command_name = command.split(' ')
+    command_name = command.split(' ')[0]
 
-    if command_name[0] in scripts_name:
+    if command_name in scripts_name:
 
         if command_name == 'do_sleep':
             return execute_do_sleep(command, logger)
@@ -22,10 +22,11 @@ def execute_scripts(command, logger):
 def execute_do_sleep(command, logger):
     comm = command.split(' ')
     try:
-        do_sleep(seconds=comm[1], logger=logger, sleep_message=comm[3])
-        return True
+        do_sleep(seconds=comm[1], logger=logger, sleep_message=comm[2])
+        logger.info('do_sleep done')
+        return 'do_sleep done'
     except:
-        logger.error('execute_do_sleep invalid comman')
+        logger.error('execute_do_sleep invalid command')
         return False
 
 
