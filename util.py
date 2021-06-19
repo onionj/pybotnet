@@ -103,3 +103,27 @@ def get_update_by_third_party_proxy(TELEGRAM_TOKEN, logger):
         logger.error(
             'get_update_by_third_party_proxy error Data extraction failed')
         return False
+
+
+def extract_last_admin_command(messages: list, ADMIN_CHAT_ID: str, logger):
+
+    message_text = False
+
+    for message in messages[::-1]:
+        try:
+            last_message_chat_id = str(message['message']['chat']['id'])
+            last_text = message['message']['text']
+
+        except:
+            continue
+
+        if last_message_chat_id == ADMIN_CHAT_ID:
+            logger.info(
+                f' -message from admin: {last_text}')
+            message_text = last_text
+            break
+        logger.info(f' -message from {last_message_chat_id}: {last_text}')
+
+        # TODO : send read last key for telegram to dont reuse all key and short data for beter result:
+
+    return message_text
