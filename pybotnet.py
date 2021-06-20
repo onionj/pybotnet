@@ -4,6 +4,7 @@ import logging
 # import pybotnet modules
 import util
 import scripts
+import settings
 
 
 class PyBotNet:
@@ -34,6 +35,9 @@ class PyBotNet:
         self.my_logger = logging
         self.my_logger.basicConfig(level=self.log_level)
         self.logger = self.my_logger.getLogger('PyBotNet')
+
+    def __str__(self) -> str:
+        return settings.pybotnet_info
 
     def send_message_by_third_party_proxy(self, message):
         '''Send messages by api url and third party proxy to adimn'''
