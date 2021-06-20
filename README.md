@@ -50,7 +50,7 @@ Send this message to your api bot in telegram, using the admin account.
 
 COMMAND | Sample | DO THIS | Minimum version required |
 --------|--------|---------|--------------------------|
-do_sleep \<scconds> \<message (Optional)> | do_sleep 99999 hi, i see you! | \<if message != none : print(message) > ; time.sleep(seccond) | 0.08 |
 get_info | get_info |return system info | 0.06 |
+do_sleep \<scconds> \<message (Optional)> | do_sleep 99999 hi, i see you! | \<if message != none : print(message) > ; time.sleep(seccond) | 0.08 |
 cmd \<system command> | cmd ping google.com | run system command in shell or cmd (Be careful not to give endless command)| 0.07 |
 ls \<route (Optional)> | ls C:\ , ls /home |Returns a list of folders and files in that path | 0.09
