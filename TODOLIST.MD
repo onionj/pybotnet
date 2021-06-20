@@ -2,7 +2,7 @@
 - [x] method for run command in system
 - [x] script for sleep app and show message
 - [x] script for get system info (ip, name, route, mac addres,...)
-- [ ] script for get directory list 
+- [x] script for get directory list 
 - [ ] script for download file
 - [ ] script to kill the program itself 
 - [ ] script for upload file
