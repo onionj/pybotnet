@@ -36,7 +36,7 @@ def execute_do_sleep(command, logger):
         logger.info('do_sleep done')
         return 'do_sleep done'
     except:
-        logger.error('execute_do_sleep invalid command')
+        logger.error('execute_do_sleep invalid command; Wrong format')
         return False
 
 
@@ -44,7 +44,9 @@ def do_sleep(seconds, logger, sleep_message=''):
     '''
     print sleep message and sleep
     '''
-    print(sleep_message)
+    if sleep_message != 'none':
+        print(sleep_message)
+
     logger.info(f'sleep {seconds} second | {sleep_message}')
     sleep(float(seconds))
     logger.info('sleep done')

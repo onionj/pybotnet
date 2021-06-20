@@ -43,6 +43,6 @@ Send this message to your api bot in telegram, using the admin account.
 
 COMMAND | DO THIS | Minimum version required |
 --------|---------|-------------------------|
-do_sleep <scconds> <message> | print(message); time.sleep(seccond) | 0.05 |
+do_sleep <scconds> <message> | print(message) <if message == none > print noting!; time.sleep(seccond) | 0.05 |
 
 
