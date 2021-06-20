@@ -16,7 +16,7 @@ scripts_name = {
 
 
 def get_command_name(command) -> str:
-    return command.split(' ')[0]
+    return split_command(command)[0]
 
 
 def split_command(command) -> list:
