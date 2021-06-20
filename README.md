@@ -19,6 +19,8 @@ for more features see command list ↓
 ### Requirements:
 
 * Python 3.6 or higher.
+* telegram account
+* telegram api token
 ```
 pip install -r requirements.txt
 ```
