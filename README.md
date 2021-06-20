@@ -1,4 +1,4 @@
-# pybotnet  0.09
+# pybotnet  0.1
 
 A module for building botnet or back door with Python and Telegram control panel
 - [x] windows
