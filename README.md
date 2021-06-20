@@ -45,8 +45,8 @@ while True:
 Send this message to your api bot in telegram, using the admin account.
 
 COMMAND | DO THIS | Minimum version required |
---------|---------|-------------------------|
+--------|---------|--------------------------|
 do_sleep \<scconds> \<message> |  \<if message != none : print(message) > ; time.sleep(seccond) | 0.05 |
-get_info | return system info | 0.06
-cmd \<system command> | run system command in shell our cmd | 007 |
+get_info | return system info | 0.06 |
+cmd \<timeout> \<system command> | run system command in shell or cmd | 007 |
 
