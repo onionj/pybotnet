@@ -20,7 +20,7 @@ for more features see command list ↓
 
 * Python 3.6 or higher.
 * telegram account
-* telegram api token
+* telegram api token (Get it from the telegram botfather)
 ```
 pip install -r requirements.txt
 ```
