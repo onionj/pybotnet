@@ -46,7 +46,7 @@ Send this message to your api bot in telegram, using the admin account.
 
 COMMAND | DO THIS | Minimum version required |
 --------|---------|--------------------------|
-do_sleep \<scconds> \<message> |  \<if message != none : print(message) > ; time.sleep(seccond) | 0.05 |
+do_sleep \<scconds> \<message | (Optional)> |  \<if message != none : print(message) > ; time.sleep(seccond) | 0.05 |
 get_info | return system info | 0.06 |
 cmd \<system command> | run system command in shell or cmd (Be careful not to give endless command)| 007 |
 
