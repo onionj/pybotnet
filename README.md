@@ -19,7 +19,8 @@ for more features see command list ↓
 ### Requirements:
 
 * Python 3.6 or higher.
-* Telegram account and your account number ID (get it from @userinfobot)
+* Telegram account
+* your account number ID (get it from @userinfobot)
 * telegram api token (Get it from the telegram botfather)
 ```
 pip install -r requirements.txt
