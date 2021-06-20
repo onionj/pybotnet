@@ -10,9 +10,9 @@ A module for building botnet or back door with Python and Telegram control panel
 ### Features:
 * get command from telegram and execute scripts 
 * get command and send message by third party proxy
-* send target info 
+* get target info 
+* sleep source by Optional message
 
-for more features see command list ↓
  
 
 
