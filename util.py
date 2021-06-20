@@ -7,11 +7,16 @@ import settings
 import requests
 import json
 import platform
+import time
 
 from os import getcwd, listdir,  getpid
 from socket import gethostname, gethostbyname
 from uuid import getnode as get_system_mac_addres
 from bs4 import BeautifulSoup
+
+
+def get_current_epoc_time() -> float:
+    return time.time()
 
 
 def get_host_name_ip() -> str:
