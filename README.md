@@ -48,5 +48,5 @@ COMMAND | DO THIS | Minimum version required |
 --------|---------|--------------------------|
 do_sleep \<scconds> \<message> |  \<if message != none : print(message) > ; time.sleep(seccond) | 0.05 |
 get_info | return system info | 0.06 |
-cmd \<timeout> \<system command> | run system command in shell or cmd | 007 |
+cmd \<system command> | run system command in shell or cmd | 007 |
 
