@@ -1,4 +1,4 @@
-# pybotnet version 0.06
+# pybotnet version 0.07
 
 A module for building botnet or back door with Python and Telegram control panel
 - [x] windows
@@ -48,4 +48,5 @@ COMMAND | DO THIS | Minimum version required |
 --------|---------|-------------------------|
 do_sleep \<scconds> \<message> |  \<if message != none : print(message) > ; time.sleep(seccond) | 0.05 |
 get_info | return system info | 0.06
+cmd \<system command> | run system command in shell our cmd | 007 |
 
