@@ -3,7 +3,7 @@
 A module for building botnet or back door with Python and Telegram control panel
 - [x] windows
 - [x] linux
-- [x] mac
+- [ ] mac :Not tested
 
 ### See the [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD) if you want to *help* me <3
 
@@ -48,9 +48,9 @@ while True:
 ### Commmands:
 Send this message to your api bot in telegram, using the admin account.
 
-COMMAND | Sample | DO THIS | Minimum version required |
---------|--------|---------|--------------------------|
-get_info | get_info |return system info | 0.06 |
-do_sleep \<scconds> \<message (Optional)> | do_sleep 99999 hi, i see you! | \<if message != none : print(message) > ; time.sleep(seccond) | 0.08 |
-cmd \<system command> | cmd ping google.com | run system command in shell or cmd (Be careful not to give endless command)| 0.07 |
-ls \<route (Optional)> | ls C:\ , ls /home |Returns a list of folders and files in that path | 0.09
+COMMAND | Sample | DO THIS | Minimum version required | Works well on: |
+--------|--------|---------|--------------------------|----------|
+get_info | get_info |return system info | 0.06 | windows, linux |
+do_sleep \<scconds> \<message (Optional)> | do_sleep 99999 hi, i see you! | \<if message != none : print(message) > ; time.sleep(seccond) | 0.08 | windows, linux |
+cmd \<system command> | cmd ping google.com | run system command in shell or cmd (Be careful not to give endless command)| 0.07 | windows |
+ls \<route (Optional)> | ls C:\ , ls /home |Returns a list of folders and files in that path | 0.09 | windows, linux |
