@@ -1,11 +1,7 @@
-from configs import *
-import util
-import logging
-
-
 import pybotnet
 import time
 
+from configs import *
 
 # TELEGRAM_TOKEN = '1468299500:AAHsvEH-5VyIfWYMzZcYxF_e00000000000'
 # ADMIN_CHAT_ID = '12345678910'
