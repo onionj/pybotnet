@@ -30,7 +30,7 @@ pip install -r requirements.txt
 ### Sample:
 
 ```python
-import pybotnet
+from pybotnet import pybotnet
 import time
 
 TELEGRAM_TOKEN = '1468299500:AAHsvEH-5VyIfWYMzZcYxF_e00000000000'
