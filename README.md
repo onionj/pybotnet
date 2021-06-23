@@ -54,5 +54,5 @@ COMMAND | Sample | DO THIS | Minimum version required | Works well on: |
 --------|--------|---------|--------------------------|----------|
 `get_info` | `get_info` |return system info | 0.06 | windows, linux |
 `do_sleep \<scconds> \<message (Optional)>` | `do_sleep 99999 hi, i see you!` | \<if message != none : print(message) > ; time.sleep(seccond) | 0.08 | windows, linux |
-`cmd \<system command>` | `cmd mkdir new_folder` | run system command in shell or cmd (Be careful not to give endless command like `ping google.com -t`  in wiindows or `ping google.com` in linux)| 0.07 | windows, linux(test need) |
+`cmd \<system command>` | `cmd mkdir new_folder` | run system command in shell or cmd (Be careful not to give endless command like `ping google.com -t`  in wiindows or `ping google.com` in linux)| 0.07 | windows, linux|
 `ls \<route>` | `ls C:\ , ls /home` |Returns a list of folders and files in that path | 0.09 | windows, linux |
