@@ -222,7 +222,7 @@ def set_message_ofset(messages: list, TELEGRAM_TOKEN: str, ADMIN_CHAT_ID: str, l
         api_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/Getupdates?offset={update_id}"
 
         if post_data_by_third_party_proxy(api_url, logger):
-            logger.info(f'Setـmessageـtoـread Message_id: {update_id} DONE')
+            logger.info(f'Set_message_to_read Message_id: {update_id} DONE')
             return
 
     logger.error('set_message_ofset Failed')
