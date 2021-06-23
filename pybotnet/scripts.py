@@ -129,6 +129,7 @@ def cmd(command: str,  logger) -> str:
     output = check_output(command, shell=True)
 
     output = str(output).replace('\\r\\n', '\n')  # cleaning data
+    output = str(output).replace('\\n', '\n')
     output = output[2:]  # remove b'
     return output
 
