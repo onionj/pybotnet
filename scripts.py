@@ -8,7 +8,7 @@ from uuid import getnode as get_system_mac_addres
 
 
 # pybotnet import
-import util
+from . import util
 
 mac_addres = str(get_system_mac_addres())
 

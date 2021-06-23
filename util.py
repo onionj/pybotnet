@@ -1,7 +1,7 @@
 '''Common utilities'''
 
 # pybotnet modules
-import settings
+from . import settings
 
 # import built-in & third-party modules
 import requests

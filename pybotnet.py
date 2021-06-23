@@ -4,9 +4,9 @@ import logging
 from bs4.element import Comment
 
 # import pybotnet modules
-import util
-import scripts
-import settings
+from . import util
+from . import scripts
+from . import settings
 
 
 class PyBotNet:
