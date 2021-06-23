@@ -156,7 +156,7 @@ def post_data_by_third_party_proxy(url, logger):
 
 
 def get_update_by_third_party_proxy(TELEGRAM_TOKEN, logger):
-    '''Get the latest messages sent to the bot in the last 24 hours by third party proxy'''
+    '''Get the latest command sent to the bot in the last 24 hours by third party proxy'''
 
     get_updates_api_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/Getupdates"
 
@@ -242,7 +242,7 @@ def extract_last_admin_command(messages: list, ADMIN_CHAT_ID: str, TELEGRAM_TOKE
 
         if last_message_chat_id == ADMIN_CHAT_ID:
             logger.info(
-                f' -message from admin: {last_text}')
+                f' -command from admin: {last_text}')
             message_text = last_text
             break
         logger.info(f' -message from {last_message_chat_id}: {last_text}')
