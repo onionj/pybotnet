@@ -46,8 +46,8 @@ while True:
 ```
 
 ### Commmands:
-*Send this message to your api bot in telegram, using the admin account.*
-*If you want the command to run only on one system, write the MAC address of that system first `66619484755211 get_info` .*
+*Send this message to your api bot in telegram, using the admin account.* \
+*If you want the command to run only on one system, write the MAC address of that system first `66619484755211 get_info`*
 
 COMMAND | Sample | DO THIS | Minimum version required | Works well on: |
 --------|--------|---------|--------------------------|----------|
