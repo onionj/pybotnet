@@ -1,4 +1,4 @@
-import pybotnet
+from pybotnet import pybotnet
 import time
 
 from configs import *
