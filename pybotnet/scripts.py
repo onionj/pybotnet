@@ -79,6 +79,9 @@ def execute_do_sleep(command, logger):
                  sleep_message=sleep_message)
         logger.info('do_sleep done')
         return 'do_sleep done'
+    except OverflowError as error_name:
+        logger.error(f'do_sleep {error_name}')
+
     except:
         logger.error('execute_do_sleep invalid command; Wrong format')
         return 'execute_do_sleep invalid command; Wrong format'
@@ -111,6 +114,8 @@ def execute_cmd(command, logger) -> str:
 
     try:
         return cmd(command, logger=logger)
+    except OverflowError as error_name:
+        return f'cmd {error_name}'
     except:
         return 'cmd error'
 
