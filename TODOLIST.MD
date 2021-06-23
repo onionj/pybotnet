@@ -13,7 +13,6 @@
 - [ ] script for key logger
 - [ ] script for get all system password
 - [ ] script for change desktop wallpaper
-- [ ] 
 - [ ] asyncio feature
 
 
