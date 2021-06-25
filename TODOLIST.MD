@@ -3,6 +3,7 @@
 - [x] script for sleep app and show message
 - [x] script for get system info (ip, name, route, mac addres,...)
 - [x] script for get directory list 
+- [ ] user argparser in execute command for get args
 - [ ] in cmd method: choice shell True or Fale
 - [ ] script for download file
 - [ ] script for upload file
