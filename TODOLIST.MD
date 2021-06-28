@@ -4,7 +4,7 @@
 - [x] script for get system info (ip, name, route, mac addres,...)
 - [x] script for get directory list 
 - [ ] user argparser in execute command for get args
-- [ ] in cmd method: choice shell True or Fale
+- [ ] in cmd method: choice shell True or False ; if shell true and compile app without shell, cmd crashed
 - [ ] script for download file
 - [ ] script for upload file
 - [ ] script for get screenshut
