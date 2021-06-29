@@ -1,7 +1,6 @@
 # import built-in & third-party modules
 import logging
 
-from bs4.element import Comment
 
 # import pybotnet modules
 from . import util
