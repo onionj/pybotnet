@@ -13,8 +13,8 @@ A Python module for building [botnet ,backdoor or trojan] with Telegram control 
 * get target info 
 * sleep source by Optional message
 * get ls (dirctory list)
-
- 
+* ... \
+for more see commands table end of this page 
 
 
 ### Requirements:
