@@ -30,6 +30,8 @@ pip install -r requirements.txt
 ### Sample:
 
 ```python
+# this is sample_code.py 
+
 from pybotnet import pybotnet
 import time
 
