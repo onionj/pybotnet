@@ -13,6 +13,7 @@
 - [ ] script for key logger
 - [ ] script for get all system password (wifi, browser, ..)
 - [ ] script for change desktop wallpaper
+- [ ] make test for pybotner
 - [ ] asyncio feature
 
 
