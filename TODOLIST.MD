@@ -4,8 +4,9 @@
 - [x] script for get system info (ip, name, route, mac addres,...)
 - [x] script for get directory list 
 - [x] in cmd method: choice shell True or False ; if shell true and compile app without shell, cmd method dont work
-- [x] script for send_file file to target system(send_file link)
-- [ ] script for get file from target (get_file route) 
+- [x] script for send_file file to target system(export_file link)
+- [ ] script for get file from target (import_file route) 
+- [ ] unzip file
 - [ ] script for get screenshut
 - [ ] scripts for dos
 - [ ] Task Scheduler windows
