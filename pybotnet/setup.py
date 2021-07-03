@@ -2,7 +2,8 @@ from distutils.core import setup
 setup(
     name='pybotnet',         # How you named your package folder (MyLib)
     packages=['pybotnet'],   # Chose the same as "name"
-    version='0.15',      # Start with a small number and increase it with every change you make
+    # Start with a small number and increase it with every change you make
+    version='0.15.1',
     # Chose a license from here: https://help.github.com/articles/licensing-a-repository
     license='gpl-3.0',
     # Give a short description about your library
