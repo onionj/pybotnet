@@ -5,15 +5,16 @@ from shutil import rmtree
 
 from setuptools import find_packages, setup, Command
 
+from pybotnet.settings import pybotnet_github_link, pybotnet_version
 
 # Package meta-data.
 NAME = 'pybotnet'
 DESCRIPTION = 'A Python module for building botnet ,backdoor or trojan with Telegram control panel'
-URL = 'https://github.com/onionj/pybotnet'
+URL = pybotnet_github_link
 EMAIL = 'onionj98@gmail.com'
 AUTHOR = 'onionj'
 REQUIRES_PYTHON = '>=3.7.0'
-VERSION = '0.15.2'
+VERSION = pybotnet_version
 KEYWORDS = ['onionj pybotnet', 'make python trojan',
             'make python backdoor', 'make python botnet', 'pybotnet']
 
