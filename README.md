@@ -15,6 +15,7 @@
 </p>
  
 
+> See the [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD) if you want to *help* me 💕
 
 
 ### Features:
@@ -26,7 +27,6 @@
 * export file to targets system (target download a link :) )
 * for more see commands table end of this page 
 
-See the [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD) if you want to *help* me <3
 
 
 #### Requirements:
@@ -70,7 +70,7 @@ while True:
 
 ### Commmands:
 
-* Send this COMMANDs to your api bot in telegram, using the admin account.
+> Send this COMMANDs to your api bot in telegram, using the admin account.
 
 
 
@@ -82,8 +82,10 @@ COMMAND | Sample | DO THIS | Minimum version required | tested on |
 `ls <route>` | `ls C:\ `,` ls /home` |Returns a list of folders and files in that path | 0.09 | windows, linux |
 `export_file <link>` | `export_file https://github.com/onionj/pybotnet/archive/refs/heads/master.zip` |target donwload this file and save to script path route| 0.14 | windows |
 
-* run command only on one system, write the MAC address of that system first: \
-\
+
+
+>  for run command only on one target:
+
 `<Target_MAC_Address> <command>`\
 `66619484755211 get_info` \
 `66619484755211 cmd mkdir new_folder` 
