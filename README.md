@@ -1,6 +1,6 @@
-# pybotnet  0.15.1
+# pybotnet  
 
-A Python module for building [botnet ,backdoor or trojan] with Telegram control panel
+## A Python module for building [botnet ,backdoor or trojan] with Telegram control panel
 - [x] windows
 - [x] linux
 - [ ] mac :Not tested
