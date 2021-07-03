@@ -2,27 +2,29 @@
 <h1 align="center">pybotnet</h1>
 <p align="center"> A Python module for building [botnet ,backdoor or trojan] for windows and linux with Telegram control panel </p>
 
-See the [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD) if you want to *help* me <3
 
-### Features:
+
+
+#### Features:
 * get command from telegram and execute scripts 
 * get command and send message by third party proxy
 * get target info 
 * sleep source by Optional message
 * get ls (dirctory list)
 * export file to targets system (target download a link :) )
-* ... \
-for more see commands table end of this page 
+* for more see commands table end of this page 
+
+See the [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD) if you want to *help* me <3
 
 
-### Requirements:
+#### Requirements:
 
 * Python 3.6 or higher.
 * Telegram account
 * your account number ID (get it from @userinfobot)
 * telegram api token (Get it from the telegram botfather)
 
-### Usage:
+#### Usage:
 ```
 pip install pybotnet
 ```
@@ -54,10 +56,11 @@ while True:
 
 ```
 
-### Commmands:
+#### Commmands:
+
 *Send this COMMANDs to your api bot in telegram, using the admin account.* \
-*If you want the command to run only on one system, write the MAC address of that system first:* \
- `66619484755211 get_info`
+\
+*If you want the command to run only on one system, write the MAC address of that system first, like:* `66619484755211 get_info`
 
 COMMAND | Sample | DO THIS | Minimum version required | tested on |
 --------|--------|---------|--------------------------|----------|
