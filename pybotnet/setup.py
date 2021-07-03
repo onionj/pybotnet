@@ -13,7 +13,7 @@ setup(
     # Provide either the link to your github or to your website
     url='https://github.com/onionj/pybotnet',
     # I explain this later on
-    download_url='https://github.com/onionj/pybotnet/archive/refs/tags/v0.15.tar.gz',
+    download_url='https://github.com/onionj/pybotnet/archive/refs/tags/v0.15.1.tar.gz',
     # Keywords that define your package best
     keywords=['onionj pybotnet', 'onionj', 'pybotnet'],
     install_requires=[            # I get to this in a second
