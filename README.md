@@ -33,8 +33,6 @@
 
 * Python 3.6 or higher
 * Telegram account
-* telegram account number ID (get it from @userinfobot)
-* telegram api token (Get it from the telegram @botfather)
 
 ### Usage:
 ```
@@ -46,8 +44,12 @@ pip install pybotnet
 from pybotnet import pybotnet
 import time
 
-# Edit this section and enter your information:
-TELEGRAM_TOKEN = '1468299547:AAHsvEH-5VyIfWYMzZcYxF_e00000000000'
+# change TELEGRAM_TOKEN and  ADMIN_CHAT_ID to valid data:
+
+# telegram api token (Get it from the telegram @botfather)
+TELEGRAM_TOKEN = '1468299547:ABHs_________MzZcYxF_e00000000000'
+
+# telegram account number ID (get it from @userinfobot)
 ADMIN_CHAT_ID = '12345678910'
 
 
