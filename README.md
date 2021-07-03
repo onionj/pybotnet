@@ -2,8 +2,8 @@
 <h1 align="center">pybotnet</h1>
 <p align="center"> A Python module for building [botnet ,backdoor or trojan] for windows and linux with Telegram control panel </p>
 
-### See the [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD) if you want to *help* me <3
-### [pybotnet](https://github.com/onionj/pybotnet) in github
+See the [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD) if you want to *help* me <3
+
 ### Features:
 * get command from telegram and execute scripts 
 * get command and send message by third party proxy
