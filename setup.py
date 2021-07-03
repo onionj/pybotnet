@@ -19,7 +19,7 @@ KEYWORDS = ['onionj pybotnet', 'make python trojan',
 
 
 # What packages are required for this module to be executed?
-REQUIRED = ['requests', 'bs4'
+REQUIRED = ['requests', 'beautifulsoup4'
             ]
 
 # What packages are optional?
