@@ -5,6 +5,7 @@
 - [x] script for get directory list 
 - [x] in cmd method: choice shell True or False ; if shell true and compile app without shell, cmd method dont work
 - [x] script for send_file file to target system(export_file link)
+- [ ] add project to pypi.org
 - [ ] make test for pybotner
 - [ ] script for get file from target; upload target files to online host.. (import_file route) 
 - [ ] script for get screenshut
