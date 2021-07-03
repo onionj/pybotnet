@@ -20,12 +20,10 @@ KEYWORDS = ['onionj pybotnet', 'make python trojan',
 
 # What packages are required for this module to be executed?
 REQUIRED = ['requests', 'bs4'
-            # 'requests', 'maya', 'records',
             ]
 
 # What packages are optional?
 EXTRAS = {
-    # 'fancy feature': ['django'],
 }
 
 # The rest you shouldn't have to touch too much :)
