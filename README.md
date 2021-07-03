@@ -31,10 +31,10 @@
 
 #### Requirements:
 
-* Python 3.6 or higher.
+* Python 3.6 or higher
 * Telegram account
-* your account number ID (get it from @userinfobot)
-* telegram api token (Get it from the telegram botfather)
+* telegram account number ID (get it from @userinfobot)
+* telegram api token (Get it from the telegram @botfather)
 
 ### Usage:
 ```
