@@ -1,7 +1,6 @@
  
  <p align="center">
-  <img src="https://github.com/onionj/pybotnet/blob/master/icon/trojan.png">
-  <h1 align="center">pybotnet</h1>
+  <a href='https://github.com/onionj/pybotnet' target='_blank'><img src='https://i.postimg.cc/WFSTSLnW/trojan.png' border='0' alt='pybotnet icon'/></a>  <h1    align="center">pybotnet</h1>
   <p align="center"> A Python module for building <b>botnet</b> , <b>trojan</b>  or <b>backdoor</b> for windows and linux with Telegram control panel </p>
 
 
