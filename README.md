@@ -84,7 +84,7 @@ COMMAND | Sample | DO THIS | Minimum version required | tested on |
 
 
 
->  for run command only on one target:
+>  for run command on one target:
 
 `<Target_MAC_Address> <command>`\
 `66619484755211 get_info` \
