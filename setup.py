@@ -14,8 +14,8 @@ EMAIL = 'onionj98@gmail.com'
 AUTHOR = 'onionj'
 REQUIRES_PYTHON = '>=3.7.0'
 VERSION = '0.15.2'
-KEYWORDS = ['onionj pybotnet', 'python trojan',
-            'python backdoor', 'python botnet', 'pybotnet']
+KEYWORDS = ['onionj pybotnet', 'make python trojan',
+            'make python backdoor', 'make python botnet', 'pybotnet']
 
 
 # What packages are required for this module to be executed?
