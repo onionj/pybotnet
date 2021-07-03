@@ -1,7 +1,20 @@
-  
-<h1 align="center">pybotnet</h1>
-<p align="center"> A Python module for building [botnet ,backdoor or trojan] for windows and linux with Telegram control panel </p>
+ 
+ <p align="center">
+  <img src="https://github.com/onionj/pybotnet/blob/master/icon/trojan.jpg" width="250">
+  <h1 align="center">pybotnet</h1>
+  <p align="center"> A Python module for building <b>botnet</b> , <b>trojan</b>  or <b>backdoor</b> for windows and linux with Telegram control panel </p>
 
+
+  <p align="center">
+    <a href="https://github.com/onionj/pybotnet/blob/master/LICENSE">
+      <img src="https://img.shields.io/badge/license-GPLv3-blue.svg" />
+    </a>
+    <a href="https://www.python.org/">
+    	<img src="https://img.shields.io/badge/built%20with-Python3-red.svg" />
+    </a>
+  </p>
+</p>
+ 
 
 
 
