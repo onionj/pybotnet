@@ -1,5 +1,5 @@
 
-pybotnet_version = '0.15.4'
+pybotnet_version = '0.15.5'
 pybotnet_github_link = 'https://github.com/onionj/pybotnet'
 pybotnet_licence = 'GNU GENERAL PUBLIC LICENSE ,Version 3, 29 June 2007'
 

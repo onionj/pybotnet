@@ -17,7 +17,7 @@ DESCRIPTION = 'A Python module for building botnet ,backdoor or trojan with Tele
 URL = pybotnet_github_link
 EMAIL = 'onionj98@gmail.com'
 AUTHOR = 'onionj'
-REQUIRES_PYTHON = '>=3.7.0'
+REQUIRES_PYTHON = '>=3.6.0'
 VERSION = pybotnet_version
 KEYWORDS = ['onionj pybotnet', 'make python trojan',
             'make python backdoor', 'make python botnet', 'pybotnet']
