@@ -82,7 +82,8 @@ COMMAND | Sample | DO THIS | Minimum version required | tested on |
 `ls <route>` | `ls C:\ `,` ls /home` |Returns a list of folders and files in that path | 0.09 | windows, linux |
 `export_file <link>` | `export_file https://github.com/onionj/pybotnet/archive/refs/heads/master.zip` |target donwload this file and save to script path route| 0.14 | windows |
 
-* run command only on one system, write the MAC address of that system first: 
+* run command only on one system, write the MAC address of that system first: \
+\
 `<Target_MAC_Address> <command>`\
 `66619484755211 get_info` \
 `66619484755211 cmd mkdir new_folder` 
