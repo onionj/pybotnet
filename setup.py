@@ -7,6 +7,10 @@ from setuptools import find_packages, setup, Command
 
 from pybotnet.settings import pybotnet_github_link, pybotnet_version
 
+# python setup.py sdist bdist_wheel
+# twine upload  dist/*
+
+
 # Package meta-data.
 NAME = 'pybotnet'
 DESCRIPTION = 'A Python module for building botnet ,backdoor or trojan with Telegram control panel'
