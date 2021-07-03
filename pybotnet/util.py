@@ -190,11 +190,11 @@ def get_update_by_third_party_proxy(TELEGRAM_TOKEN, logger):
 
 
 def get_last_update_id(messages: list, ADMIN_CHAT_ID: str, logger):
+    ''' get last admin message and return update_id '''
 
     if messages == []:
         return False
 
-    # get last admin message and return update_id
     for message in messages[::-1]:
         try:
             last_message_chat_id = str(message['message']['chat']['id'])
