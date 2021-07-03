@@ -201,6 +201,5 @@ def download_manager(down_link: str, file_name) -> bool:
         with open(file_name, "wb") as code:
             code.write(req.content)
         return True
-    except exception as error:
-        print(error)
+    except:
         return False
