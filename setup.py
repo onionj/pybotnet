@@ -1,9 +1,9 @@
-from setuptools import find_packages, setup, Command
-from shutil import rmtree
-import sys
-import os
 import io
-from distutils.core import setup, find_packages
+import os
+import sys
+from shutil import rmtree
+
+from setuptools import find_packages, setup, Command
 
 
 # Package meta-data.
