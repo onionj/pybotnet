@@ -16,6 +16,7 @@
 - [ ] script for key logger
 - [ ] script for get all system password (wifi, browser, ..)
 - [ ] script for change desktop wallpaper
+- [ ] update download_manager()
 - [ ] asyncio feature
 
 
