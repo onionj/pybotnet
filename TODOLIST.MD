@@ -11,6 +11,7 @@
 - [ ] script for get screenshut
 - [ ] script for unzip file
 - [ ] scripts for dos
+- [ ] Multiple commands (||)
 - [ ] Task Scheduler windows ?
 - [ ] script to kill the program itself 
 - [ ] script for key logger
