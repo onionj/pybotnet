@@ -12,6 +12,7 @@
 - [ ] script for unzip file
 - [ ] scripts for dos
 - [ ] Multiple commands (||)
+- [ ] Stealing browser cookies
 - [ ] Task Scheduler windows ?
 - [ ] script to kill the program itself 
 - [ ] script for key logger
