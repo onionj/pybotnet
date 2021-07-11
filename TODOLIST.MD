@@ -4,14 +4,14 @@
 - [x] script for get system info (ip, name, route, mac addres,...)
 - [x] script for get directory list 
 - [x] in cmd method: choice shell True or False ; if shell true and compile app without shell, cmd method dont work
-- [x] script for send_file file to target system(export_file link)
-- [ ] add project to pypi.org
-- [ ] make test for pybotner
-- [ ] script for get file from target; upload target files to online host.. (import_file route) 
+- [x] script for send file to target (export_file link)
+- [x] add project to pypi.org
+- [ ] script for get file from target; upload target files to online host, need some free and good api  (import_file route) 
 - [ ] script for get screenshut
 - [ ] script for unzip file
 - [ ] scripts for dos
 - [ ] Multiple commands (||)
+- [ ] make test for pybotner
 - [ ] Stealing browser cookies
 - [ ] Task Scheduler windows ?
 - [ ] script to kill the program itself 
