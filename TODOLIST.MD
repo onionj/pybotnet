@@ -6,7 +6,7 @@
 - [x] in cmd method: choice shell True or False ; if shell true and compile app without shell, cmd method dont work
 - [x] script for send file to target (export_file link)
 - [x] add project to pypi.org
-- [ ] script for get file from target; upload target files to online host, need some free and good api  (import_file route) 
+- [ ] script for get file from target; upload target files to online host need some free and good api Or another solution  (import_file route) 
 - [ ] script for get screenshut
 - [ ] script for unzip file
 - [ ] scripts for dos
