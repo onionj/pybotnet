@@ -7,6 +7,7 @@ from setuptools import find_packages, setup, Command
 
 from pybotnet.settings import pybotnet_github_link, pybotnet_version
 
+# setup to pypi.org :
 # python setup.py sdist bdist_wheel
 # twine upload  dist/*
 
