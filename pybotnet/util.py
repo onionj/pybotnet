@@ -299,58 +299,59 @@ def make_zip_file(route, logger):
         logger.error(f'make_zip_file: {error}')
         return False, error
 
+# ""
+# def make_send_file_api_url(TELEGRAM_TOKEN, ADMIN_CHAT_ID, zip_file_name, logger) -> str:
 
-def _make_send_file_api_url(TELEGRAM_TOKEN, ADMIN_CHAT_ID, zip_file_name, logger) -> str:
+#     # TODO: telegram error: The remote server returned an error: (400) Bad Request.  please debug this!
+#     ''' > have bug
 
-    # TODO: telegram error: The remote server returned an error: (400) Bad Request.  please debug this!
-    ''' > have bug
+#     make and return api link for send file to admin
+#     To send a file in Telegram, this file must be zipped and its size must be less than 50 MB
+#     '''
 
-    make and return api link for send file to admin
-    To send a file in Telegram, this file must be zipped and its size must be less than 50 MB
-    '''
+#     # opne zip file as binary
+#     try:
+#         with open(zip_file_name, 'rb') as bin_ary:
+#             binary_zip_file = bin_ary.read()
 
-    # opne zip file as binary
-    try:
-        with open(zip_file_name, 'rb') as bin_ary:
-            binary_zip_file = bin_ary.read()
+#         return f'https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendDocument?chat_id={ADMIN_CHAT_ID}&document={binary_zip_file}'
 
-        return f'https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendDocument?chat_id={ADMIN_CHAT_ID}&document={binary_zip_file}'
-
-    except Exception as error:
-        logger.error(
-            f'make_send_file_api_url: read binary file error: {error}')
-        return False
+#     except Exception as error:
+#         logger.error(
+#             f'make_send_file_api_url: read binary file error: {error}')
+#         return False
 
 
-def _send_file_by_third_party_proxy(TELEGRAM_TOKEN, ADMIN_CHAT_ID, file_route, logger, time_out=300) -> bool:
-    ''' > its not work, make_send_file_api_url() have some bug'''
+# def send_file_by_third_party_proxy(TELEGRAM_TOKEN, ADMIN_CHAT_ID, file_route, logger, time_out=300) -> bool:
+#     ''' > its not work, make_send_file_api_url() have some bug'''
 
-    is_zip_true, zip_file_name = make_zip_file(file_route, logger)
+#     is_zip_true, zip_file_name = make_zip_file(file_route, logger)
 
-    if is_zip_true:
-        api = _make_send_file_api_url(
-            TELEGRAM_TOKEN, ADMIN_CHAT_ID, zip_file_name, logger)
+#     if is_zip_true:
+#         api = make_send_file_api_url(
+#             TELEGRAM_TOKEN, ADMIN_CHAT_ID, zip_file_name, logger)
 
-        if api:
-            response = post_data_by_third_party_proxy(
-                api, logger, time_out=time_out)
-            response = clean_response_third_party_proxy(response, logger)
+#         if api:
+#             response = post_data_by_third_party_proxy(
+#                 api, logger, time_out=time_out)
+#             response = clean_response_third_party_proxy(response, logger)
 
-            if not response:
-                return False
+#             if not response:
+#                 return False
 
-            elif 'The remote server returned an error: (400) Bad Request.' in response:
-                logger.error(
-                    f'get_update_by_third_party_proxy: telegram api server error: {response}')
-                return False
+#             elif 'The remote server returned an error: (400) Bad Request.' in response:
+#                 logger.error(
+#                     f'get_update_by_third_party_proxy: telegram api server error: {response}')
+#                 return False
 
-            elif 'The remote server returned an error' in response:
-                logger.error(
-                    f'get_update_by_third_party_proxy: [False TOKEN or ADMIN_CHAT_ID] error: {response}')
-                return False
+#             elif 'The remote server returned an error' in response:
+#                 logger.error(
+#                     f'get_update_by_third_party_proxy: [False TOKEN or ADMIN_CHAT_ID] error: {response}')
+#                 return False
 
-            else:
-                logger.info(f'_____its some else: {response}')
+#             else:
+#                 logger.info(f'_____its some else: {response}')
 
-    logger.error('send_file_by_third_party_proxy: file not sended!')
-    return False
+#     logger.error('send_file_by_third_party_proxy: file not sended!')
+#     return False
+""
