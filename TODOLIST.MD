@@ -1,3 +1,6 @@
+> i need some free api for upload file ,, for upload and send Output to telegram from this methods: 
+> import_file, screen_shut, keylogger,... ! help!
+
 - [x] method for get command from telegram
 - [x] method for run command in system
 - [x] script for sleep app and show message
@@ -8,7 +11,7 @@
 - [x] add project to pypi.org
 - [ ] script for get file from target; upload target files to online host need some free and good api Or another solution  (import_file route) 
 - [ ] script for get screenshut
-- [ ] script for unzip file
+- [x] script for zip file
 - [ ] scripts for dos
 - [ ] Multiple commands (||)
 - [ ] make test for pybotner
