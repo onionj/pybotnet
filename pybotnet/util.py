@@ -371,7 +371,7 @@ def upload_server_1(file: bytes, file_name: str, logger, time_out: int = 1200):
         download_link = conver_json_to_dict(finalis_res.text)
         response = ''
         for key, value in download_link.items():
-            response = response + f'\n{key}:{value}'
+            response = response + f'\n{key}: {value}'
         return True, response
     except Exception as error:
         logger.error(f'upload_server_1.extract download link error: {error}')

