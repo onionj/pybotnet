@@ -2,4 +2,3 @@ twine
 requests
 beautifulsoup4
 autopep8
-pyautogui

@@ -1,3 +1,2 @@
 requests
 beautifulsoup4
-pyautogui

@@ -21,11 +21,13 @@ AUTHOR = 'onionj'
 REQUIRES_PYTHON = '>=3.6.0'
 VERSION = pybotnet_version
 KEYWORDS = ['onionj pybotnet', 'make python trojan',
-            'make python backdoor', 'make python botnet', 'pybotnet']
+            'make python backdoor', 'make python botnet',
+            'pybotnet', 'python ddos', 'python backdoor',
+            'python trojan']
 
 
 # What packages are required for this module to be executed?
-REQUIRED = ['requests', 'beautifulsoup4', 'pyautogui']
+REQUIRED = ['requests', 'beautifulsoup4']
 
 # What packages are optional?
 EXTRAS = {
