@@ -25,8 +25,9 @@
 * sleep source by Optional message
 * get ls (dirctory list)
 * export file to targets system
-* import file from target system
-* for more see commands table end of this page 
+* import file from target system 
+
+for more, see commands table end of this page 
 
 
 
