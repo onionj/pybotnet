@@ -16,7 +16,7 @@
  
 
 > See the [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD) if you want to *help* me 💕
-
+> [Persian document](https://vrgl.ir/G2i6b) 
 
 ### Features:
 * get command from telegram and execute scripts 
@@ -24,7 +24,8 @@
 * get target info 
 * sleep source by Optional message
 * get ls (dirctory list)
-* export file to targets system (target download a link :) )
+* export file to targets system
+* import file from target system
 * for more see commands table end of this page 
 
 
