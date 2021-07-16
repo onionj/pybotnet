@@ -15,8 +15,8 @@
 </p>
  
 
-> See the [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD) if you want to *help* me 💕
-> [Persian document](https://vrgl.ir/G2i6b) 
+> See the [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD) if you want to *help* me 💕 \
+[Persian document](https://vrgl.ir/G2i6b)  داکیومنت فارسی
 
 ### Features:
 * get command from telegram and execute scripts 
