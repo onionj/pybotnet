@@ -14,7 +14,7 @@
   </p>
 </p>
  
-> Disclaimer: Please note that this is a research project. I am by no means responsible for any usage of this tool. Use it on your behalf. \
+> Disclaimer: Please note that this is a research project. I am by no means responsible for any usage of this tool. Use it on your behalf. 
 
 > See the [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD) if you want to *help* me 💕 \
 
