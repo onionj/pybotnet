@@ -82,7 +82,7 @@ while True:
 >  for run command on one target:  `<Target_MAC_Address> <command>`   `66619484755211 get_info` 
 
 
-COMMAND | Sample | DO THIS | Minimum version required | tested on |
+COMMAND | Sample | DO THIS | version | tested on |
 --------|--------|---------|--------------------------|-----------|
 `get_info` | `get_info` |return system info | 0.06 | windows, linux |
 `do_sleep <scconds> <message (Optional)>` | `do_sleep 99999 hi, i see you!` | \<if message != none : print(message) > ; time.sleep(seccond) | 0.08 | windows, linux |
