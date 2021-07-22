@@ -91,7 +91,7 @@ COMMAND | Sample | DO THIS | Minimum version required | tested on |
 `export_file <link>` | `export_file https://github.com/onionj/pybotnet/archive/refs/heads/master.zip` |target donwload this file and save to script path route| 0.14 | windows linux|
 `import_file <file_route>` |`import_file /home/onionj/folder/somting.png` | get a file from target system (limit:5GB)| 0.17.0 |  windows, linux|
 `screenshot` | `screenshot` | Takes a screenshot, uploads it to the online server and return the download link | 0.18.1 |  windows, linux |
-
+`help` | `help` | send commands help | 0.18.5 | windows, linux |
 
 
 

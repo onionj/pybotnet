@@ -11,18 +11,19 @@ from requests import get
 
 # pybotnet import
 from . import util
-
+from . import settings
 mac_addres = str(get_system_mac_addres())
 
 scripts_name = {
-    mac_addres: "system mac_addres",
+    mac_addres: "<system mac_addres> <command>",
     "do_sleep": "do_sleep <scconds> <message>",
     "get_info": "get_info",
     "cmd": "cmd <command>",
     "ls": "ls <route>",
     "export_file": "export_file <download link>",
     "import_file": "import_file <file route>",
-    "screenshot":  "screenshot"
+    "screenshot":  "screenshot",
+    "help": "help"
 }
 
 # "import_file": "import_file <route>"
@@ -76,6 +77,8 @@ def execute_scripts(command: str, pybotnet_up_time, is_shell: bool, logger):
 
             elif command_name == 'screenshot':
                 return screenshot(logger)
+            elif command_name == 'help':
+                return command_help(logger)
 
         logger.error('execute_scripts invalid command; Wrong format')
         return f"execute_scripts invalid command; Wrong format \n\n scripts name:\n {','.join(scripts_name)}"
@@ -288,3 +291,27 @@ def screenshot(logger):
     else:
         logger.error('script.screenshot in util.screenshot_pil Failed')
         return 'get screenshot Failed'
+
+
+def command_help(logger):
+    commands = ''
+    try:
+        for _, value in scripts_name.items():
+            commands += '\n|' + value
+        logger.info(f'scripts.command_help: return command lists')
+        return f'''
+
+{commands}
+
+Pybotnet Version:{settings.pybotnet_version}
+for more help, see: {settings.pybotnet_github_link}'''
+
+    except Exception as error:
+        logger(f'scripts.command_help: error {error}')
+        return f'''
+Pybotnet Version:{settings.pybotnet_version}
+_____________
+get command list failed!,
+_____________
+
+for more help, see: {settings.pybotnet_github_link}'''

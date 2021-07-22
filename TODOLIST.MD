@@ -9,7 +9,8 @@
 - [x] add project to pypi.org
 - [x] script for zip file
 - [x] script for get file from target; upload target files to online host need some free and good api (import_file ,<route>) 
-- [ ] script for get screenshut
+- [x] script for get screenshut
+- [x] help command
 - [ ] scripts for dos
 - [ ] Multiple commands (||)
 - [ ] make test for pybotner
