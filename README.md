@@ -14,7 +14,7 @@
   </p>
 </p>
  
-
+> Disclaimer: Please note that this is a research project. I am by no means responsible for any usage of this tool. Use it on your behalf.
 > See the [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD) if you want to *help* me 💕 \
 [Persian document](https://vrgl.ir/G2i6b)  داکیومنت فارسی
 
@@ -26,6 +26,7 @@
 * get ls (dirctory list)
 * export file to targets system
 * import file from target system 
+* get screenshot
 
 for more, see commands table end of this page 
 
@@ -86,8 +87,9 @@ COMMAND | Sample | DO THIS | Minimum version required | tested on |
 `ls <route>` | `ls C:\ `,` ls /home` |Returns a list of folders and files in that path | 0.09 | windows, linux |
 `export_file <link>` | `export_file https://github.com/onionj/pybotnet/archive/refs/heads/master.zip` |target donwload this file and save to script path route| 0.14 | windows linux|
 `import_file <file_route>` |`import_file /home/onionj/folder/somting.png` | get a file from target system (limit:5GB)| 0.17.0 | linux|
-
+`screenshot` | `screenshot` | Takes a screenshot, uploads it to the online server and return the download link | 0.18.1 | linux |
 
 
 >  for run command on one target:  `<Target_MAC_Address> <command>`   `66619484755211 get_info` 
+
 
