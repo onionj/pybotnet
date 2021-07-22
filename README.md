@@ -79,6 +79,7 @@ while True:
 
 > Send this COMMANDs to your api bot in telegram, using the admin account.
 
+>  for run command on one target:  `<Target_MAC_Address> <command>`   `66619484755211 get_info` 
 
 
 COMMAND | Sample | DO THIS | Minimum version required | tested on |
@@ -92,6 +93,5 @@ COMMAND | Sample | DO THIS | Minimum version required | tested on |
 `screenshot` | `screenshot` | Takes a screenshot, uploads it to the online server and return the download link | 0.18.1 | linux |
 
 
->  for run command on one target:  `<Target_MAC_Address> <command>`   `66619484755211 get_info` 
 
 
