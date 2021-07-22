@@ -89,8 +89,8 @@ COMMAND | Sample | DO THIS | Minimum version required | tested on |
 `cmd <system command>` | `cmd mkdir new_folder` | run system command in shell or cmd (Be careful not to give endless command like `ping google.com -t`  in windows or `ping google.com` in linux)  TODO:add timeout| 0.07 | windows, linux|
 `ls <route>` | `ls C:\ `,` ls /home` |Returns a list of folders and files in that path | 0.09 | windows, linux |
 `export_file <link>` | `export_file https://github.com/onionj/pybotnet/archive/refs/heads/master.zip` |target donwload this file and save to script path route| 0.14 | windows linux|
-`import_file <file_route>` |`import_file /home/onionj/folder/somting.png` | get a file from target system (limit:5GB)| 0.17.0 | linux|
-`screenshot` | `screenshot` | Takes a screenshot, uploads it to the online server and return the download link | 0.18.1 | linux |
+`import_file <file_route>` |`import_file /home/onionj/folder/somting.png` | get a file from target system (limit:5GB)| 0.17.0 |  windows, linux|
+`screenshot` | `screenshot` | Takes a screenshot, uploads it to the online server and return the download link | 0.18.1 |  windows, linux |
 
 
 
