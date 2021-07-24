@@ -21,6 +21,7 @@
 [Persian document](https://vrgl.ir/G2i6b)  داکیومنت فارسی
 
 ### Features:
+* Telegram anti-filter control panel
 * get command from telegram and execute scripts 
 * get command and send message by third party proxy
 * get target info 
