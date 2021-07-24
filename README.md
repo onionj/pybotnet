@@ -20,6 +20,8 @@
 
 [Persian document](https://vrgl.ir/G2i6b)  داکیومنت فارسی
 
+GUI Trojan created by pybotnet: [VINET](https://github.com/onionj/vinet)
+
 ### Features:
 * Telegram anti-filter control panel
 * get command from telegram and execute scripts 
