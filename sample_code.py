@@ -6,7 +6,7 @@ import time
 # ! and edit configs.py data
 from configs import TELEGRAM_TOKEN, ADMIN_CHAT_ID
 
-# * if you compile code without shell: is_sheel=False
+# * if you compile code without shell (--noconsole in pyinstaller): is_sheel=False
 # * show_log: just for debugging
 # * send_system_data: send system short info in bot messages
 

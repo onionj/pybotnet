@@ -31,7 +31,7 @@ def get_host_name_ip() -> str:
 
 
 def get_my_global_ip() -> str:
-
+    '''return system ip (3 API server)'''
     try:
         return get_my_ip_server_1()
 
@@ -50,6 +50,8 @@ def get_my_global_ip() -> str:
 
 
 def get_my_ip_server_1():
+    '''return global ip V4 and loaction \n
+    server 1'''
     takeip = requests.post("https://api.myip.com", timeout=3).text
     ip = str(json.loads(takeip)["ip"])
     country = str(json.loads(takeip)["country"])
@@ -58,10 +60,14 @@ def get_my_ip_server_1():
 
 
 def get_my_ip_server_2():
+    '''return global ip V4 \n
+    server 2'''
     return requests.get('https://api.ipify.org', timeout=3).text
 
 
 def get_my_ip_server_3():
+    '''return global ip V4 \n
+    server 3'''
     return requests.get('https://ident.me', timeout=3).text
 
 
@@ -102,7 +108,8 @@ def make_send_message_api_url(TELEGRAM_TOKEN, ADMIN_CHAT_ID, message) -> str:
 
 
 def post_data(url, logger) -> bool:
-    '''return False or response\n'''
+    '''send data; method post
+    return False or response\n'''
     try:
         response = requests.post(url=url, timeout=5)
         if response.status_code == 200:
@@ -231,6 +238,7 @@ def get_last_update_id(messages: list, ADMIN_CHAT_ID: str, logger):
 
 
 def set_message_ofset(messages: list, TELEGRAM_TOKEN: str, ADMIN_CHAT_ID: str, logger) -> None:
+    '''this founction seen the last message from admin and delete before message'''
 
     update_id = get_last_update_id(messages, ADMIN_CHAT_ID, logger)
 
@@ -245,7 +253,8 @@ def set_message_ofset(messages: list, TELEGRAM_TOKEN: str, ADMIN_CHAT_ID: str, l
 
 
 def extract_last_admin_command(messages: list, ADMIN_CHAT_ID: str, TELEGRAM_TOKEN: str,  logger):
-
+    '''extract command in html source 
+    this function use for httpdebuger.com: get_update_by_third_party_proxy()'''
     message_text = False
 
     for message in messages[::-1]:
