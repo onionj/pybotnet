@@ -18,9 +18,9 @@
 
 > See the [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD) if you want to *help* me 💕 \
 
-[Persian document](https://vrgl.ir/G2i6b)  داکیومنت فارسی
+> [Persian document](https://vrgl.ir/G2i6b)  داکیومنت فارسی
 
-GUI Trojan created by pybotnet: [VINET](https://github.com/onionj/vinet)
+> GUI Trojan created by pybotnet: [VINET](https://github.com/onionj/vinet)
 
 ### Features:
 * Telegram anti-filter control panel
