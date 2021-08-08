@@ -16,11 +16,9 @@
  
 > Disclaimer: Please note that this is a research project. I am by no means responsible for any usage of this tool. Use it on your behalf. 
 
-> See the [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD) if you want to *help* me 💕 \
 
 > [Persian document](https://vrgl.ir/G2i6b)  داکیومنت فارسی
 
-> GUI Trojan created by pybotnet: [VINET](https://github.com/onionj/vinet)
 
 ### Features:
 * Telegram anti-filter control panel
@@ -98,3 +96,6 @@ COMMAND | Sample | DO THIS | version | tested on |
 `/start` | `/start` | run `help` command !! | 0.18.7 | windows, linux |
 
 
+> See the [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD) if you want to *help* me 💕 \
+
+> GUI Trojan created by pybotnet: [VINET](https://github.com/onionj/vinet)
