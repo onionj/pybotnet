@@ -95,7 +95,8 @@ COMMAND | Sample | DO THIS | version | tested on |
 `help` | `help` | send commands help | 0.18.5 | windows, linux |
 `/start` | `/start` | run `help` command !! | 0.18.7 | windows, linux |
 
+> If you like this repo and find it useful, please consider ★ starring it (on top right of the page) and forking it :)
 
-> See the [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD) if you want to *help* me 💕 \
+> [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD)
 
-> GUI Trojan created by pybotnet: [VINET](https://github.com/onionj/vinet)
+> Sample GUI Trojan created by pybotnet: [VINET](https://github.com/onionj/vinet)
