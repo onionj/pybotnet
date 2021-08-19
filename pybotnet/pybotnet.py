@@ -19,7 +19,8 @@ class PyBotNet:
             ADMIN_CHAT_ID,
             show_log=False,
             send_system_data=True,
-            is_shell=True):
+            is_shell=True
+    ):
 
         self.TELEGRAM_TOKEN = TELEGRAM_TOKEN
         self.ADMIN_CHAT_ID = ADMIN_CHAT_ID
