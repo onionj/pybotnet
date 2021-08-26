@@ -75,9 +75,9 @@ def get_short_system_info() -> str:
     '''system mac addres, ip addres, operating system'''
 
     short_system_info = f"""------system info------
-operating system: {platform.system()}
-mac addres: {get_system_mac_addres()}
-global ip: {get_my_global_ip()}"""
+OS: {platform.system()}
+Mac Addres: {get_system_mac_addres()}
+Global ip: {get_my_global_ip()}"""
 
     return short_system_info
 
@@ -87,11 +87,11 @@ def get_full_system_info(pybotnet_uptime=None) -> str:
     get_short_system_info and pybotnet up time, local ip, pybotnet version'''
 
     full_system_info = f"""{get_short_system_info()}
-pybotnet up time: {pybotnet_uptime} Seconds
-local ip: {get_host_name_ip()}
-current route: {os.getcwd()}
-pid: {os.getpid()}
-pybotnet version: {settings.pybotnet_version}
+Up Time: {pybotnet_uptime} Seconds
+Local ip: {get_host_name_ip()}
+Current Route: {os.getcwd()}
+Pid: {os.getpid()}
+Pybotnet Version: {settings.pybotnet_version}
 -----------------------"""
 
     # TODO: system uptime: {None}
