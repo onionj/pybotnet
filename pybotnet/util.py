@@ -107,27 +107,6 @@ def make_send_message_api_url(TELEGRAM_TOKEN, ADMIN_CHAT_ID, message) -> str:
     return f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/SendMessage?chat_id={ADMIN_CHAT_ID}&text={message}"
 
 
-def post_data(url, logger) -> bool:
-    '''send data; method post
-    return False or response\n'''
-    try:
-        response = requests.post(url=url, timeout=5)
-        if response.status_code == 200:
-            logger.info('post_data data sended response: 200')
-            return response
-
-        logger.error(
-            f'post_data error: data not sended response: {response.status_code}')
-        return False
-
-    except requests.exceptions.Timeout:
-        logger.error(f'post_data error: timeout ')
-        return False
-    except:
-        logger.error(f'post_data Unknown error')
-        return False
-
-
 def post_data_by_third_party_proxy(url, logger, time_out=5):
     '''
     return False or response \n
