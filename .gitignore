@@ -3,7 +3,8 @@ new.py
 test.txt
 bnt1632.py
 .vscode
-
+*.png
+temp
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
