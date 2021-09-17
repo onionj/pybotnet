@@ -247,11 +247,11 @@ def extract_last_admin_command(messages: list, ADMIN_CHAT_ID: str, TELEGRAM_TOKE
         if last_message_chat_id == ADMIN_CHAT_ID:
             if update_id <= previous_update_id[0]:
                 logger.info(
-                    f' -last command from admin: {last_text}, "This command has already been executed"')
+                    f' - previous command from admin: {last_text}, "This command has already been executed"')
                 break
             previous_update_id[0] = update_id
             logger.info(
-                f' -new command from admin: {last_text}')
+                f' - new command from admin: {last_text}')
             message_text = last_text
             break
 
