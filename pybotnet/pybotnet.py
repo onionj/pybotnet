@@ -1,12 +1,13 @@
 # import built-in & third-party modules
 import logging
 import re
+import time
 
+from PIL.Image import init
 # import pybotnet modules
 from . import util
 from . import scripts
 from . import settings
-
 
 class PyBotNet:
     '''
@@ -40,7 +41,7 @@ class PyBotNet:
         self.my_logger = logging
         self.my_logger.basicConfig(level=self.log_level)
         self.logger = self.my_logger.getLogger('PyBotNet')
-
+        
     def __str__(self) -> str:
         return settings.pybotnet_info
 
