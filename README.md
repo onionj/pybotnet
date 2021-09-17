@@ -94,6 +94,8 @@ COMMAND | Sample | DO THIS | version | tested on |
 `screenshot` | `screenshot` | Takes a screenshot, uploads it to the online server and return the download link | 0.18.1 |  windows, linux |
 `help` | `help` | send commands help | 0.18.5 | windows, linux |
 `/start` | `/start` | run `help` command !! | 0.18.7 | windows, linux |
+`cd <route>`| `cd ..` | change directory | 0.19.0 | linux |
+
 
 > If you like this repo and find it useful, please consider ★ starring it (on top right of the page) and forking it :)
 
