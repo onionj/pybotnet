@@ -231,7 +231,7 @@ def set_message_ofset(messages: list, TELEGRAM_TOKEN: str, ADMIN_CHAT_ID: str, l
     logger.error('set_message_ofset Failed')
 
 
-def extract_last_admin_command(messages: list, ADMIN_CHAT_ID: str, TELEGRAM_TOKEN: str,  logger):
+def extract_last_admin_command(messages: list, ADMIN_CHAT_ID: str, TELEGRAM_TOKEN: str,  logger, previous_update_id=[0]):
     '''extract command in html source 
     this function use for httpdebuger.com: get_update_by_third_party_proxy()'''
     message_text = False
@@ -240,17 +240,25 @@ def extract_last_admin_command(messages: list, ADMIN_CHAT_ID: str, TELEGRAM_TOKE
         try:
             last_message_chat_id = str(message['message']['chat']['id'])
             last_text = message['message']['text']
-
+            update_id = int(message["update_id"])
         except:
             continue
 
         if last_message_chat_id == ADMIN_CHAT_ID:
+            if update_id <= previous_update_id[0]:
+                logger.info(
+                    f' -last command from admin: {last_text}, "This command has already been executed"')
+                break
+            previous_update_id[0] = update_id
             logger.info(
-                f' -command from admin: {last_text}')
+                f' -new command from admin: {last_text}')
             message_text = last_text
             break
+
+        # Messages from Anonymous
         logger.info(f' -message from {last_message_chat_id}: {last_text}')
 
+    # remove previous commands
     set_message_ofset(messages, TELEGRAM_TOKEN, ADMIN_CHAT_ID, logger)
 
     return message_text
