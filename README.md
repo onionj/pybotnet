@@ -29,7 +29,7 @@
 * export file to targets system
 * import file from target system 
 * get screenshot
-* reverse_shell
+* reverse shell
 
 for more, see commands table end of this page 
 
