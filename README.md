@@ -90,12 +90,12 @@ COMMAND | Sample | DO THIS | version | tested on |
 `get_info` | `get_info` |return system info | 0.06 | windows, linux |
 `do_sleep <scconds> <message (Optional)>` | `do_sleep 99999 hi, i see you!` | \<if message != none : print(message) > ; time.sleep(seccond) | 0.08 | windows, linux |
 `cmd <system command>` | `cmd mkdir new_folder` `cmd cd ..`, `cmd ls` | run system command in shell or cmd (Be careful not to give endless commands like `ping google.com -t`  in windows or `ping google.com` in linux)  TODO:add timeout| 0.07 | windows, linux|
-`export_file <link>` | `export_file https://github.com/onionj/pybotnet/archive/refs/heads/master.zip` | target donwload this file and save to script path | 0.14 | windows linux|
+`export_file <link>` | `export_file https://github.com/onionj/pybotnet/archive/refs/heads/master.zip` | target donwload this file and save to script path | 0.14 | windows, linux|
 `import_file <file_route>` |`import_file /home/onionj/folder/somting.png` | get a file from target system (limit:5GB & 20min)| 0.17.0 |  windows, linux|
 `screenshot` | `screenshot` | Takes a screenshot, uploads it to the online server and return the download link | 0.18.1 |  windows, linux |
 `help` | `help` | send commands help | 0.18.5 | windows, linux |
 `/start` | `/start` | run `help` command !! | 0.18.7 | windows, linux |
-`<Target_MAC_Address> reverse_shell`| `66619484755211 reverse_shell` and `exit` for exit!| start reverse shell on target system | 0.20.1 | windows,linux |
+`<Target_MAC_Address> reverse_shell`| `66619484755211 reverse_shell` and `exit` for exit!| start reverse shell on target system | 0.20.1 | windows, linux |
 
 > If you like this repo and find it useful, please consider ★ starring it (on top right of the page) and forking it :)
 
