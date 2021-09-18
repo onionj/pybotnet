@@ -93,7 +93,7 @@ COMMAND | Sample | DO THIS | version | tested on |
 `screenshot` | `screenshot` | Takes a screenshot, uploads it to the online server and return the download link | 0.18.1 |  windows, linux |
 `help` | `help` | send commands help | 0.18.5 | windows, linux |
 `/start` | `/start` | run `help` command !! | 0.18.7 | windows, linux |
-`<Target_MAC_Address> reverse_shell`| `66619484755211 reverse_shell` and `exit` for exit!| start reverse shell on target system | 0.20.1 | linux |
+`<Target_MAC_Address> reverse_shell`| `66619484755211 reverse_shell` and `exit` for exit!| start reverse shell on target system | 0.20.1 | windows,linux |
 
 > If you like this repo and find it useful, please consider ★ starring it (on top right of the page) and forking it :)
 
