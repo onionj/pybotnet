@@ -271,11 +271,7 @@ That\'s why I can\'t get the output text by `cmd` command'''
         return f'output code "{os_result}", {add_on_message}'
 
     else:
-        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE,
-                                stderr=subprocess.STDOUT, stdin=subprocess.PIPE)
-        proc.stdin.close()
-        proc.wait()
-        result = f'{proc.stdout.read()}\n\nreturn code {proc.returncode}'
+        result = subprocess.getoutput(' '.join(command))
         return clean_shell_data(result)
 
 
