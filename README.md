@@ -6,10 +6,10 @@
 
   <p align="center">
     <a href="https://github.com/onionj/pybotnet/blob/master/LICENSE">
-      <img src="https://img.shields.io/badge/license-GPLv3-blue.svg" />
+      <img src="https://img.shields.io/github/license/onionj/pybotnet" />
     </a>
     <a href="https://www.python.org/">
-    	<img src="https://img.shields.io/badge/built%20with-Python3-red.svg" />
+    	<img src="https://img.shields.io/pypi/pyversions/pybotnet" />
     </a>
   </p>
 </p>
