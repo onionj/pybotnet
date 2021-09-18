@@ -26,10 +26,10 @@
 * get command and send message by third party proxy
 * get target info 
 * sleep source by Optional message
-* get ls (dirctory list)
 * export file to targets system
 * import file from target system 
 * get screenshot
+* reverse_shell
 
 for more, see commands table end of this page 
 
