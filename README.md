@@ -24,12 +24,12 @@
 * Telegram anti-filter control panel
 * get command from telegram and execute scripts 
 * get command and send message by third party proxy
+* reverse shell
 * get target info 
 * sleep source by Optional message
 * export file to targets system
 * import file from target system 
 * get screenshot
-* reverse shell
 
 for more, see commands table end of this page 
 
