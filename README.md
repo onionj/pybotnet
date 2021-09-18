@@ -100,3 +100,13 @@ COMMAND | Sample | DO THIS | version | tested on |
 > [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD)
 
 > Sample GUI Trojan created by pybotnet: [VINET](https://github.com/onionj/vinet)
+
+
+## Contributors ✨
+Thanks goes to these wonderful people
+
+<table>
+<td align="center"><a href="https://github.com/onionj"><img src="https://avatars.githubusercontent.com/u/77416478?v=4" width="70px;" alt=""/><br /><sub><b>oNion</b></sub></a><br /></td>
+<td align="center"><a href="https://github.com/TorhamDev"><img src="https://avatars.githubusercontent.com/u/87639984?v=4" width="70px;" alt=""/><br /><sub><b> TorhamDev</b></sub></a><br /></td>
+<td align="center"><a href="https://github.com/SepehrRasouli"><img src="https://avatars.githubusercontent.com/u/81516241?v=4" width="70px;" alt=""/><br /><sub><b> SepehrRasouli</b></sub></a><br /></td>
+</table>
