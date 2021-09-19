@@ -1,11 +1,12 @@
-# import built-in & third-party modules
-import logging
-import re
-
 # import pybotnet modules
 from . import util
 from . import scripts
 from . import settings
+
+# import built-in & third-party modules
+import logging
+import re
+
 
 
 class PyBotNet:
