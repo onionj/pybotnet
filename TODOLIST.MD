@@ -11,16 +11,14 @@
 - [x] script for get file from target; upload target files to online host need some free and good api (import_file ,<route>) 
 - [x] script for get screenshut
 - [x] help command
+- [x] reverse shell
+- [x] script for key logger
+- [ ] update download_manager() 
 - [ ] scripts for dos
-- [ ] Multiple commands (||)
 - [ ] make test for pybotner
 - [ ] Stealing browser cookies
 - [ ] Task Scheduler windows ?
 - [ ] script to kill the program itself 
-- [ ] script for key logger
 - [ ] script for get all system password (wifi, browser, ..)
-- [ ] script for change desktop wallpaper
-- [ ] update download_manager()
-- [ ] asyncio feature
 
 
