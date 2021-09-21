@@ -96,6 +96,7 @@ COMMAND | Sample | DO THIS | version | tested on |
 `help` | `help` | send commands help | 0.18.5 | windows, linux |
 `/start` | `/start` | run `help` command !! | 0.18.7 | windows, linux |
 `<Target_MAC_Address> reverse_shell`| `66619484755211 reverse_shell` and `exit` for exit!| start reverse shell on target system | 0.20.1 | windows, linux |
+`keylogger` | `keylogger start` and `keylogger stop` to stop the keylogger | Starts a keylogger on victim's system. *keylogger can't handle persian words very correctly* | 0.21.1 | windows, linux 
 
 > If you like this repo and find it useful, please consider ★ starring it (on top right of the page) and forking it :)
 

