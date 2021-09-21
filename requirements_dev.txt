@@ -7,6 +7,7 @@ charset-normalizer==2.0.3
 colorama==0.4.4
 cryptography==3.4.7
 docutils==0.17.1
+evdev==1.4.0
 idna==3.2
 importlib-metadata==4.6.1
 jeepney==0.7.0
@@ -17,7 +18,9 @@ pkginfo==1.7.1
 pycodestyle==2.7.0
 pycparser==2.20
 Pygments==2.9.0
+pynput==1.7.3
 pyparsing==2.4.7
+python-xlib==0.31
 readme-renderer==29.0
 requests==2.26.0
 requests-toolbelt==0.9.1
