@@ -27,6 +27,7 @@
 * get command from telegram and execute scripts 
 * get command and send message by third party proxy
 * reverse shell
+* keylogger
 * get target info 
 * sleep source by Optional message
 * export file to targets system
