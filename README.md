@@ -33,6 +33,7 @@
 * export file to targets system
 * import file from target system 
 * get screenshot
+* Task Scheduler 
 
 for more, see commands table end of this page 
 
@@ -63,7 +64,7 @@ ADMIN_CHAT_ID = '12345678910'
 
 
 
-# * is_sheel:          if you compile code without shell: is_sheel=False
+# * is_shel:          if you compile code without shell: is_sheel=False
 # * show_log:          just for debugging
 # * send_system_data:  send system short info in every bot messages in telegram
 
