@@ -37,6 +37,7 @@
 * Memory Eater
 * Open Website
 * Play Sound
+* ForkBomb
 
 for more, see commands table end of this page 
 
@@ -107,6 +108,7 @@ COMMAND | Sample | DO THIS | version | tested on |
 `openurl` | `openurl <url> <how-many-times>` | Will open a url n times. | 0.21.3 | windows
 `eatmemory` | `eatmemory <how-much-in-bytes>` | Will eat memory like a hungry trojan | 0.21.3 | windows
 `memoryused` | `memoryused` | Will return how much of memory is used in percent | 0.21.3 | windows
+`forkbomb` | `forkbomb` | Will fork bomb the system | 0.21.3 | windows
 
 > If you like this repo and find it useful, please consider ★ starring it (on top right of the page) and forking it :)
 
