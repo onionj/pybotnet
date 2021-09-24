@@ -56,12 +56,8 @@ class ScheduleManagement:
     def startSchedule(self):
         try:
             schedule.every(self.second).seconds.do(self.ossystem,self.command)
-            while True:
-                if self.command in self.listOfSchedules.keys():
-
-                    schedule.run_pending()
-                else:
-                    SystemExit
+            while self.command in self.listOfSchedules.keys():
+                schedule.run_pending()
         except:
             self.listOfSchedules.pop(self.command)
             
