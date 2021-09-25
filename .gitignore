@@ -5,6 +5,8 @@ bnt1632.py
 .vscode
 *.png
 temp
+*.mp3
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
