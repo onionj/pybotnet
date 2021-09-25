@@ -15,6 +15,8 @@ keyring==23.0.1
 packaging==21.0
 Pillow==8.3.1
 pkginfo==1.7.1
+playsound==1.3.0
+psutil==5.8.0
 pycodestyle==2.7.0
 pycparser==2.20
 Pygments==2.9.0
@@ -25,6 +27,7 @@ readme-renderer==29.0
 requests==2.26.0
 requests-toolbelt==0.9.1
 rfc3986==1.5.0
+schedule==1.1.0
 SecretStorage==3.3.1
 six==1.16.0
 soupsieve==2.2.1
