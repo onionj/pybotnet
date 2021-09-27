@@ -13,9 +13,9 @@ import zipfile
 import os
 import schedule
 from typing import List
-import socket
 from pynput import keyboard
 from socket import gethostname, gethostbyname
+import socket
 from uuid import getnode as get_system_mac_addres
 from bs4 import BeautifulSoup
 from PIL import ImageGrab

