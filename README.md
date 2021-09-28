@@ -34,10 +34,8 @@
 * import file from target system 
 * get screenshot
 * Task Scheduler
-* Memory Eater
 * Open Website
 * Play Sound
-* ForkBomb
 
 for more, see commands table end of this page 
 
@@ -106,9 +104,6 @@ COMMAND | Sample | DO THIS | version | tested on |
 `scheduler` | `scheduler start ,stop , list` | Adds a schedule | 0.25.3 | windows, linux
 `playsound` | `playsound <sound-name>` | Will play a sound . Playsound can only play MP3 or WAV Files. | 0.25.3 | windows, linux
 `openurl` | `openurl <url> <how-many-times>` | Will open a url n times. | 0.25.3 | windows, linux
-`eatmemory` | `eatmemory <how-much-in-bytes>` | Will eat memory like a hungry trojan | 0.25.3 | windows
-`memoryused` | `memoryused` | Will return how much of memory is used in percent | 0.25.3 | windows, linux
-`forkbomb` | `forkbomb` | Will fork bomb the system | 0.25.3 | windows
 
 > If you like this repo and find it useful, please consider ★ starring it (on top right of the page) and forking it :)
 
