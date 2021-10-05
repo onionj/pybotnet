@@ -24,8 +24,6 @@
 
 ### Features:
 * Telegram anti-filter control panel
-* get command from telegram and execute scripts 
-* get command and send message by third party proxy
 * reverse shell
 * keylogger
 * get target info 
@@ -99,7 +97,7 @@ COMMAND | Sample | DO THIS | version | tested on |
 `screenshot` | `screenshot` | Takes a screenshot, uploads it to the online server and return the download link | 0.18.1 |  windows, linux |
 `help` | `help` | send commands help | 0.18.5 | windows, linux |
 `/start` | `/start` | run `help` command !! | 0.18.7 | windows, linux |
-`<Target_MAC_Address> reverse_shell`| `66619484755211 reverse_shell` and `exit` for exit!| start reverse shell on target system | 0.20.1 | windows, linux |
+`<MAC_Address> reverse_shell` or `reverse_shell`| `66619484755211 reverse_shell` and `exit` for exit!| start reverse shell on target system | 0.20.1 | windows, linux |
 `keylogger` | `keylogger start` and `keylogger stop` to stop the keylogger | Starts a keylogger on victim's system. *keylogger can't handle persian words very correctly* | 0.21.1 | windows, linux 
 `scheduler` | `scheduler start ,stop , list` | Adds a schedule | 0.25.3 | windows, linux
 `playsound` | `playsound <sound-name>` | Will play a sound . Playsound can only play MP3 or WAV Files. | 0.25.3 | windows, linux
