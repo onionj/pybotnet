@@ -62,7 +62,7 @@ class ScheduleManagement:
         except:
             self.listOfSchedules.pop(self.command)
 
-class ddos:
+class dos:
     def __init__(self,target,port,data,howmany):
         self.target  = target
         self.port    = port
