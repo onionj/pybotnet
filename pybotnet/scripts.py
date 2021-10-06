@@ -12,6 +12,7 @@ from requests import get
 import sys
 from playsound import playsound
 import webbrowser
+import socket
 
 
 # pybotnet import
@@ -53,7 +54,7 @@ scripts_name = {
                         """,
     "playsound":        "`playsound <soundname>` Plays a sound , MP3 or WAV Files. Sound file should be in the working path.",
     "openurl":          "`openurl <url> <how-many-times>` Will open a specified url n times",
-    "dos":             """`dos <target-ip> <target-port> <thread-numbers> <payload-size> <time-in-seconds> Will Run a Denial-Of-Service Attack on target"""
+    "dos":             """`dos <target-ip> <target-port> <thread-numbers> <payload-size> <number-of-packets> Will Run a Denial-Of-Service Attack on target"""
 
 }
 
@@ -546,6 +547,19 @@ def openurl(logger, command):
     except:
         logger.error("Error occurred.")
         return "Error occurred."
+
+def dos(logger,command):
+    splitted_command = split_command(command)
+
+    target = splitted_command[1]
+    port = splitted_command[2]
+    thread_num = splitted_command[3]
+    payload = splitted_command[4]
+    time = splitted_command[5]
+
+
+
+
 
 
 def command_help(logger):
