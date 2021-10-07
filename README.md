@@ -102,7 +102,7 @@ COMMAND | Sample | DO THIS | version | tested on |
 `scheduler` | `scheduler start ,stop , list` | Adds a schedule | 0.25.3 | windows, linux
 `playsound` | `playsound <sound-name>` | Will play a sound . Playsound can only play MP3 or WAV Files. | 0.25.3 | windows, linux
 `openurl` | `openurl <url> <how-many-times>` | Will open a url n times. | 0.25.3 | windows, linux
-
+`dos` | `dos <attack-type [GETFlood-ACKFlood]> <target-ip> <target-port> <thread-number> <payload-size>` | Will run Denial-Of-Service Attack. | 1.0.0 | windows
 > If you like this repo and find it useful, please consider ★ starring it (on top right of the page) and forking it :)
 
 > [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD)
