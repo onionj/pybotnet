@@ -34,8 +34,9 @@
 * Task Scheduler
 * Open Website
 * Play Sound
+* Denial-Of-Service Attack
 
-for more, see commands table end of this page 
+for more, see commands table at the end of this page 
 
 
 
