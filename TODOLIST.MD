@@ -14,7 +14,7 @@
 - [x] reverse shell
 - [x] script for key logger
 - [ ] update download_manager() 
-- [ ] scripts for dos
+- [x] scripts for dos
 - [ ] make test for pybotner
 - [ ] Stealing browser cookies
 - [ ] Task Scheduler windows ?
