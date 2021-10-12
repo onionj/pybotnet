@@ -8,8 +8,6 @@ from . import settings
 import datetime
 import socket
 import requests
-import subprocess
-from subprocess import TimeoutExpired
 import json
 import platform
 import time
