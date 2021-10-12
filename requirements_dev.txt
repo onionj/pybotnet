@@ -20,7 +20,7 @@ psutil==5.8.0
 pycodestyle==2.7.0
 pycparser==2.20
 Pygments==2.9.0
-pynput==1.7.3
+pynput==1.6.8
 pyparsing==2.4.7
 python-xlib==0.31
 readme-renderer==29.0
