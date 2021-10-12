@@ -104,7 +104,7 @@ COMMAND | Sample | DO THIS | version | tested on |
 `playsound` | `playsound <sound-name>` | Will play a sound . Playsound can only play MP3 or WAV Files. | 0.25.3 | windows, linux
 `openurl` | `openurl <url> <how-many-times>` | Will open a url n times. | 0.25.3 | windows, linux
 `dos` | `dos <attack-type [GETFlood-ACKFlood]> <target-ip> <target-port> <thread-number> <payload-size>` | Will run Denial-Of-Service Attack. | 1.0.0 | windows
-`runcode` | `runcode <code>` | Will run python code, The code should be written in a seperate line with correct python syntax, Because of python limitations , The function can't return the results. | 1.0.0 | windows
+`runcode` | `runcode <code>` | Will run python code, The code should be written in a seperate line with correct python syntax, Because of python limitations , The function can't return the results. | 1.0.0 | windows, Linux
 > If you like this repo and find it useful, please consider ★ starring it (on top right of the page) and forking it :)
 
 > [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD)
