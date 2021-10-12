@@ -111,7 +111,7 @@ COMMAND | Sample | DO THIS | version | tested on |
 
 > Sample GUI Trojan created by pybotnet: [VINET](https://github.com/onionj/vinet)
 
-> Sample GUI Trojan created by pybotnet: [VINET](https://github.com/SepehrRasouli/GameInfectedWithPyBotNet)
+> Infected Game With Python: [GameInfectedWithPyBotNet](https://github.com/SepehrRasouli/GameInfectedWithPyBotNet)
 
 
 ## Contributors ✨
