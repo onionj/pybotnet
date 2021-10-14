@@ -27,7 +27,7 @@ memory = ''
 scripts_name = {
     MAC_ADDRES: "`<system MAC_ADDRES> <command>`: run command on one target",
 
-    "help":             "`help`: sendس this message",
+    "help":             "`help`: send this message",
 
     "do_sleep":         "`do_sleep <scconds> <message>`: prints a message and sleeps",
 
