@@ -13,7 +13,7 @@ importlib-metadata==4.6.1
 jeepney==0.7.0
 keyring==23.0.1
 packaging==21.0
-Pillow==8.3.1
+Pillow==8.3.2
 pkginfo==1.7.1
 playsound==1.3.0
 psutil==5.8.0
