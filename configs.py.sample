@@ -1,4 +1,3 @@
-
 # TODO:
 # ? rename this file to config.py
 # ? change TELEGRAM_TOKEN and  ADMIN_CHAT_ID to valid data
@@ -6,5 +5,5 @@
 # telegram api token (Get it from the telegram @botfather)
 TELEGRAM_TOKEN = '1468299547:AAHsvEH-5VyIfWYMzZcYxF_e00000000000'
 
-# telegram account number ID (get it from @userinfobot)
+# telegram account number ID (Get it from @userinfobot)
 ADMIN_CHAT_ID = '12345678910'
