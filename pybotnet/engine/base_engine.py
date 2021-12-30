@@ -9,11 +9,15 @@ class BaseEngine(ABC):
     """This class must be singleton"""
 
     @abstractmethod
-    def get_command(self) -> List[str]:
+    def __str__(self):
+        return "Base Engine"
+
+    @abstractmethod
+    def receive(self) -> List[str]:
         """get last admin command"""
         ...
 
     @abstractmethod
-    def post_response(self, response: str) -> bool:
+    def send(self, response: str) -> bool:
         """send message to admin"""
         ...

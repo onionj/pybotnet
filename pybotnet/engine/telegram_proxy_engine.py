@@ -16,8 +16,8 @@ class TelegramProxyEngine(BaseEngine):
     def __str__(self):
         return f"<TOKEN:({self.TOKEN}), CHAT_ID:({self.CHAT_ID})>"
 
-    def get_command(self) -> List[str]:
+    def receive(self) -> List[str]:
         ...
 
-    def post_response(self, response: str) -> bool:
+    def send(self, response: str) -> bool:
         ...
