@@ -5,7 +5,7 @@ from shutil import rmtree
 
 from setuptools import find_packages, setup, Command
 
-from pybotnet.settings import pybotnet_github_link, pybotnet_version
+from pybotnet import __github_link__, __version__
 
 # setup to pypi.org :
 # python setup.py sdist bdist_wheel
@@ -15,11 +15,11 @@ from pybotnet.settings import pybotnet_github_link, pybotnet_version
 # Package meta-data.
 NAME = "pybotnet"
 DESCRIPTION = "A Python module for building botnet ,backdoor or trojan with Telegram control panel"
-URL = pybotnet_github_link
+URL = __github_link__
 EMAIL = "onionj98@gmail.com"
 AUTHOR = "onionj"
 REQUIRES_PYTHON = ">=3.8.0"
-VERSION = pybotnet_version
+VERSION = __version__
 KEYWORDS = [
     "onionj pybotnet",
     "make python trojan",
@@ -29,6 +29,7 @@ KEYWORDS = [
     "python ddos",
     "python backdoor",
     "python trojan",
+    "framework",
 ]
 
 
