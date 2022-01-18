@@ -3,27 +3,26 @@ from .base_engine import BaseEngine
 from typing import List
 
 
-class TelegramProxyEngine(BaseEngine):
+class TelegramEngine(BaseEngine):
 
     _instance = None
 
-    def __new__(cls, TOKEN: str = None, CHAT_ID: str = None):
+    def __new__(cls, *args, **kwargs):
         """singleton class"""
         if not cls._instance:
-            cls._instance = super().__new__(cls)
+            cls._instance = super().__new__(cls, *args, **kwargs)
             cls._instance.is_initialized = False
         return cls._instance
 
-    def __init__(self, TOKEN: str = None, CHAT_ID: str = None) -> None:
+    def __init__(
+        self, TOKEN: str = None, CHAT_ID: str = None, proxy: bool = False
+    ) -> None:
         if not self.is_initialized:
-
             self.TOKEN = TOKEN
             self.CHAT_ID = CHAT_ID
-
-            if None in (required_args := [self.TOKEN, self.CHAT_ID]):
-                raise TypeError(
-                    f" __init__() missing {required_args.count(None)} required positional arguments: (required args: 'TOKEN', 'CHAT_ID')"
-                )
+            self._proxy = proxy
+            if None in [self.TOKEN, self.CHAT_ID]:
+                raise Exception("Initialize TOKEN and CHAT_ID")
 
             self.is_initialized = True
 

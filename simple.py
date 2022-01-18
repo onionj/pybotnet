@@ -1,7 +1,18 @@
-from pybotnet import TelegramProxyEngine
+from pybotnet import BotNet, TestEngine
+from os import listdir
 
-engine_1 = TelegramProxyEngine(TOKEN="adscajkdfvbeb4uv", CHAT_ID="165161")
-engine_2 = TelegramProxyEngine(TOKEN="ss")
+test_engine = TestEngine(["echo", "10", "hi", ":)"])
 
-print(id(engine_1), engine_1)
-print(id(engine_2), engine_2)
+
+botnet = BotNet(test_engine, debug=False)
+
+
+@botnet.add_scripts()
+def ls(route="."):
+    """get ls"""
+    return listdir(route)
+
+
+print(botnet)
+
+botnet.run()
