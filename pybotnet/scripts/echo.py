@@ -1,7 +1,7 @@
 from .. import BotNet
 
 
-@BotNet.add_scripts(script_version="0.0.1")
+@BotNet.deafult_script(script_version="0.0.1")
 def echo(stars_count: int, *message):
     """print message \n
     example: `echo_hi 5 hi :)`
