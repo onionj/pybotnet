@@ -9,7 +9,7 @@ test_engine = TestEngine(["echo", "10", "hi", ":)"])
 botnet = BotNet(test_engine, debug=False)
 
 
-@botnet.add_scripts()
+@botnet.add_script()
 def ls(route="."):
     """get ls"""
     return listdir(route)

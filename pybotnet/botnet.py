@@ -60,7 +60,7 @@ class BotNet:
 
         return decorator
 
-    def add_scripts(self, *, script_name=None, script_version: Optional[str] = None):
+    def add_script(self, *, script_name=None, script_version: Optional[str] = None):
         def decorator(func):
 
             @wraps(func)

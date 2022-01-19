@@ -4,7 +4,7 @@ from .. import BotNet
 @BotNet.deafult_script(script_version="0.0.1")
 def echo(stars_count: int, *message):
     """print message \n
-    example: `echo_hi 5 hi :)`
+    example: `echo 5 hi :)`
     """
 
     stars = "*" * int(stars_count)
