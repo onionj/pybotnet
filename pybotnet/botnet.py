@@ -1,7 +1,11 @@
 from functools import wraps
-from typing import Dict, Optional
+import uuid
+from typing import Dict, List, Optional
 import time
+import datetime
 import logging
+
+from .request import Request as Request
 
 _logger = logging.getLogger(f"{__name__}")
 
@@ -78,20 +82,35 @@ class BotNet:
 
         return decorator
 
+    def _create_request(self, command: List, meta_data: Dict) -> Request:
+        request = Request()
+        request.engine = self.engine
+        request.command = command
+        request.meta_data = meta_data
+        request.sytsem_data = {"mac_addres": uuid.getnode()}
+        request.time_stamp = datetime.datetime.now()
+        return request
+
     def run(self):
         while True:
             command = self.engine.receive()
             script = self.scripts.get(command[0])
             if script:
-                args = command[1:]
+                command = command[1:]
+
+                meta_data = {
+                    "script_name": script.__name__,
+                    "script_version": script.__extra__.get('version'),
+                    "script_doc": script.__doc__
+                }
 
                 _logger.debug(
-                    f"<BotNet.run: {script.__name__}(Version: {script.__extra__.get('version')}, Doc: '''{script.__doc__}''', Args: {args}))>")
+                    f"<BotNet.run: {meta_data}>")
 
-                ret = "NULL"
+                request: Request = self._create_request(command=command, meta_data=meta_data)
 
                 try:
-                    ret = script(*args)
+                    ret = script(request, *command)
 
                 except Exception as e:
                     ret = e
