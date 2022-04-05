@@ -7,3 +7,5 @@ from .botnet import ExternalScripts as ExternalScripts
 from .request import Request as Request
 from .scripts import *
 from .engines import *
+
+#TODO add code to run botnet by `python -m pybotnet Telegram-Bot-Token Admin-ID`
