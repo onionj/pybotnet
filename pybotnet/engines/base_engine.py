@@ -2,7 +2,7 @@ from abc import ABC
 from abc import abstractmethod
 
 
-from typing import List
+from typing import List, Union, Literal
 
 
 class BaseEngine(ABC):
@@ -13,7 +13,7 @@ class BaseEngine(ABC):
         return "Base Engine"
 
     @abstractmethod
-    def receive(self) -> List[str]:
+    def receive(self) ->Union[List[str], Literal[False]]:
         """get last admin command"""
         ...
 

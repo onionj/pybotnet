@@ -6,7 +6,7 @@ import datetime
 import logging
 
 from .request import Request as Request
-
+from .exceptions import UserException, EngineException
 _logger = logging.getLogger(f"{__name__}")
 
 
@@ -20,14 +20,15 @@ class BotNet:
         version: str = "0.0.1",
         delay: int = 5,
         debug: bool = False,
+        use_default_scripts: bool = True,
         **extra,
     ):
 
-        self._debug: bool = debug
+        self._debug = debug
         self.version = version
         self.delay = delay
         self.engine = engine
-        self.use_default_scripts: bool = True
+        self.use_default_scripts = use_default_scripts
         self.scripts = {}
 
         if self.use_default_scripts:
@@ -46,7 +47,7 @@ class BotNet:
         return f"scripts: {', '.join(self.scripts.keys())}"
 
     @classmethod
-    def deafult_script(cls, *, script_name=None, script_version: Optional[str] = None):
+    def deafult_script(cls, *, script_name=None, script_version: Optional[str] = None, **extra):
         def decorator(func):
 
             @wraps(func)
@@ -64,7 +65,7 @@ class BotNet:
 
         return decorator
 
-    def add_script(self, *, script_name=None, script_version: Optional[str] = None):
+    def add_script(self, *, script_name=None, script_version: Optional[str] = None, **extra):
         def decorator(func):
 
             @wraps(func)
@@ -93,8 +94,26 @@ class BotNet:
 
     def run(self):
         while True:
-            command = self.engine.receive()
+
+            try:
+                command = self.engine.receive()
+
+            except EngineException as e:
+                _logger.debug(f'Engine[{self.engine}] Error: {e}')
+                command = False
+                
+            except Exception as e:
+                _logger.debug(f'Engine[{self.engine}] Error: {e}')
+                command = False
+
+
+            if not command:
+                _logger.debug("<There is no command to execute>")
+                time.sleep(self.delay)
+                continue
+            
             script = self.scripts.get(command[0])
+            
             if script:
                 command = command[1:]
 
@@ -105,19 +124,27 @@ class BotNet:
                 }
 
                 _logger.debug(
-                    f"<BotNet.run: {meta_data}>")
+                    f"<BotNet.run: {meta_data['script_name']} {meta_data['script_version']}>")
 
                 request: Request = self._create_request(command=command, meta_data=meta_data)
 
                 try:
                     ret = script(request, *command)
-
-                except Exception as e:
+                
+                except UserException as e:
                     ret = e
+                
+                except Exception as e:
+                    ret = f'internal error \n\n{e}'
 
                 finally:
                     self.engine.send(ret)
                     time.sleep(self.delay)
+            
+            else:
+                _logger.debug(f"<There is no script [{command[0]}] to execute>")
+                time.sleep(self.delay)
+
 
     def import_scripts(self, external_scripts: "ExternalScripts"):
         self.scripts.update(**external_scripts.scripts)

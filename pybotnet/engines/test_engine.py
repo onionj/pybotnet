@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union, Literal
 from . import BaseEngine
 
 
@@ -7,14 +7,17 @@ class TestEngine(BaseEngine):
 
     instance = None
 
-    def __init__(self, comands: List) -> None:
+    def __init__(self, comands: List[List[str]]) -> None:
         self.command = comands
 
     def __str__(self):
         return "Test Engine"
 
-    def receive(self):
-        return self.command
+    def receive(self) -> Union[List[str], Literal[False]]:
+        try:
+            return self.command.pop()
+        except IndexError:
+            return False
 
     def send(self, message):
         print(f"<Test engine sended ({message})>")
