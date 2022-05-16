@@ -18,6 +18,11 @@ class BaseEngine(ABC):
         ...
 
     @abstractmethod
-    def send(self, response: str) -> bool:
+    def send(self, message: str) -> bool:
         """send message to admin"""
+        ...
+
+    @abstractmethod
+    def send_file(self, file_route: str) -> bool:
+        """send file to admin"""
         ...
