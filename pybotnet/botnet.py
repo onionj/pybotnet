@@ -9,8 +9,7 @@ import time
 from .request import Request as Request
 from .exceptions import UserException, EngineException
 
-
-_logger = logging.getLogger(f"{__name__}   ")
+_logger = logging.getLogger(f"__{__name__}   ")
 
 
 class BotNet:
@@ -21,7 +20,7 @@ class BotNet:
         engine=None,
         *,
         version: str = "0.1.0",
-        delay: int = 5,
+        delay: int = 2,
         debug: bool = False,
         use_default_scripts: bool = True,
         **extra,
@@ -102,6 +101,7 @@ class BotNet:
         return request
 
     def run(self):
+
         while True:
 
             try:
@@ -135,7 +135,9 @@ class BotNet:
                     f"<BotNet.run: {meta_data['script_name']} {meta_data['script_version']}>"
                 )
 
-                request: Request = self._create_request(command=command, meta_data=meta_data)
+                request: Request = self._create_request(
+                    command=command, meta_data=meta_data
+                )
 
                 try:
                     ret = script(request, *command)
@@ -153,8 +155,6 @@ class BotNet:
             else:
                 _logger.debug(f"<There is no script [{command[0]}] to execute>")
                 time.sleep(self.delay)
-
-
 
     def import_scripts(self, external_scripts: "ExternalScripts"):
         _logger.debug(f"import_scripts: {list(external_scripts.scripts.keys())} ")

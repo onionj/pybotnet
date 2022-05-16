@@ -8,5 +8,6 @@ from .request import Request as Request
 from .exceptions import UserException, EngineException
 from .scripts import *
 from .engines import *
+from .utils import proxy
 
-#TODO add code to run botnet by `python -m pybotnet Telegram-Bot-Token Admin-ID`
+# TODO add code to run botnet by `python -m pybotnet Telegram-Bot-Token Admin-ID`

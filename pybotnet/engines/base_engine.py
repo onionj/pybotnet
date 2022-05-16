@@ -6,14 +6,16 @@ from typing import List, Union, Literal
 
 
 class BaseEngine(ABC):
-    """Base Engine"""
+    """Base Engine
+    Engines transfer messages between admin and botnet
+    """
 
     @abstractmethod
     def __str__(self):
         return "Base Engine"
 
     @abstractmethod
-    def receive(self) ->Union[List[str], Literal[False]]:
+    def receive(self) -> Union[List[str], Literal[False]]:
         """get last admin command"""
         ...
 
