@@ -6,7 +6,7 @@ from typing import List, Union, Literal
 
 
 class BaseEngine(ABC):
-    """This class must be singleton"""
+    """Base Engine"""
 
     @abstractmethod
     def __str__(self):

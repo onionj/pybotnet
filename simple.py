@@ -1,28 +1,35 @@
-from os import listdir
+from os import listdir, getcwd
+import logging
+
 from pybotnet import BotNet, TestEngine, Request, UserException
-from simple_external import script
+from simple_external import external_botnet
 
-test_engine = TestEngine([["echo", "10", "hi", ":)"], ["ls"], ["ls", '..'], ['ls', ''], ["echo_meta_data"]])
+_logger = logging.getLogger(f"{__name__}   ")
 
+
+test_engine = TestEngine(
+    [["echo", "10", "hi", ":)"], ["ls"], ["ls", ".."], ["ls", ""], ["echo_meta_data"]]
+)
 
 
 botnet = BotNet(test_engine, debug=True, use_default_scripts=True)
 
 # create new script
-@botnet.add_script()
+@botnet.add_script(script_version="0.1.0")
 def ls(request: Request, route="."):
     """get ls"""
-    
-    if route == '':
-        raise UserException('Please send a valid route')
 
-    return listdir(route)
+    if route == "":
+        raise UserException("Please send a valid route")
+
+    response = f"route: {getcwd()}\n {listdir(route)}"
+    return response
 
 
 # add external scripts
-botnet.import_scripts(script)
+botnet.import_scripts(external_botnet)
 
 
 if __name__ == "__main__":
-    print(botnet)
+    _logger.debug(botnet)
     botnet.run()

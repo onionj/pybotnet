@@ -5,8 +5,6 @@ from . import BaseEngine
 class TestEngine(BaseEngine):
     """Test Engine"""
 
-    instance = None
-
     def __init__(self, comands: List[List[str]]) -> None:
         self.command = comands
 
@@ -20,4 +18,4 @@ class TestEngine(BaseEngine):
             return False
 
     def send(self, message):
-        print(f"<Test engine sended ({message})>")
+        print(f"<TestEngine.send: ({message})>")
