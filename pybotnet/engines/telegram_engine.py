@@ -58,9 +58,9 @@ class TelegramEngine(BaseEngine):
 
     def _http_request(self, method: str, url: str) -> List[Dict[str, Any]]:
         if self.use_proxy:
-            return proxy.http_request(method="POST", url=url, timeout=15)
+            return proxy.http_request(method=method, url=url, timeout=15)
         else:
-            return requests.post(url=url, timeout=15).json()["result"]
+            return requests.request(method=method, url=url, timeout=15).json()["result"]
 
     def _last_admin_message(self, response: List[Dict[str, Any]]) -> str:
         """extract last admin message and remove previous messages"""
