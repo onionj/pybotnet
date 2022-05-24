@@ -91,6 +91,41 @@ class BotNet:
 
         return decorator
 
+    def _help(self, script_name=None) -> str:
+        all_scripts_name = list(self.scripts.keys())
+        all_scripts_name.append("help")
+        all_scripts_name = ", ".join(all_scripts_name)
+        help = f"""
+All scripts name: \n\t{all_scripts_name} 
+
+Get more details about a script:
+    `/help script-name`
+
+Run script:
+    `/command-name [params]`
+
+    Example:
+        `/echo 10 message`
+
+        """
+        if script_name:
+
+            if script_name == 'help':
+                return help
+
+            script = self.scripts.get(script_name)
+            if script:
+                extra = ""
+                for k, v in script.__extra__.items():
+                    extra += f"\n{k}: {v}"
+
+                return f"""NAME:\n{script.__name__}\n\nDESCRIPTION:\n"{script.__doc__}"\n{extra}"""
+
+            else:
+                return f"script `{script_name}` not found\n" + help
+
+        return help
+
     def _create_request(self, command: List, meta_data: Dict) -> Request:
         request = Request()
         request.engine = self.engine
@@ -103,7 +138,6 @@ class BotNet:
     def run(self):
 
         while True:
-
             try:
                 command = self.engine.receive()
 
@@ -115,11 +149,23 @@ class BotNet:
                 _logger.debug(f"Engine[{self.engine}] Error: {e}")
                 command = False
 
-            if not command:
+            if not command or not command[0].startswith("/"):
                 _logger.debug("<There is no command to execute>")
                 time.sleep(self.delay)
                 continue
 
+            command[0] = command[0][1:]  # remove slash
+
+            if command[0] == "help":
+                _help_script_name = None
+                
+                if len(command) > 1:
+                    _help_script_name = command[1]
+
+                self.engine.send(self._help(_help_script_name))
+                time.sleep(self.delay)
+                continue
+                
             script = self.scripts.get(command[0])
 
             if script:

@@ -6,11 +6,12 @@ def echo(request: Request, stars_count: int, *message) -> str:
     """
     Print message in stdout
 
-    example input command: `echo 5 hi :)`\n
+    example input command: `/echo 5 hi :)`\n
     output: `print("***** hi :) *****")`\n
     return: `"Successfully printed."`
     """
 
     stars = "*" * int(stars_count)
-    print(f"{stars} {' '.join(message)} {stars}")
-    return "Successfully printed."
+    msg = f"{stars} {' '.join(message)} {stars}"
+    print(msg)
+    return f"Successfully printed: `{msg}`"
