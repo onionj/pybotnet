@@ -51,11 +51,11 @@ class TelegramEngine(BaseEngine):
 
     def send(self, message: str, additionalـinfo: dict = {}) -> bool:
 
-        additionalـinfo_str = ""
-        for k, v in additionalـinfo.items():
-            additionalـinfo_str += f"\n{k}: {v}"
-
-        message = f"{message}\n\n___________________________\n{additionalـinfo_str}"
+        if len(additionalـinfo) > 0:
+            additionalـinfo_str = ""
+            for k, v in additionalـinfo.items():
+                additionalـinfo_str += f"\n{k}: {v}"
+            message = f"{message}\n\n___________________________{additionalـinfo_str}"
         try:
             api_url = f"https://api.telegram.org/bot{self.token}/SendMessage?chat_id={self.admin_chat_id}&text={message}"
             return self._http_request(method="POST", url=api_url)

@@ -169,7 +169,7 @@ Docs: {__github_link__}
         return request
 
     def _valid_command(self, command, check_slash=False, expected_length=1) -> bool:
-        if command == False or type(command) != list:
+        if type(command) != list:
             return False
 
         if len(command) < expected_length:
@@ -241,7 +241,8 @@ Docs: {__github_link__}
                     ret = f"internal error \n\n{e}"
 
                 finally:
-                    self.engine.send(ret, additionalـinfo=self.system_info(minimal=True))
+                    if not ret == None:
+                        self.engine.send(ret, additionalـinfo=self.system_info(minimal=True))
                     time.sleep(self.delay)
 
             else:
