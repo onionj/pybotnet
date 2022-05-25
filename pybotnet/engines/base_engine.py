@@ -20,7 +20,7 @@ class BaseEngine(ABC):
         ...
 
     @abstractmethod
-    def send(self, message: str) -> bool:
+    def send(self, message: str, additionalـinfo: dict = {}) -> bool:
         """send message to admin"""
         ...
 

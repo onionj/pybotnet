@@ -1,6 +1,4 @@
-__version__ = "2.0.1"
-__github_link__ = "https://github.com/onionj/pybotnet"
-
+from .package_info import __version__, __github_link__
 
 from .botnet import BotNet as BotNet
 from .botnet import ExternalScripts as ExternalScripts

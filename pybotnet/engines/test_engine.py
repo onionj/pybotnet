@@ -17,8 +17,8 @@ class TestEngine(BaseEngine):
         except IndexError:
             return False
 
-    def send(self, message: str) -> bool:
-        print(f"<TestEngine.send: ({message})>")
+    def send(self, message: str, additionalـinfo:str="") -> bool:
+        print(f"<TestEngine.send: ({message} {additionalـinfo})>")
         return True
 
     def send_file(self, file_route: str) -> bool:
