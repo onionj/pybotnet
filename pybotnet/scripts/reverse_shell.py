@@ -25,7 +25,7 @@ def shell(request: Request, *cmd_args) -> str:
 
     if not len(cmd_args) == 0:
         res = _cmd(cmd_args, engine, timeout=10)
-        if not res == None:
+        if res != None:
             engine.send(res)
         return
 
@@ -53,7 +53,7 @@ def shell(request: Request, *cmd_args) -> str:
 
         else:
             res = _cmd(command, engine, timeout=10)
-            if not res == None:
+            if res != None:
                 engine.send(res)
             engine.send(f"{os.getcwd()}=>")
 
