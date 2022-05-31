@@ -446,9 +446,9 @@ def upload_server_1(file: bytes, file_name: str, logger, time_out: int = 1200, f
     its not safe for file transfer!
     api from: up.ufile.io
     size limit 5GB'''
-    create_session_link = 'https://up.ufile.io/v1/upload/create_session'
-    chunk_link = 'https://up.ufile.io/v1/upload/chunk'  # Send part of the file
-    finalise_link = 'https://up.ufile.io/v1/upload/finalise'
+    create_session_link = 'https://store-eu-hz-1.ufile.io/v1/upload/create_session'
+    chunk_link = 'https://store-eu-hz-1.ufile.io/v1/upload/chunk'  # Send part of the file
+    finalise_link = 'https://store-eu-hz-1.ufile.io/v1/upload/finalise'
     file_size = {'file_size': len(file)}
     files = {'file': file}
 
