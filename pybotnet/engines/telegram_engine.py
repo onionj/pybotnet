@@ -1,4 +1,4 @@
-from ctypes import Union
+import os
 from typing import Dict, List, Any
 import logging
 
@@ -6,7 +6,7 @@ import logging
 from .base_engine import BaseEngine
 
 from ..exceptions import EngineException
-from ..utils import proxy
+from ..utils import proxy, upload_server
 import requests
 
 _logger = logging.getLogger(f"__{__name__}   ")
@@ -41,7 +41,7 @@ class TelegramEngine(BaseEngine):
 
             if admin_command and not self._is_first_run:
                 return admin_command.strip().split()
-            
+
             self._is_first_run = False
             return False
 
@@ -64,8 +64,21 @@ class TelegramEngine(BaseEngine):
             _logger.debug(f"send: error {e}")
             raise EngineException(e)
 
-    def send_file(self, file_route: str) -> bool:
-        raise NotImplementedError()
+    def send_file(self, file_route: str, additionalـinfo: dict = {}) -> bool:
+        try:
+            file_name = upload_server.make_zip_file(file_route)
+            if file_name:
+                with open(file_name, "rb") as file:
+                    data = upload_server.upload_server_1(file=file.read(), file_name=file_name)
+                os.remove(file_name)
+                self.send(data, additionalـinfo=additionalـinfo)
+                return data
+
+            _logger.debug(f"send_file: file not found")
+            return False
+        except Exception as e:
+            _logger.debug(f"send_file: error {e}")
+            return False
 
     def _http_request(self, method: str, url: str) -> List[Dict[str, Any]]:
         if self.use_proxy:

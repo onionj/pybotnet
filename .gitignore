@@ -1,5 +1,6 @@
 configs.py
 new.py
+*.zip
 test.txt
 bnt1632.py
 .vscode
