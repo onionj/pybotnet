@@ -18,13 +18,14 @@ class TelegramEngine(BaseEngine):
     """
 
     def __init__(
-        self, token: str = None, admin_chat_id: str = None, use_proxy: bool = False
+        self, token: str = None, admin_chat_id: str = None
     ) -> None:
         self.token = token
         self.admin_chat_id = admin_chat_id
-        self.use_proxy = use_proxy
+        self._use_proxy = False
         self._update_id = 0
         self._is_first_run = True
+
 
     def __str__(self):
         return f"<TOKEN:({self.token}), ADMIN_CHAT_ID:({self.admin_chat_id})>"
@@ -55,6 +56,7 @@ class TelegramEngine(BaseEngine):
             additionalـinfo_str = ""
             for k, v in additionalـinfo.items():
                 additionalـinfo_str += f"\n{k}: {v}"
+            additionalـinfo_str += f"\nuse_proxy: {self._use_proxy}"
             message = f"{message}\n\n___________________________{additionalـinfo_str}"
         try:
             api_url = f"https://api.telegram.org/bot{self.token}/SendMessage?chat_id={self.admin_chat_id}&text={message}"
@@ -81,10 +83,22 @@ class TelegramEngine(BaseEngine):
             return False
 
     def _http_request(self, method: str, url: str) -> List[Dict[str, Any]]:
-        if self.use_proxy:
-            return proxy.http_request(method=method, url=url, timeout=15)
-        else:
+        if self._getme():
+            self._use_proxy = False
             return requests.request(method=method, url=url, timeout=15).json()["result"]
+        else:
+            self._use_proxy = True
+            return proxy.http_request(method=method, url=url, timeout=15)
+
+    def _getme(self):
+        try:
+            res = requests.get(f"https://api.telegram.org/bot{self.token}/getMe", timeout=.5)
+            if res.status_code == 200:
+                return res.json()
+            return False
+
+        except:
+            return False
 
     def _last_admin_message(self, response: List[Dict[str, Any]]) -> str:
         """extract last admin message and remove previous messages"""
