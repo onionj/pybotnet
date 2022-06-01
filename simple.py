@@ -10,7 +10,7 @@ _logger = logging.getLogger(f"__{__name__}   ")
 # step (1)
 # create engine: Engines transfer messages between admin and botnet
 telegram_engine = TelegramEngine(
-    token=TELEGRAM_TOKEN, admin_chat_id=ADMIN_CHAT_ID, use_proxy=True
+    token=TELEGRAM_TOKEN, admin_chat_id=ADMIN_CHAT_ID, use_proxy=False
 )
 
 # step (2)

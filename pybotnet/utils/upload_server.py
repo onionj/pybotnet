@@ -10,23 +10,25 @@ _logger = logging.getLogger(f"__{__name__}   ")
 
 
 def make_zip_file(route, delete_input_file=False):
-    '''get file route, make zip file and save to courent route \n
+    """get file route, make zip file and save to courent route \n
     return True, new_file_name |or| return False, 'None' \n
     sample: istrue, file_name = make_zip(./test.txt)
 
     To send a file in Telegram, this file must be zipped
-    '''
+    """
 
     # input: /home/onion/text.py ooutput: text.zip
     new_file_name = os.path.splitext(os.path.basename(route))[0]
-    new_file_name = f'{new_file_name}.zip'
+    new_file_name = f"{new_file_name}.zip"
 
     if not os.path.isfile(route):
-        _logger.debug('make_zip_file: is not a file')
+        _logger.debug("make_zip_file: is not a file")
         return False
 
     try:
-        with zipfile.ZipFile(new_file_name, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+        with zipfile.ZipFile(
+            new_file_name, "w", compression=zipfile.ZIP_DEFLATED
+        ) as zf:
             zf.write(route, os.path.basename(route))
 
         if delete_input_file:
@@ -35,7 +37,7 @@ def make_zip_file(route, delete_input_file=False):
         return new_file_name
 
     except Exception as error:
-        _logger.debug(f'make_zip_file: {error}')
+        _logger.debug(f"make_zip_file: {error}")
         return False
 
 
@@ -46,16 +48,24 @@ def upload_server_1(
     """api for upload zip file and return download link \n
     size limit 5GB
     """
-    create_session_link = "https://store-eu-hz-1.ufile.io/v1/upload/create_session"
-    chunk_link = "https://store-eu-hz-1.ufile.io/v1/upload/chunk"  # Send part of the file
-    finalise_link = "https://store-eu-hz-1.ufile.io/v1/upload/finalise"
+    select_storage = requests.post("https://ufile.io/v1/upload/select_storage")
+
+    if select_storage.status_code == 200:
+        storageBaseUrl = select_storage.json()["storageBaseUrl"]
+    else:
+        _logger.debug(f"upload_server_1.select_storage error")
+        storageBaseUrl = "https://store-eu-hz-1.ufile.io/"  # default storage
+
+    create_session_api = f"{storageBaseUrl}v1/upload/create_session"
+    chunk_api = f"{storageBaseUrl}v1/upload/chunk"  # Send part of the file
+    finalise_api = f"{storageBaseUrl}v1/upload/finalise"
     file_size = {"file_size": len(file)}
     files = {"file": file}
 
     # create session for upload file
     # TODO: add for lop for get a session
     try:
-        session = requests.post(create_session_link, data=file_size, timeout=30)
+        session = requests.post(create_session_api, data=file_size, timeout=30)
         if session.status_code != 200:
             _logger.debug(
                 f"upload_server_1.create session: status code: {session.status_code}, text: {session.text}"
@@ -72,7 +82,7 @@ def upload_server_1(
     try:
         chunk_data = {"chunk_index": 1, "fuid": FUID}
         chunk_res = requests.post(
-            chunk_link, data=chunk_data, files=files, timeout=time_out
+            chunk_api, data=chunk_data, files=files, timeout=time_out
         )
         if chunk_res.status_code != 200:
             _logger.debug(
@@ -92,7 +102,7 @@ def upload_server_1(
             "total_chunks": 1,
         }
 
-        finalis_res = requests.post(finalise_link, data=finalise_headers, timeout=30)
+        finalis_res = requests.post(finalise_api, data=finalise_headers, timeout=30)
         if finalis_res.status_code != 200:
             _logger.debug(
                 f"upload_server_1.close session , status code: {finalis_res.status_code}, text: {finalis_res.text}"
