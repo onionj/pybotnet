@@ -9,7 +9,7 @@ import socket
 def get_my_ip_server_1():
     '''return global ip V4 and loaction \n
     server 1'''
-    takeip = requests.post("https://api.myip.com", timeout=3).text
+    takeip = requests.post("https://api.myip.com", timeout=2).text
     ip = str(json.loads(takeip)["ip"])
     country = str(json.loads(takeip)["country"])
     ipaddr = f"{ip}\ncountry: {country}"
@@ -19,13 +19,13 @@ def get_my_ip_server_1():
 def get_my_ip_server_2():
     '''return global ip V4 \n
     server 2'''
-    return requests.get('https://api.ipify.org', timeout=3).text
+    return requests.get('https://api.ipify.org', timeout=2).text
 
 
 def get_my_ip_server_3():
     '''return global ip V4 \n
     server 3'''
-    return requests.get('https://ident.me', timeout=3).text
+    return requests.get('https://ident.me', timeout=2).text
 
 
 def get_global_ip() -> str:

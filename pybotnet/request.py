@@ -11,11 +11,11 @@ class Request:
     * engine: "BaseEngine"
     * command: List
     * time_stamp: str
-    * sytsem_data: Dict
+    * system_info: callable
     * mata_data: Dict'''
-
+    
     engine: "BaseEngine"
     command: List
     time_stamp: str
-    sytsem_data: Dict
+    system_info: callable
     meta_data: Dict

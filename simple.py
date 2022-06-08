@@ -26,7 +26,7 @@ def ping(request: Request):
 
 
 # add example external scripts (Optional)
-botnet.import_scripts(external_botnet)
+botnet.import_external_scripts(external_botnet)
 
 # step (3)
 # run botnet instance

