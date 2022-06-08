@@ -22,4 +22,5 @@ def who(request: Request) -> str:
 
     for k, v in request.system_info().items():
         info += f"\n{k}: {v}"
-    return info
+
+    request.engine.send(info)

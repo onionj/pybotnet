@@ -145,12 +145,13 @@ Docs: {__github_link__}
         return help_str
 
     def _add_cashe(self, name, expier_secound, data):
-        self.__cashe.update({name: {"exp": time.time() + expier_secound, "data": data}})
+        exp = time.time() + expier_secound 
+        self.__cashe.update({name: {"exp": exp, "data": data}})
 
     def _get_cashe(self, name)-> tuple[bool, any]:
         """return (is_cashe, data)"""
         if self.__cashe.get(name):
-            if self.__cashe[name]["exp"] <= time.time():
+            if self.__cashe[name]["exp"] >= time.time():
                 return True, self.__cashe[name]["data"]
             return False, None
         return False, None
@@ -178,7 +179,7 @@ Docs: {__github_link__}
 
         if minimal:
             # save cashe minimal
-            self._add_cashe("minimal_system_info", 10, minimal_info)
+            self._add_cashe("minimal_system_info", 30, minimal_info)
             return minimal_info
 
         full_info = {
@@ -193,7 +194,7 @@ Docs: {__github_link__}
         }
 
         # save cashe full
-        self._add_cashe("full_system_info", 10, full_info)
+        self._add_cashe("full_system_info", 30, full_info)
 
         return full_info
 
