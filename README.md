@@ -1,7 +1,7 @@
  
  <p align="center">
   <a href='https://github.com/onionj/pybotnet' target='_blank'><img src='https://files.virgool.io/upload/users/271869/posts/wxs2bk9hkqfx/ezoxwssoikqm.jpeg' border='5' alt='trojan horse'/></a>  <h1 align="center">pybotnet</h1>
-  <p align="center"> A Python Library for building <b>botnet</b> , <b>trojan</b>  or <b>backdoor</b> for windows and linux with Telegram control panel </p>
+  <p align="center"> A Python framework for building <b>botnet</b> , <b>trojan</b>  or <b>backdoor</b> for windows and linux with Telegram control panel and... </p>
 
   <p align="center">
     <a href="https://github.com/onionj/pybotnet">
@@ -18,10 +18,7 @@
  
 > Disclaimer: Please note that this is a research project. I am by no means responsible for any usage of this tool. Use it on your behalf. 
 
-
-> [Persian document](https://vrgl.ir/G2i6b)  داکیومنت فارسی
-
-
+...
 
 ## Contributors ✨
 Thanks goes to these wonderful people :

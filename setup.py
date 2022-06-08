@@ -16,7 +16,7 @@ from pybotnet import __github_link__, __version__
 
 # Package meta-data.
 NAME = "pybotnet"
-DESCRIPTION = "A Python module for building botnet ,backdoor or trojan with Telegram control panel"
+DESCRIPTION = "A Python framework for building botnet ,backdoor or trojan with Telegram control panel"
 URL = __github_link__
 EMAIL = "onionj98@gmail.com"
 AUTHOR = "onionj"
