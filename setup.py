@@ -11,6 +11,8 @@ from pybotnet import __github_link__, __version__
 # python setup.py sdist bdist_wheel
 # twine upload  dist/*
 
+# twine upload --repository testpypi dist/*
+
 
 # Package meta-data.
 NAME = "pybotnet"
