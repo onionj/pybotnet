@@ -157,7 +157,9 @@ Docs: {__github_link__}
         return False, None
 
     def system_info(self, minimal=False):
-        """return system info"""
+        """return system info
+        (system info cashed for 30 seconds)
+        """
 
         # return cashe minimal if exist
         if minimal:

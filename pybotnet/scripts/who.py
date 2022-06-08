@@ -16,7 +16,10 @@ def who(request: Request) -> str:
     * current_route
     * pid
     * cpu_count
-    * pybotnet_version"""
+    * pybotnet_version
+    
+    system_info cashed for 30 seconds
+    """
 
     info = ""
 
