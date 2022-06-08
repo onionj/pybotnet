@@ -55,6 +55,8 @@ class TelegramEngine(BaseEngine):
                 additionalـinfo_str += f"\n{k}: {v}"
             additionalـinfo_str += f"\nuse_proxy: {self._use_proxy}"
             message = f"{message}\n\n___________________________{additionalـinfo_str}"
+            message = message.replace("&", "[and]") # & is invalid character for telegram
+
         try:
             api_url = f"https://api.telegram.org/bot{self.token}/SendMessage?chat_id={self.admin_chat_id}&text={message}"
             return self._http_request(method="POST", url=api_url)

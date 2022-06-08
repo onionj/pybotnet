@@ -46,7 +46,7 @@ class BotNet:
         self.start_end_notify = start_end_notify
         self.scripts = {}
         self.__run_time = time.time()
-        self.__cashe = {
+        self.__cache = {
             "system_info": {
                 "minimal": {"save_time": None, "data": None},
                 "full": {"save_time": None, "data": None},
@@ -144,32 +144,32 @@ Docs: {__github_link__}
 
         return help_str
 
-    def _add_cashe(self, name, expier_secound, data):
+    def _add_cache(self, name, expier_secound, data):
         exp = time.time() + expier_secound 
-        self.__cashe.update({name: {"exp": exp, "data": data}})
+        self.__cache.update({name: {"exp": exp, "data": data}})
 
-    def _get_cashe(self, name)-> tuple[bool, any]:
-        """return (is_cashe, data)"""
-        if self.__cashe.get(name):
-            if self.__cashe[name]["exp"] >= time.time():
-                return True, self.__cashe[name]["data"]
+    def _get_cache(self, name)-> tuple[bool, any]:
+        """return (is_cache, data)"""
+        if self.__cache.get(name):
+            if self.__cache[name]["exp"] >= time.time():
+                return True, self.__cache[name]["data"]
             return False, None
         return False, None
 
     def system_info(self, minimal=False):
         """return system info
-        (system info cashed for 30 seconds)
+        (system info cached for 30 seconds)
         """
 
-        # return cashe minimal if exist
+        # return cache minimal if exist
         if minimal:
-            is_cashe, data = self._get_cashe("minimal_system_info")
-            if is_cashe:
+            is_cache, data = self._get_cache("minimal_system_info")
+            if is_cache:
                 return data
-        # return cashe full if exist
+        # return cache full if exist
         else:
-            is_cashe, data = self._get_cashe("full_system_info")
-            if is_cashe:
+            is_cache, data = self._get_cache("full_system_info")
+            if is_cache:
                 return data
 
         minimal_info = {
@@ -180,8 +180,8 @@ Docs: {__github_link__}
         }
 
         if minimal:
-            # save cashe minimal
-            self._add_cashe("minimal_system_info", 30, minimal_info)
+            # save cache minimal
+            self._add_cache("minimal_system_info", 30, minimal_info)
             return minimal_info
 
         full_info = {
@@ -195,8 +195,8 @@ Docs: {__github_link__}
             "pybotnet_version": __version__,
         }
 
-        # save cashe full
-        self._add_cashe("full_system_info", 30, full_info)
+        # save cache full
+        self._add_cache("full_system_info", 30, full_info)
 
         return full_info
 

