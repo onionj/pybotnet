@@ -11,15 +11,18 @@ external_botnet = ExternalScripts()
 # add some script:
 
 @external_botnet.add_script()
-def hello_world(*args):
+def hello_world():
     """return hello_world"""
     return "hello_world"
 
 
 @external_botnet.add_script(script_name='sys_data', script_version="0.1.0")
-def get_sytsem_data(request: Request, *args):
+def get_sytsem_data(request: Request):
     """return sytsem_data"""
-    return request.sytsem_data
+    sys_data = ""
+    for key, value in request.sytsem_data.items():
+        sys_data += f"{key}: {value}\n"
+    return sys_data
 
 
 # step (3)

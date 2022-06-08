@@ -8,7 +8,7 @@ from .. import BotNet, Request
 
 
 @BotNet.default_script(script_version="0.0.1")
-def shell(request: Request, *cmd_args) -> str:
+def shell(request: Request) -> str:
     """
     `[mac-address] /shell` -> shell session
     or
@@ -22,8 +22,8 @@ def shell(request: Request, *cmd_args) -> str:
          `/shell ping google.com -c 10` -> run command in all systems"""
     engine = request.engine
 
-    if not len(cmd_args) == 0:
-        res = _cmd(cmd_args, engine, timeout=10)
+    if len(request.command) > 0:
+        res = _cmd(request.command, engine, timeout=10)
         if res != None:
             engine.send(res)
         return
