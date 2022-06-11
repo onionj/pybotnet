@@ -33,7 +33,7 @@ echo "$(date) install dependencies" >> /tmp/pybotnet.log
 apt update
 apt install python3-pip
 apt install python3-dev
-pip3 install pybotnet -U
+pip3 install pybotnet -U --pre
 
 echo "$(date) start pybotnet" >> /tmp/pybotnet.log
 python3 -m pybotnet $token $id $bot_name
