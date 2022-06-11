@@ -7,10 +7,16 @@ if __name__ == "__main__":
 
     argv = sys.argv
 
-    if len(argv) == 4:
+    print(argv)
+
+    if len(argv) >= 3:
         TELEGRAM_TOKEN = argv[1]
         ADMIN_CHAT_ID = argv[2]
-        BOT_NAME = argv[3]
+
+        if len(argv) == 4:
+            BOT_NAME = argv[3]
+        else:
+            BOT_NAME = "None"
 
         telegram_engine = TelegramEngine(
             token=TELEGRAM_TOKEN, admin_chat_id=ADMIN_CHAT_ID
