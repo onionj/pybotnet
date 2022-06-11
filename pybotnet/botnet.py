@@ -30,6 +30,7 @@ class BotNet:
         self,
         engine: "BaseEngine" = None,
         *,
+        bot_name: str = "no name",
         version: str = "0.1.0",
         delay: int = 1.5,
         use_default_scripts: bool = True,
@@ -37,14 +38,15 @@ class BotNet:
         debug: bool = False,
         **extra,
     ):
-
-        self._debug = debug
+        self.engine = engine
+        self.BOT_NAME = bot_name
         self.version = version
         self.delay = delay
-        self.engine = engine
         self.use_default_scripts = use_default_scripts
         self.start_end_notify = start_end_notify
+
         self.scripts = {}
+        self._debug = debug
         self.__run_time = time.time()
         self.__cache = {
             "system_info": {
@@ -188,6 +190,8 @@ Docs: {__github_link__}
             **minimal_info,
             "up_time": round((time.time() - self.__run_time)),
             "host_name": {get_host_name_ip()["host_name"]},
+            "system_user": os.getlogin(),
+            "bot_name": self.BOT_NAME,
             "local_ip": {get_host_name_ip()["host_ip"]},
             "current_route": os.getcwd(),
             "pid": os.getpid(),
