@@ -186,17 +186,22 @@ Docs: {__github_link__}
             self._add_cache("minimal_system_info", 30, minimal_info)
             return minimal_info
 
+        try:
+            system_user = os.getlogin()
+        except:
+            system_user = "unknown"
+
         full_info = {
             **minimal_info,
-            "up_time": round((time.time() - self.__run_time)),
-            "host_name": {get_host_name_ip()["host_name"]},
-            "system_user": os.getlogin(),
-            "bot_name": self.BOT_NAME,
             "local_ip": {get_host_name_ip()["host_ip"]},
+            "host_name": {get_host_name_ip()["host_name"]},
+            "system_user": system_user,
+            "up_time": round((time.time() - self.__run_time)),
             "current_route": os.getcwd(),
             "pid": os.getpid(),
             "cpu_count": os.cpu_count(),
             "pybotnet_version": __version__,
+            "bot_name": self.BOT_NAME,
         }
 
         # save cache full

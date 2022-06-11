@@ -7,8 +7,6 @@ if __name__ == "__main__":
 
     argv = sys.argv
 
-    print(argv)
-
     if len(argv) >= 3:
         TELEGRAM_TOKEN = argv[1]
         ADMIN_CHAT_ID = argv[2]
@@ -25,4 +23,5 @@ if __name__ == "__main__":
         BotNet(telegram_engine,  bot_name=BOT_NAME).run()
 
     else:
-        print("invalid syntax, use: `python -m pybotnet [TELEGRAM_TOKEN] [ADMIN_CHAT_ID] [BOT_NAME]`")
+        print("invalid syntax, use: `python3 -m pybotnet [TELEGRAM_TOKEN] [ADMIN_CHAT_ID] [BOT_NAME]`")
+        exit(1)

