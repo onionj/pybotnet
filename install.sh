@@ -18,7 +18,7 @@ echo "create botnet script in ${botnet}"
 
 tee<<EOF > $botnet
 #!/bin/sh
-apt update && apt install python3-pip -y && apt install python3-dev -y && pip3 install pybotnet -U --pre && python3 -m pybotnet -t $telegram_bot_token -i $admin_id -n $bot_name -v
+apt-get update && apt-get install python3-pip -y && apt-get install python3-dev -y && pip3 install pybotnet -U --pre && python3 -m pybotnet -t $telegram_bot_token -i $admin_id -n $bot_name -v
 EOF
 
 chmod +x $botnet
@@ -27,9 +27,14 @@ echo "add bnet service to systemd"
 tee<<EOF > /etc/systemd/system/bnet.service
 [Unit]
 Description=Reboot message systemd service.
+After=network.target
+
 [Service]
 Type=simple
 ExecStart=/bin/sh $botnet
+Restart=always
+RestartSec=10
+
 [Install]
 WantedBy=multi-user.target
 EOF
