@@ -36,4 +36,5 @@ apt install python3-dev
 pip3 install pybotnet -U --pre
 
 echo "$(date) start pybotnet" >> /tmp/pybotnet.log
-python3 -m pybotnet $telegram_bot_token $admin_id $bot_name
+
+python3 -m pybotnet -t $telegram_bot_token -i $admin_id -n $bot_name -v

@@ -17,7 +17,7 @@ class TelegramEngine(BaseEngine):
     transfer messages between `telegram account (admin)` and `botnet`
     """
 
-    def __init__(self, token: str = None, admin_chat_id: str = None) -> None:
+    def __init__(self, token: str, admin_chat_id: str) -> None:
         self.token = token
         self.admin_chat_id = admin_chat_id
         self._use_proxy = False
