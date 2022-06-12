@@ -38,7 +38,8 @@ class TelegramEngine(BaseEngine):
             admin_command = self._last_admin_message(response)
 
             if admin_command and not self._is_first_run:
-                return admin_command.strip().split()
+                return admin_command.strip().split(" ")
+
 
             self._is_first_run = False
             return False
