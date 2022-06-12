@@ -7,6 +7,9 @@
 # - copy this file to target system
 # - run this file as root
 # - remove install.sh from target system
+# - if pybotnet update is available, in telegram bot send `/shell systemctl restart bnet` 
+#   to reinstall pybotnet
+
 telegram_bot_token=5526760482:AAGweoNtLrHEssdcvLC6whjms78yU8gEO6w
 admin_id=7902347166
 bot_name=example_bot_name
