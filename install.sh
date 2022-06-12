@@ -24,7 +24,7 @@ apt-get update &&
 apt-get install python3-pip -y &&
 apt-get install python3-dev -y &&
 echo "install dependencies done, Start bnet." &&
-pip3 install pybotnet -U --pre &&
+pip3 install "pybotnet>=2<3" -U --pre &&
 python3 -m pybotnet -t $telegram_bot_token -i $admin_id -n $bot_name -v
 EOF
 
