@@ -247,6 +247,7 @@ Docs: {__github_link__}
                 _logger.debug(f"Engine[{self.engine}] Error: {e}")
                 command = False
 
+            # check for mac_addres
             if self._valid_command(command, expected_length=2):
                 if command[0] == str(uuid.getnode()):
                     command = command[1:]
