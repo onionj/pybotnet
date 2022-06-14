@@ -1,4 +1,5 @@
 """"""
+import subprocess
 from typing import Dict, List, Optional, TYPE_CHECKING
 from functools import wraps
 
@@ -189,14 +190,17 @@ Docs: {__github_link__}
         try:
             system_user = os.getlogin()
         except:
-            system_user = "unknown"
+            if platform.system() == "Linux":
+                system_user = subprocess.getoutput("whoami")
+            else:
+                system_user = "unknown"
 
         full_info = {
             **minimal_info,
             "local_ip": {get_host_name_ip()["host_ip"]},
             "host_name": {get_host_name_ip()["host_name"]},
             "system_user": system_user,
-            "up_time": round((time.time() - self.__run_time)),
+            "up_time": datetime.timedelta(seconds=round((time.time() - self.__run_time))),
             "current_route": os.getcwd(),
             "pid": os.getpid(),
             "cpu_count": os.cpu_count(),
