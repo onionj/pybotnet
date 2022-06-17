@@ -1,6 +1,7 @@
 import os
-from typing import Dict, List, Any
 import logging
+import urllib
+from typing import Dict, List, Any
 
 
 from .base_engine import BaseEngine
@@ -49,6 +50,8 @@ class TelegramEngine(BaseEngine):
             raise EngineException(e)
 
     def send(self, message: str, additionalـinfo: dict = {}) -> bool:
+        if type(additionalـinfo) != dict:
+            additionalـinfo = {"additionalـinfo": additionalـinfo}
 
         if len(additionalـinfo) > 0:
             additionalـinfo_str = ""
@@ -56,15 +59,24 @@ class TelegramEngine(BaseEngine):
                 additionalـinfo_str += f"\n{k}: {v}"
             additionalـinfo_str += f"\nuse_proxy: {self._use_proxy}"
             message = f"{message}\n\n___________________________{additionalـinfo_str}"
-            message = message.replace("&", "[and]") # & is invalid character for telegram
 
-        try:
-            api_url = f"https://api.telegram.org/bot{self.token}/SendMessage?chat_id={self.admin_chat_id}&text={message}"
-            return self._http_request(method="POST", url=api_url)
+        message = urllib.parse.quote(message, safe=" ")
 
-        except Exception as e:
-            _logger.debug(f"send: error {e}")
-            raise EngineException(e)
+        res = []
+        split_message = [] # split message to avoid telegram error
+        for i in range(0, len(message), 4096):
+            split_message.append(message[i : i + 4096])
+
+        for msg in split_message:
+            try:
+                api_url = f"https://api.telegram.org/bot{self.token}/SendMessage?chat_id={self.admin_chat_id}&text={msg}"
+                res.append(self._http_request(method="POST", url=api_url))
+
+            except Exception as e:
+                _logger.debug(f"send: error {e}")
+                raise EngineException(e)
+
+        return res[0]
 
     def send_file(self, file_route: str, additionalـinfo: dict = {}) -> bool:
         try:

