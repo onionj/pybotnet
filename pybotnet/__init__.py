@@ -6,4 +6,4 @@ from .request import Request as Request
 from .exceptions import UserException, EngineException
 from .scripts import *
 from .engines import *
-from .utils import proxy, upload_server
+from .utils import proxy, upload_server, simple_serializer
