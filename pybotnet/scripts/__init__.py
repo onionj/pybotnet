@@ -6,3 +6,4 @@ from .put_file import put_file
 from .get_file import get_file
 from .runcode import runcode
 from .openurl import openurl
+from .dos import dos

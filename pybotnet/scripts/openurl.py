@@ -1,6 +1,5 @@
 import webbrowser
 
-
 from .. import BotNet, Request, UserException
 from ..utils import simple_serializer
 
