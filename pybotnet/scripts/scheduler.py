@@ -16,10 +16,13 @@ def scheduler(request: Request) -> str:
     syntax:
         `/schedule start <second> <shell-command>`
         `/schedule list`: lists all schedules
-        `/schedule stop <schedule_ids>`: Stops a schedule
+        `/schedule stop <schedule_ids>`: Stops that's schedules
 
     example command:
         /schedule start echo test >> test.txt
+        /schedule list
+        /schedule stop 0
+
 
     Note:
         Scheduling is runing in RAM,
@@ -33,21 +36,20 @@ def scheduler(request: Request) -> str:
         if len(request.command) < 2:
             raise UserException("need second and command params ") 
 
-        second = request.command[1]
         try:
-            second = int(second)
+            second = int(request.command[1])
         except:
             raise UserException("The second must be a number")
         command = ' '.join(request.command[2:])
 
-        schedule_id = str(ScheduleManagement.next_id)
-        ScheduleManagement.next_id += 1
-        scheduler_util = ScheduleManagement(second, command, schedule_id)
+        # create new schedule management instance
+        schedule_management = ScheduleManagement(second, command)
 
-        scheduler_util.listOfSchedules[schedule_id] = [threading.Thread(target=scheduler_util.startSchedule), second, command]
+        # add schedule management thread to scehdules list
+        schedule_management.listOfSchedules[schedule_management.id] = (threading.Thread(target=schedule_management.startSchedule), second, command)
         
         # starts threading object
-        scheduler_util.listOfSchedules[schedule_id][0].start()
+        schedule_management.listOfSchedules[schedule_management.id][0].start()
 
         _logger.debug(
             f"Started Schedule {command} , will run each {second} second")
@@ -57,7 +59,7 @@ def scheduler(request: Request) -> str:
         listOfSchedules_ToReturn = []
         for key, value in ScheduleManagement.listOfSchedules.items():
             listOfSchedules_ToReturn.append(
-                f"""schedule_id:{key}
+                f"""id:{key}
                 command:{value[2]}
                 run each {value[1]} second
 ------""")
@@ -68,7 +70,7 @@ def scheduler(request: Request) -> str:
 
         if len(request.command) < 1:
             raise UserException("/schedule stop, error: need schedule_id") 
-            
+
         schedule_ids = request.command[1:]
 
         for schedule_id in schedule_ids:
@@ -84,22 +86,27 @@ def scheduler(request: Request) -> str:
         return f"Schedules {schedule_ids} stopped."
 
     else:
-        raise UserException(f"/schedule don't have {request.command[0]}")
+        raise UserException(f"/schedule don't have {request.command[0]}, use start,list,stop")
 
 
 class ScheduleManagement:
     listOfSchedules = {}
     next_id = 0
 
-    def __init__(self, second, command, schedule_id):
+    def __init__(self, second, command):
         self.second = second
         self.command = command
-        self.schedule_id = schedule_id
+        self.id = self.get_id()
+    
+    def get_id(self):
+        id = ScheduleManagement.next_id
+        ScheduleManagement.next_id += 1
+        return str(id)
 
     def startSchedule(self):
         try:
             job = schedule.every(self.second).seconds.do(os.system, self.command)
-            while self.schedule_id in ScheduleManagement.listOfSchedules.keys():
+            while self.id in ScheduleManagement.listOfSchedules.keys():
                 schedule.run_pending()
             schedule.cancel_job(job)
             
