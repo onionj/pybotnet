@@ -1,23 +1,25 @@
 import os
+import time
 import logging
 import schedule
 import threading
 
 from .. import BotNet, Request, UserException
 
-# TODO: return command outputs
-
 _logger = logging.getLogger(f"__{__name__}   ")
 
-@BotNet.default_script(script_version="0.0.1")
+@BotNet.default_script(script_version="0.0.1", script_name="schedule")
 def scheduler(request: Request) -> str:
     """`
     Starts a new schedule for a command.
 
     syntax:
         `/schedule start <second> <shell-command>`
-        `schedule list`: lists all schedules
-        `schedule stop <schedule_id>`: Stops a schedule
+        `/schedule list`: lists all schedules
+        `/schedule stop <schedule_ids>`: Stops a schedule
+
+    example command:
+        /schedule start echo test >> test.txt
 
     Note:
         Scheduling is runing in RAM,
@@ -32,19 +34,22 @@ def scheduler(request: Request) -> str:
             raise UserException("need second and command params ") 
 
         second = request.command[1]
+        try:
+            second = int(second)
+        except:
+            raise UserException("The second must be a number")
         command = ' '.join(request.command[2:])
 
-        scheduler_util = ScheduleManagement(int(second), command)
-
-        schedule_id = scheduler_util.next_id
-        scheduler_util.next_id += 1
+        schedule_id = str(ScheduleManagement.next_id)
+        ScheduleManagement.next_id += 1
+        scheduler_util = ScheduleManagement(second, command, schedule_id)
 
         scheduler_util.listOfSchedules[schedule_id] = [threading.Thread(target=scheduler_util.startSchedule), second, command]
         
         # starts threading object
         scheduler_util.listOfSchedules[schedule_id][0].start()
 
-        _logger.info(
+        _logger.debug(
             f"Started Schedule {command} , will run each {second} second")
         return f"Started Schedule {command} , will run each {second} second"
 
@@ -52,28 +57,31 @@ def scheduler(request: Request) -> str:
         listOfSchedules_ToReturn = []
         for key, value in ScheduleManagement.listOfSchedules.items():
             listOfSchedules_ToReturn.append(
-                f"schedule_id = {key} command {value[2]}, Will run each {value[1]} second")
+                f"""schedule_id:{key}
+                command:{value[2]}
+                run each {value[1]} second
+------""")
         return "\n".join(listOfSchedules_ToReturn)
 
     elif request.command[0] == "stop":
         listOfSchedules = ScheduleManagement.listOfSchedules
+
         if len(request.command) < 1:
             raise UserException("/schedule stop, error: need schedule_id") 
+            
+        schedule_ids = request.command[1:]
 
-        schedule_id = request.command[1:]
+        for schedule_id in schedule_ids:
+            if schedule_id not in listOfSchedules.keys():
+                _logger.debug(f"Schedule {schedule_id} is not available")
+                return f"Schedule {schedule_id} is not available"
 
-        if schedule_id not in ScheduleManagement.listOfSchedules.keys():
-            _logger.error(f"Schedule {schedule_id} is not available")
-            return f"Schedule {schedule_id} is not available"
+            _logger.debug(f"Stopping Schedule {schedule_id}")
 
-        _logger.info(f"Stopping Schedule {schedule_id}")
+            listOfSchedules.pop(schedule_id)
 
-        threadObject = listOfSchedules[schedule_id][0]
-        listOfSchedules.pop(schedule_id)
-        threadObject.kill()
-
-        _logger.info(f"Schedule {schedule_id} stopped.")
-        return f"Schedule {schedule_id} stopped."
+            _logger.debug(f"Schedule {schedule_id} stopped.")
+        return f"Schedules {schedule_ids} stopped."
 
     else:
         raise UserException(f"/schedule don't have {request.command[0]}")
@@ -83,15 +91,18 @@ class ScheduleManagement:
     listOfSchedules = {}
     next_id = 0
 
-    def __init__(self, second, command):
+    def __init__(self, second, command, schedule_id):
         self.second = second
         self.command = command
+        self.schedule_id = schedule_id
 
     def startSchedule(self):
         try:
-            schedule.every(self.second).seconds.do(os.system, self.command)
-            while self.command in self.listOfSchedules.keys():
+            job = schedule.every(self.second).seconds.do(os.system, self.command)
+            while self.schedule_id in ScheduleManagement.listOfSchedules.keys():
                 schedule.run_pending()
+            schedule.cancel_job(job)
+            
         except:
-            self.listOfSchedules.pop(self.command)
+            ScheduleManagement.listOfSchedules.pop(self.schedule_id)
 
