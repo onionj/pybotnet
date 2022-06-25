@@ -1,7 +1,6 @@
 import argparse
 
 from . import *
-import pybotnet
 
 """run pybotnet by (`python -m pybotnet -t [TELEGRAM_TOKEN] -i [ADMIN_CHAT_ID] -n [BOT NAME]`)"""
 

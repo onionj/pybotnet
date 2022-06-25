@@ -1,11 +1,11 @@
 import webbrowser
 
-from .. import BotNet, Request, UserException
+from .. import BotNet, Context, UserException
 from ..utils import simple_serializer
 
 
 @BotNet.default_script(script_version="0.0.1")
-def openurl(request: Request) -> str:
+def openurl(context: Context) -> str:
     """
     open a specified url n times
 
@@ -19,7 +19,7 @@ def openurl(request: Request) -> str:
      may work and start the operating system1s associated program
     """
 
-    command, err = simple_serializer(request.command, [str, int])
+    command, err = simple_serializer(context.command, [str, int])
     if err:
         raise UserException(err)
 

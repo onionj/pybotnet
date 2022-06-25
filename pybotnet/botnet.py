@@ -11,7 +11,7 @@ import uuid
 import time
 import os
 
-from .request import Request as Request
+from .context import Context
 from .exceptions import UserException, EngineException
 from .package_info import __version__, __github_link__
 from .utils import get_global_ip, get_host_name_ip
@@ -215,14 +215,14 @@ Docs: {__github_link__}
 
         return full_info
 
-    def _create_request(self, command: List, meta_data: Dict) -> Request:
-        request = Request()
-        request.engine = self.engine
-        request.command = command
-        request.meta_data = meta_data
-        request.system_info = self.system_info
-        request.time_stamp = datetime.datetime.now()
-        return request
+    def _create_context(self, command: List, meta_data: Dict) -> Context:
+        context = Context()
+        context.engine = self.engine
+        context.command = command
+        context.meta_data = meta_data
+        context.system_info = self.system_info
+        context.time_stamp = datetime.datetime.now()
+        return context
 
     def _valid_command(self, command, check_slash=False, expected_length=1) -> bool:
         if type(command) != list:
@@ -287,13 +287,13 @@ Docs: {__github_link__}
                     f"<BotNet.run: {meta_data['script_name']} {meta_data['script_version']}>"
                 )
 
-                request: Request = self._create_request(
+                context: Context = self._create_context(
                     command=command, meta_data=meta_data
                 )
 
                 try:
                     if len(inspect.signature(script).parameters) > 0:
-                        script_result = script(request)
+                        script_result = script(context)
                     else:
                         script_result = script()
 

