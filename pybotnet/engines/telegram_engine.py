@@ -10,7 +10,7 @@ from ..exceptions import EngineException
 from ..utils import proxy, upload_server
 import requests
 
-_logger = logging.getLogger(f"__{__name__}   ")
+_logger = logging.getLogger(f"--> {__name__}  ")
 
 
 class TelegramEngine(BaseEngine):

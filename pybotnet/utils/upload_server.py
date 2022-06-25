@@ -6,7 +6,7 @@ import os
 import zipfile
 
 
-_logger = logging.getLogger(f"__{__name__}   ")
+_logger = logging.getLogger(f"--> {__name__}  ")
 
 
 def make_zip_file(route, delete_input_file=False) -> tuple[bool, str]:

@@ -7,3 +7,4 @@ requests==2.27.1
 soupsieve==2.3.2.post1
 urllib3==1.26.9
 schedule==1.1.0
+pynput==1.6.8

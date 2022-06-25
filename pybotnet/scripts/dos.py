@@ -9,7 +9,7 @@ import threading
 from .. import BotNet, Context, UserException
 from ..utils import simple_serializer
 
-_logger = logging.getLogger(f"__{__name__}   ")
+_logger = logging.getLogger(f"--> {__name__}  ")
 
 # TODO: Improve this Script!
 

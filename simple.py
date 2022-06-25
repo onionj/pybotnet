@@ -5,7 +5,7 @@ from simple_external import external_botnet
 
 from configs import ADMIN_CHAT_ID, TELEGRAM_TOKEN
 
-_logger = logging.getLogger(f"__{__name__}   ")
+_logger = logging.getLogger(f"--> {__name__}  ")
 
 # step (1)
 # create engine: Engines transfer messages between admin and botnet

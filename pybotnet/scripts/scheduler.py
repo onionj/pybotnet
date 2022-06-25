@@ -1,12 +1,11 @@
 import os
-import time
 import logging
 import schedule
 import threading
 
 from .. import BotNet, Context, UserException
 
-_logger = logging.getLogger(f"__{__name__}   ")
+_logger = logging.getLogger(f"--> {__name__}  ")
 
 @BotNet.default_script(script_version="0.0.1", script_name="schedule")
 def scheduler(context: Context) -> str:

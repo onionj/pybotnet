@@ -21,7 +21,7 @@ if TYPE_CHECKING:
     from . import BaseEngine
 
 
-_logger = logging.getLogger(f"__{__name__}   ")
+_logger = logging.getLogger(f"--> {__name__}  ")
 
 
 class BotNet:
