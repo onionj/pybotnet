@@ -1,0 +1,5 @@
+site_name: PyBotNet
+site_description: Ready-to-use and customizable users management for FastAPI
+
+theme:
+  name: material
