@@ -8,4 +8,7 @@ from .runcode import runcode
 from .openurl import openurl
 from .dos import dos
 from .scheduler import scheduler
-from .keylogger import keylogger
+try:
+    from .keylogger import keylogger # pynput raise error on linux root user..
+except:
+    pass
