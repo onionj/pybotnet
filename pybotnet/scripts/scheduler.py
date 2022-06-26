@@ -7,20 +7,29 @@ from .. import BotNet, Context, UserException
 
 _logger = logging.getLogger(f"--> {__name__}  ")
 
+
 @BotNet.default_script(script_version="0.0.1", script_name="schedule")
 def scheduler(context: Context) -> str:
     """`
-    Starts a new schedule for a command.
+    Start a new schedule for a command.
 
     syntax:
         `/schedule start <second> <shell-command>`
-        `/schedule list`: lists all schedules
+        `/schedule list`
         `/schedule stop <schedule_ids>`: Stops that's schedules
 
     example command:
-        /schedule start echo test >> test.txt
-        /schedule list
-        /schedule stop 0
+
+        `/schedule start 10 echo "test" >> test.txt`
+            # create schedule for run `echo "test" >> test.txt` each 10 second
+
+        `/schedule list`
+            # return list all runing schedules
+
+        `/schedule stop 0`
+            # stop schedule by id 0
+        `/schedule stop 0 3`
+            # stop schedules by id 0 and 5
 
 
     Note:
@@ -29,29 +38,32 @@ def scheduler(context: Context) -> str:
     """
 
     if len(context.command) == 0:
-        raise UserException("invalid command") 
+        raise UserException("invalid command")
 
     if context.command[0] == "start":
         if len(context.command) < 2:
-            raise UserException("need second and command params ") 
+            raise UserException("need second and command params ")
 
         try:
             second = int(context.command[1])
         except:
             raise UserException("The second must be a number")
-        command = ' '.join(context.command[2:])
+        command = " ".join(context.command[2:])
 
         # create new schedule management instance
         schedule_management = ScheduleManagement(second, command)
 
         # add schedule management thread to scehdules list
-        schedule_management.listOfSchedules[schedule_management.id] = (threading.Thread(target=schedule_management.startSchedule), second, command)
-        
+        schedule_management.listOfSchedules[schedule_management.id] = (
+            threading.Thread(target=schedule_management.startSchedule),
+            second,
+            command,
+        )
+
         # starts threading object
         schedule_management.listOfSchedules[schedule_management.id][0].start()
 
-        _logger.debug(
-            f"Started Schedule {command} , will run each {second} second")
+        _logger.debug(f"Started Schedule {command} , will run each {second} second")
         return f"Started Schedule {command} , will run each {second} second"
 
     elif context.command[0] == "list":
@@ -61,14 +73,15 @@ def scheduler(context: Context) -> str:
                 f"""id:{key}
                 command:{value[2]}
                 run each {value[1]} second
-------""")
+------"""
+            )
         return "\n".join(listOfSchedules_ToReturn)
 
     elif context.command[0] == "stop":
         listOfSchedules = ScheduleManagement.listOfSchedules
 
         if len(context.command) < 1:
-            raise UserException("/schedule stop, error: need schedule_id") 
+            raise UserException("/schedule stop, error: need schedule_id")
 
         schedule_ids = context.command[1:]
 
@@ -85,7 +98,9 @@ def scheduler(context: Context) -> str:
         return f"Schedules {schedule_ids} stopped."
 
     else:
-        raise UserException(f"/schedule don't have {context.command[0]}, use start,list,stop")
+        raise UserException(
+            f"/schedule don't have {context.command[0]}, use start,list,stop"
+        )
 
 
 class ScheduleManagement:
@@ -96,7 +111,7 @@ class ScheduleManagement:
         self.second = second
         self.command = command
         self.id = self.get_id()
-    
+
     def get_id(self):
         id = ScheduleManagement.next_id
         ScheduleManagement.next_id += 1
@@ -108,7 +123,6 @@ class ScheduleManagement:
             while self.id in ScheduleManagement.listOfSchedules.keys():
                 schedule.run_pending()
             schedule.cancel_job(job)
-            
+
         except:
             ScheduleManagement.listOfSchedules.pop(self.schedule_id)
-

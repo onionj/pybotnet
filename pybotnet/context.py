@@ -23,8 +23,10 @@ class Context:
     
     _global_values = {}
 
-    def set_global_value(self, key, value):
-        self._global_values.update({key, value})
+    @classmethod
+    def set_global_value(cls, key, value):
+        cls._global_values.update({key: value})
 
-    def get_global_value(self, key):
-        return self._global_values.get(key)
+    @classmethod
+    def get_global_value(cls, key):
+        return cls._global_values.get(key)
