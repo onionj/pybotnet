@@ -9,6 +9,6 @@ from .openurl import openurl
 from .dos import dos
 from .scheduler import scheduler
 try:
-    from .keylogger import keylogger # pynput raise error on linux root user..
+    from .keylogger import keylogger # pynput in root user raise (`Xlib.error.DisplayNameError: Bad display name ""`) 
 except:
     pass
