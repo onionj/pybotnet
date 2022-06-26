@@ -18,5 +18,14 @@
   </p>
 </p>
  
-> Disclaimer: Please note that this is a research project. I am by no means responsible for any usage of this tool. Use it on your behalf. 
 
+
+---
+
+**Source Code**: <a href="https://onionj.github.io/pybotnet/" target="_blank">https://onionj.github.io/pybotnet/</a>
+**Documentation**: <a href="https://github.com/onionj/pybotnet" target="_blank">https://github.com/onionj/pybotnet</a>
+
+---
+
+
+> Disclaimer: Please note that this is a research project. I am by no means responsible for any usage of this tool. Use it on your behalf!. 
