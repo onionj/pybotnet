@@ -16,8 +16,7 @@ theme:
       toggle:
           icon: material/weather-night
           name: Switch to light mode
-  icon:
-    logo: material/account-supervisor
+
   favicon: 'favicon.png'
   features:
     - navigation.instant
