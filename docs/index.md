@@ -29,6 +29,24 @@
 
 ---
 
-## Features:
+### Features:
+* Built in Telegram control pannel and proxy
+* Built in scripts like:
+    * reverse shell
+    * put or get file
+    * run python code on target systems
+    * get screenshot
+    * keylogger
+    * dos
+    * scheduler
+    * ...
+* Cross platform
+* Ability to easily add custom scripts
+* Import external scripts
+* Ability to add custom control panel
+* Add remote control to your apps
+* ...
 
+
+Go to the next page to create the first remote control :)
 

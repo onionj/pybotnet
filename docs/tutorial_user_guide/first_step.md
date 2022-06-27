@@ -6,8 +6,12 @@ pip3 install pybotnet -U --pre
 ```
 
 !!! note
+    Currently version 2 of the PyBotNet is pre-release
+
     `--pre`: 
         Include pre-release and development versions. By default, pip only finds stable versions.
+
+    `-U`: make sure to upgrade framework to latest version.
 
 ---
 
@@ -118,3 +122,5 @@ for run screenshot script you have two choice:
 * Run script on one system
 
 for run script on all client send `/screenshot` bot if you need get screen shot on specific system you need send `[mac_addres] /screenshot` for our case: `228362405364 /screenshot`
+
+in some case like `/shell` you need to run it just for one system

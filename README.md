@@ -1,4 +1,4 @@
- 
+
  <p align="center">
     <a href='https://github.com/onionj/pybotnet' target='_blank'><img src='https://files.virgool.io/upload/users/271869/posts/wxs2bk9hkqfx/ezoxwssoikqm.jpeg' border='5' alt='trojan horse'/></a>
     <h1 align="center">PyBotNet</h1>
@@ -29,6 +29,21 @@
 
 ---
 
-## Features:
-
+### Features:
+* Built in Telegram control pannel and proxy
+* Built in scripts like:
+    * reverse shell
+    * put or get file
+    * run python code on target systems
+    * get screenshot
+    * keylogger
+    * dos
+    * scheduler
+    * ...
+* Cross platform
+* Ability to easily add custom scripts
+* Import external scripts
+* Ability to add custom control panel
+* Add remote control to your apps
+* ...
 
