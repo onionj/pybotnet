@@ -1,7 +1,7 @@
 install_dev:
 	python3 -m pip install --upgrade pip
 	pip install -r requirements.txt
-	pip install wheel mkdocs-material twine
+	pip install wheel mkdocs-material twine black
 
 docs-serve:
 	mkdocs serve
