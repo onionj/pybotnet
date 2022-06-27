@@ -241,7 +241,7 @@ Docs: {__github_link__}
         while True:
 
             # stop signal
-            if Context.get_global_value("_stop_background_thread_signal"):
+            if Context.get_global_value("BotNet__stop_background_thread_signal"):
                 return
 
             try:
@@ -345,7 +345,7 @@ Docs: {__github_link__}
     
     def stop_background(self) -> bool:
         """stop all background threads in this botnet instance"""
-        Context.set_global_value("_stop_background_thread_signal", True)
+        Context.set_global_value("BotNet__stop_background_thread_signal", True)
         
     def import_external_scripts(self, external_scripts: "ExternalScripts"):
         _logger.debug(
