@@ -113,20 +113,20 @@ def __runcommand_in_thread(command: list[str], engine, timeout: int = 6) -> None
 
 
 def _runcommand(command: list[str], engine):
-    """run command by subprocess.getstatusoutput 
+    """run command by subprocess.getstatusoutput
     and send resaults by engine.send method"""
 
     try:
         command = " ".join(command)
         exit_code, result = subprocess.getstatusoutput(command)
-        
+
         output = f"""
 - command: {command}
 - exit_code: {exit_code} 
 - result:
 {result}
         """
-        
+
         engine.send(output)
 
     except Exception as e:

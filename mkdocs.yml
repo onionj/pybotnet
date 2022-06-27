@@ -63,6 +63,13 @@ nav:
   - Tutorial - User Guide:
     - tutorial_user_guide/first_step.md
     - tutorial_user_guide/add_custom_script.md
+    - tutorial_user_guide/run_in_ background.md
+    - tutorial_user_guide/run_as_module.md
+    - tutorial_user_guide/external_scripts.md
+    - tutorial_user_guide/config_BotNet_class.md
 
   - Advanced User Guide:
-    - tutorial_advanced_guide/tutorial_advanced_guide_intro.md
+    - tutorial_advanced_guide/create_custom_engine.md
+    - tutorial_advanced_guide/linux_crontab.md
+    - tutorial_advanced_guide/linux_services.md
+    - tutorial_advanced_guide/windows_startup.md

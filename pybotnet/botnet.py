@@ -1,4 +1,3 @@
-
 import subprocess
 from typing import Dict, List, Optional, TYPE_CHECKING
 from functools import wraps
@@ -148,10 +147,10 @@ Docs: {__github_link__}
         return help_str
 
     def _add_cache(self, name, expier_secound, data):
-        exp = time.time() + expier_secound 
+        exp = time.time() + expier_secound
         self.__cache.update({name: {"exp": exp, "data": data}})
 
-    def _get_cache(self, name)-> tuple[bool, any]:
+    def _get_cache(self, name) -> tuple[bool, any]:
         """return (is_cache, data)"""
         if self.__cache.get(name):
             if self.__cache[name]["exp"] >= time.time():
@@ -203,7 +202,9 @@ Docs: {__github_link__}
             "local_ip": {get_host_name_ip()["host_ip"]},
             "host_name": {get_host_name_ip()["host_name"]},
             "system_user": system_user,
-            "up_time": datetime.timedelta(seconds=round((time.time() - self.__run_time))),
+            "up_time": datetime.timedelta(
+                seconds=round((time.time() - self.__run_time))
+            ),
             "current_route": os.getcwd(),
             "pid": os.getpid(),
             "cpu_count": os.cpu_count(),
@@ -336,17 +337,16 @@ Docs: {__github_link__}
         finally:
             if self.start_end_notify:
                 self.engine.send("Botnet Exit", self.system_info())
-        
 
     def run_background(self, *args, **kwargs):
         """run botnet in background"""
         thread = threading.Thread(target=self.run, args=args, kwargs=kwargs)
         thread.start()
-    
+
     def stop_background(self) -> bool:
         """stop all background threads in this botnet instance"""
         Context.set_global_value("BotNet__stop_background_thread_signal", True)
-        
+
     def import_external_scripts(self, external_scripts: "ExternalScripts"):
         _logger.debug(
             f"import_external_scripts: {list(external_scripts.scripts.keys())} "

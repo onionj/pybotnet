@@ -1,5 +1,4 @@
-from pybotnet import ExternalScripts
-from pybotnet.context import Context
+from pybotnet import ExternalScripts, Context
 
 # example external scripts
 
@@ -10,13 +9,14 @@ external_botnet = ExternalScripts()
 # step (2)
 # add some script:
 
+
 @external_botnet.add_script()
 def hello_world():
     """return hello_world"""
     return "hello_world"
 
 
-@external_botnet.add_script(script_name='sys_data', script_version="0.1.0")
+@external_botnet.add_script(script_name="sys_data", script_version="0.1.0")
 def get_system_info(context: Context):
     """return system_info"""
     sys_data = ""
