@@ -68,7 +68,7 @@ os: Linux
 global_ip: 5.10.30.35
 country: Iran, Islamic Republic of
 bot_name: no_name
-local_ip: {'192.168.23.160'}
+local_ip: {'192.168.23.1'}
 host_name: {'system_name'}
 system_user: root
 up_time: 0:00:01
@@ -108,7 +108,7 @@ ___________________________
 scripts_name: ['echo', 'who', 'shell', 'screenshot', 'put_file', 'get_file', 'runcode', 'openurl', 'dos', 'schedule']
 mac_addres: 228362405364
 os: Linux
-global_ip: 5.160.39.34
+global_ip: 5.10.30.35
 country: Iran, Islamic Republic of
 bot_name: no_name
 use_proxy: False
