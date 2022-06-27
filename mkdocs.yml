@@ -62,7 +62,7 @@ nav:
   - About : index.md
   - Tutorial - User Guide:
     - tutorial_user_guide/first_step.md
-
+    - tutorial_user_guide/add_custom_script.md
 
   - Advanced User Guide:
     - tutorial_advanced_guide/tutorial_advanced_guide_intro.md
