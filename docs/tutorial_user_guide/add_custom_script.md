@@ -31,7 +31,7 @@ botnet.run()
 3.  create new custom script 
 4. we import Context to recive requests and system data
 5. get context
-6. get admin command from context
+6. get admin command from context and return it to admin!
 
 In the code above, we added a script that returns `pong <message>` for us when we execute the `\ping <message>` comment.
 
