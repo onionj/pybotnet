@@ -45,5 +45,5 @@
 * Import external scripts
 * Ability to add custom control panel
 * Add remote control to your apps
-* ...
+* [...](https://onionj.github.io/pybotnet/)
 
