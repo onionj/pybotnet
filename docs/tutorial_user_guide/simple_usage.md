@@ -35,7 +35,7 @@ botnet.run()
 
 !!! note
     * `TELEGRAM_TOKEN`: Get it from the telegram @botfather
-    * `ADMIN_CHAT_ID`: Get it from @userinfobot
+    * `ADMIN_CHAT_ID`: Get it from @userinfobot telegram bot
     * this code include default scripts, like: `shell`, `put_file`, `get_file`, `screenshot`, `who`, ...
 
 
@@ -80,7 +80,7 @@ from cache: True
 ```
 
 
-you can send `/help` to see help page, or send `/help <script_name>` to recive more help about script.
+you can send `/help` to see help page, or send `/help <script_name>` to recive more help about specific script.
 
 for example send `/help screenshot`, You will receive:
 
@@ -119,8 +119,10 @@ in top of message you see script name, description, syntax and examples.
 for run screenshot script you have two choice:
 
 * Run the script on all clients that are listening to Telegram bot (for now we have one!)
-* Run script on one system
+* Run script on one specific system
 
-for run script on all client send `/screenshot` bot if you need get screen shot on specific system you need send `[mac_addres] /screenshot` for our case: `228362405364 /screenshot`
+for run script on all client send `/screenshot`.
 
-in some case like `/shell` you need to run it just for one system
+bot if you need get screen shot on specific system you need send `[mac_addres] /screenshot` for our case: `228362405364 /screenshot`
+
+in some case like `/shell` you need to run it just for one system.

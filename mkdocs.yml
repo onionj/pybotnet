@@ -61,7 +61,7 @@ plugins:
 nav:
   - About : index.md
   - Tutorial - User Guide:
-    - tutorial_user_guide/first_step.md
+    - tutorial_user_guide/simple_usage.md
     - tutorial_user_guide/add_custom_script.md
     - tutorial_user_guide/run_in_ background.md
     - tutorial_user_guide/run_as_module.md
