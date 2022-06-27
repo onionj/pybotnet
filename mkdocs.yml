@@ -19,6 +19,7 @@ theme:
 
   favicon: 'favicon.png'
   features:
+    - content.code.annotate 
     - navigation.instant
     - navigation.top
     - navigation.sections
@@ -60,7 +61,7 @@ plugins:
 nav:
   - About : index.md
   - Tutorial - User Guide:
-    - tutorial_user_guide/tutorial_user_guide_intro.md
+    - tutorial_user_guide/first_step.md
 
 
   - Advanced User Guide:
