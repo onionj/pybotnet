@@ -99,7 +99,7 @@ def scheduler(context: Context) -> str:
 
     else:
         raise UserException(
-            f"/schedule don't have {context.command[0]}, use start,list,stop"
+            f"/schedule Invalid operation {context.command[0]}, use start,list,stop"
         )
 
 
