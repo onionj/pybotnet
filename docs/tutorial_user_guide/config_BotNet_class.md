@@ -26,8 +26,8 @@ botnet.run()
 
 1. Positional parameter engine
 2. Custom name for this instance
-3. just a version!
+3. PyBotNet Version
 4. sleep in main_loop
 5. use build in scripts, default is `True`
-6. Send a message to the admin when the program is running or stopped, default is `True`
+6. Send a message to the user when the program is running or stopped, default is `True`
 7. show logs by log level `debug`!, default is `False`
