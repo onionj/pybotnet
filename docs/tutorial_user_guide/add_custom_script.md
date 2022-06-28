@@ -19,10 +19,10 @@ botnet = BotNet(telegram_engine) # (2)
 @botnet.add_script(script_version="0.1.0") # (3)
 def ping(context: Context): # (5)
     """`/ping`"""
-    return f"pong {' '.join(context.command)}" # (6)
+    response = f"pong {' '.join(context.command)}" # (6)
+    return response # (7)
 
-
-botnet.run() # (7)
+botnet.run() # (8)
 
 ```
 
@@ -31,7 +31,8 @@ botnet.run() # (7)
 3.  create new custom script 
 4. we import Context to recive requests and system data
 5. get context
-6. get admin command from context and return return response to admin
+6. get admin command from context and join to `"pong"`, if admin send `/ping foo bar` so `response` is `pong foo bar`
+7. return response to admin
 7. run main loop
 
 
@@ -120,6 +121,10 @@ Context has a series of useful variables and methods:
     - `send` method get two parameter, first a string (required), second is a Dict (optional) for add it to sub of message
         you can send `context.system_info(minimal=True)` to second parameter
 
+    - `send_file` like `send` method have two parametr, first parametr get route of file (required),  second is a Dict (optional) for add it to sub of message..
+
+    - `recive` return not procesed admin command as a list of string, and if not found new admin command, return `False`
+
 * mata_data: Dict
     - this variable contain courent `script_name`, `script_version` and `script_doc` 
 
@@ -132,9 +137,9 @@ Context has a series of useful variables and methods:
 
 #### UserException
 
-for example if input user data (we get it from context.command) not valid... we can `raise` as `UserException` like: `raise UserException("the reason")` 
+for example if input data from admin (we get it from `context.command` or in script call `context.engine.recive()`) not valid... we can `raise` as `UserException` like: `raise UserException("the reason")` 
 
-we can use `simple_serializer` to validate user input data, this function check len, type of data and if is ok return list converted command to new types 
+we can use `simple_serializer` to validate user input data, this function check len, type of data and if is ok return a list of converted command by new types..
 
 
 ```py title="main.py"
