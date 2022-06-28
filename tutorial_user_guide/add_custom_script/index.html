@@ -610,10 +610,10 @@
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="nd">@botnet</span><span class="o">.</span><span class="n">add_script</span><span class="p">(</span><span class="n">script_version</span><span class="o">=</span><span class="s2">&quot;0.1.0&quot;</span><span class="p">)</span> <span class="c1"># (3)</span>
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="k">def</span> <span class="nf">ping</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">):</span> <span class="c1"># (5)</span>
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="sd">&quot;&quot;&quot;`/ping`&quot;&quot;&quot;</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;pong </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">command</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="c1"># (6)</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">response</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;pong </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">command</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="c1"># (6)</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="k">return</span> <span class="n">response</span> <span class="c1"># (7)</span>
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="n">botnet</span><span class="o">.</span><span class="n">run</span><span class="p">()</span> <span class="c1"># (7)</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="n">botnet</span><span class="o">.</span><span class="n">run</span><span class="p">()</span> <span class="c1"># (8)</span>
 </code></pre></div>
 <ol>
 <li>create engine: Engines transfer messages between admin and botnet</li>
@@ -621,7 +621,8 @@
 <li>create new custom script </li>
 <li>we import Context to recive requests and system data</li>
 <li>get context</li>
-<li>get admin command from context and return return response to admin</li>
+<li>get admin command from context and join to <code>"pong"</code>, if admin send <code>/ping foo bar</code> so <code>response</code> is <code>pong foo bar</code></li>
+<li>return response to admin</li>
 <li>run main loop</li>
 </ol>
 <p>In the code above, we added a script that returns <code>pong &lt;message&gt;</code> for us when we execute the <code>\ping &lt;message&gt;</code> comment.</p>
@@ -709,6 +710,12 @@
 <p><code>send</code> method get two parameter, first a string (required), second is a Dict (optional) for add it to sub of message
     you can send <code>context.system_info(minimal=True)</code> to second parameter</p>
 </li>
+<li>
+<p><code>send_file</code> like <code>send</code> method have two parametr, first parametr get route of file (required),  second is a Dict (optional) for add it to sub of message..</p>
+</li>
+<li>
+<p><code>recive</code> return not procesed admin command as a list of string, and if not found new admin command, return <code>False</code></p>
+</li>
 </ul>
 </li>
 <li>
@@ -731,8 +738,8 @@
 </li>
 </ul>
 <h4 id="userexception">UserException<a class="headerlink" href="#userexception" title="Permanent link">&para;</a></h4>
-<p>for example if input user data (we get it from context.command) not valid... we can <code>raise</code> as <code>UserException</code> like: <code>raise UserException("the reason")</code> </p>
-<p>we can use <code>simple_serializer</code> to validate user input data, this function check len, type of data and if is ok return list converted command to new types </p>
+<p>for example if input data from admin (we get it from <code>context.command</code> or in script call <code>context.engine.recive()</code>) not valid... we can <code>raise</code> as <code>UserException</code> like: <code>raise UserException("the reason")</code> </p>
+<p>we can use <code>simple_serializer</code> to validate user input data, this function check len, type of data and if is ok return a list of converted command by new types..</p>
 <div class="highlight"><span class="filename">main.py</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span> <span class="nn">pybotnet</span> <span class="kn">import</span> <span class="n">BotNet</span><span class="p">,</span> <span class="n">Context</span><span class="p">,</span> <span class="n">TelegramEngine</span><span class="p">,</span> <span class="n">simple_serializer</span> <span class="c1"># (1)</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">telegram_engine</span> <span class="o">=</span> <span class="n">TelegramEngine</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="n">TELEGRAM_TOKEN</span><span class="p">,</span> <span class="n">admin_chat_id</span><span class="o">=</span><span class="n">ADMIN_CHAT_ID</span><span class="p">)</span>
