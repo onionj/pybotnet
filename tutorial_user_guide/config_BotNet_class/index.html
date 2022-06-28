@@ -329,8 +329,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../run_in_%20background/" class="md-nav__link">
-        Run in  background
+      <a href="../run_in_background/" class="md-nav__link">
+        Run in background
       </a>
     </li>
   
@@ -580,22 +580,20 @@
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">botnet</span> <span class="o">=</span> <span class="n">BotNet</span><span class="p">(</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">telegram_engine</span><span class="p">,</span> <span class="c1"># (1)</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">bot_name</span><span class="o">=</span><span class="s2">&quot;onion!&quot;</span><span class="p">,</span> <span class="c1"># (2)</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span> <span class="c1"># (3)</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">delay</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="c1"># (4)</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">use_default_scripts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="c1"># (5)</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">start_end_notify</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="c1"># (6)</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="n">debug</span><span class="o">=</span><span class="kc">False</span> <span class="c1"># (7)</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    <span class="p">)</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="n">botnet</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">delay</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="c1"># (3)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">use_default_scripts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="c1"># (4)</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">start_end_notify</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="c1"># (5)</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">debug</span><span class="o">=</span><span class="kc">False</span> <span class="c1"># (6)</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="p">)</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="n">botnet</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </code></pre></div>
 <ol>
 <li>Positional parameter engine</li>
 <li>Custom name for this instance</li>
-<li>just a version!</li>
 <li>sleep in main_loop</li>
 <li>use build in scripts, default is <code>True</code></li>
-<li>Send a message to the admin when the program is running or stopped, default is <code>True</code></li>
+<li>Send a message to the user when the program is running or stopped, default is <code>True</code></li>
 <li>show logs by log level <code>debug</code>!, default is <code>False</code></li>
 </ol>
 
