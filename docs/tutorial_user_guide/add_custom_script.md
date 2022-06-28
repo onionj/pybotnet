@@ -1,14 +1,13 @@
 
 ### Add custom scripts
+This functionality is for when you want to add your own script.
 
-in some case you need to add your own custom scripts
-
-The simplest PyBotNet custom script could look like this:
+The simplest PyBotNet custom script looks something like this:
 
 
 ```py title="main.py"
 
-from pybotnet import BotNet, Context, TelegramEngine # (4)
+from pybotnet import BotNet, Context, TelegramEngine
 
 
 telegram_engine = TelegramEngine(token=TELEGRAM_TOKEN, admin_chat_id=ADMIN_CHAT_ID) #(1)
@@ -17,38 +16,33 @@ botnet = BotNet(telegram_engine) # (2)
 
 # new:
 @botnet.add_script(script_version="0.1.0") # (3)
-def ping(context: Context): # (5)
+def ping(context: Context):
     """`/ping`"""
-    response = f"pong {' '.join(context.command)}" # (6)
-    return response # (7)
+    response = f"pong {' '.join(context.command)}" # (4)
+    return response # (5)
 
-botnet.run() # (8)
+botnet.run() # (6)
 
 ```
 
-1. create engine: Engines transfer messages between admin and botnet
-2. create BotNet instance
-3.  create new custom script 
-4. we import Context to recive requests and system data
-5. get context
-6. get admin command from context and join to `"pong"`, if admin send `/ping foo bar` so `response` is `pong foo bar`
-7. return response to admin
-7. run main loop
+1. Create engine: Engines transfer messages between user and botnet
+2. Create BotNet instance
+3. Create new custom script 
+4. Get user command from context and join it to `"pong"`, for example, if user sends `/ping foo bar` the `response` will be `pong foo bar`
+5. Return response to user
+6. Run main loop
 
-
-In the code above, we added a script that returns `pong <message>` for us when we execute the `\ping <message>` comment.
-
-As you see. We used a decorator to add our script to the botnet instance, now if we execute the code we have access to the ping script in the control panel.
+As you can see,  We used a decorator to add our script to the botnet instance, now if we execute the code we have access to the ping script in the control panel.
 
 Scripts can also contain Context parameters, which include the engine itself, system data, commands sent by the user, and so on.
 
 !!! note
-    * Context is an optional parameter and if you do not include Context in your function, nothing will happen, but in this case you do not have access to the data inside it.
-    * If you return `None`, it will not send this to the admin (no response)
+    * Context is an optional parameter and if you do not include Context in your function, nothing will happen, but you won't have access to the data sent by the user.
+    * If you return `None`, Nothing will be sent back to the user.
 
 #### add_script decorator
 
-the program reads the function name and saves it as script name, but you can change the name by set the script_name variable to the decorator.
+The program reads the function name and saves it as script name, but you can change the name by setting the script_name variable in the decorator.
 
 
 ```py title="main.py"
@@ -70,22 +64,19 @@ def ping(context: Context):
 botnet.run()
 ```
 
-1. change script name from default (`ping`) to `1ping`
+1. Change script name from default (`ping`) to `1ping`
 
 #### Context
-
-Context has a series of useful variables and methods:
-
-
+There are the variables and methods you can use in Context.
 * command: List
-    - For example in above code if the user send `/1ping foo bar`, `context.command` return this list: `["foo", "bar"]`
+    - For example in the above code if the user sends `/1ping foo bar`, `context.command` will return this list: `["foo", "bar"]`
 
 * time_stamp: str
-    context creation time
+    - context creation time
 
 * system_info: callable
-    - this method return a Dict as target system info, if you call it like this:
-        `context.system_info()` return this data:
+    - This method returns the target system info, for example:
+        `context.system_info()` returns this data:
         ```
         scripts_name
         mac_addres
@@ -102,7 +93,7 @@ Context has a series of useful variables and methods:
         pybotnet_version
         
         ```
-    - and if you call this like this
+    - Another method:
         `context.system_info(minimal=True)` return just minimal data:
         ```
         scripts_name
@@ -115,21 +106,21 @@ Context has a series of useful variables and methods:
 
 
 * engine:
-    - This variable returns the active engine, engins have `send()`, `receive()` and `send_file()` methods;
-        You can use them to communicate with the admin.
+    - This variable returns the active engine, engines have `send()`, `receive()` and `send_file()` methods;
+        You can use them to communicate with the user.
 
-    - `send` method get two parameter, first a string (required), second is a Dict (optional) for add it to sub of message
-        you can send `context.system_info(minimal=True)` to second parameter
+    - `send` method takes two parameter, a string (required) and dict (optional) for adding it to the submessagse
+        You can send `context.system_info(minimal=True)` to the second parameter
 
-    - `send_file` like `send` method have two parametr, first parametr get route of file (required),  second is a Dict (optional) for add it to sub of message..
+    - `send_file` like `send` method takes two parametr, first parametr gets the route of the file (required), and the second takes a dict (optional) for add it to sub of message..
 
     - `recive` return not procesed admin command as a list of string, and if not found new admin command, return `False`
 
-* mata_data: Dict
-    - this variable contain courent `script_name`, `script_version` and `script_doc` 
+* meta_data: dict
+    - this variable contains current `script_name`, `script_version` and `script_doc` 
 
 * set_global_value: callable
-    - With this method you can save data in memory, The data is cleared when the botnet is closed ‍‍(This is just a Dict!)
+    - With this method you can save data in memory, The data is cleared when the botnet is closed ‍‍(This is just a dict!)
 
 * get_global_value: callable
     - Takes a key and returns the data
@@ -137,9 +128,9 @@ Context has a series of useful variables and methods:
 
 #### UserException
 
-for example if input data from admin (we get it from `context.command` or in script call `context.engine.recive()`) not valid... we can `raise` as `UserException` like: `raise UserException("the reason")` 
+If input data from user (PyBotNet gets it from `context.command` or in script call `context.engine.recive()`) was not valid, PyBotNet will raise an `UserException` say: `raise UserException("the reason")` 
 
-we can use `simple_serializer` to validate user input data, this function check len, type of data and if is ok return a list of converted command by new types..
+PyBotNet `simple_serializer` to validate user input data, this function checks len, type of the data and if is ok return a list of converted command by new types..
 
 
 ```py title="main.py"
@@ -154,23 +145,22 @@ def echo(context: Context):
     """`/echo <number> <world>`"""
 
     command, err = simple_serializer(context.command, [int, str]) # (2)
-    if err: # (3)
-        raise UserException(err) # (4)
+    if err: 
+        raise UserException(err) # (3)
 
-    # (5)
+    # (4)
     number = command[0]
     world = command[1]
 
     for _ in range(number):
         print(world)
-    # (6)
+    # (5)
 
 botnet.run()
 ```
 
-1. import simple_serializer from pybotnet
-2. we send user command and excepted types to simple_serializer
-3. if err not `None`
-4. send detail from bad value and script data to admin
-5. this data returned from simple_serializer, and have new data types..
-6. as you see we don't return anything, (by default python return`None`) so this script don't have response for admin 
+1. Import simple_serializer from pybotnet
+2. PyBotNet sends user command with excepted types to simple_serializer
+3. Send error details user
+4. This is the data returned from simple_serializer, and it has new data types.
+5. This script dosen't return anything, (by default python returns `None`) so it won't send back any responses to the user
