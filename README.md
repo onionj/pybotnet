@@ -47,3 +47,32 @@
 * Add remote control to your apps
 * [...](https://onionj.github.io/pybotnet/)
 
+
+### Install PyBotNet
+
+```console
+pip3 install pybotnet -U --pre
+```
+
+Currently version 2 of the PyBotNet is pre-release
+
+* `--pre`:
+  Include pre-release and development versions. By default, pip only finds stable versions.
+
+* `-U`: make sure to upgrade framework to latest version.
+
+
+for more, see [Documentation](https://onionj.github.io/pybotnet/)
+
+
+---
+
+## Contributors ✨
+Thanks goes to these wonderful people :
+
+<table>
+<td align="center"><a href="https://github.com/onionj"><img src="https://avatars.githubusercontent.com/u/77416478?v=4" width="70px;" alt=""/><br /><sub><b>oNion</b></sub></a><br /></td>
+<td align="center"><a href="https://github.com/TorhamDev"><img src="https://avatars.githubusercontent.com/u/87639984?v=4" width="70px;" alt=""/><br /><sub><b> TorhamDev</b></sub></a><br /></td>
+<td align="center"><a href="https://github.com/SepehrRasouli"><img src="https://avatars.githubusercontent.com/u/81516241?v=4" width="70px;" alt=""/><br /><sub><b> SepehrRasouli</b></sub></a><br /></td>
+</table>
+
