@@ -65,7 +65,7 @@ nav:
       - tutorial_user_guide/simple_usage.md
       - tutorial_user_guide/add_custom_script.md
       - tutorial_user_guide/run_in_background.md
-      - tutorial_user_guide/run_module.md
+      - tutorial_user_guide/running_pybotnet_without_coding.md
       - tutorial_user_guide/external_scripts.md
       - tutorial_user_guide/config_BotNet_class.md
 
@@ -74,7 +74,7 @@ nav:
       - tutorial_advanced_guide/linux_crontab.md
       - tutorial_advanced_guide/linux_services.md
       - tutorial_advanced_guide/windows_startup.md
-    
+   
   - help_pybotnet_and_get_help.md
   - development_and_contributing.md
   - release_notes.md
