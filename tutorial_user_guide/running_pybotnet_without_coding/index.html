@@ -15,7 +15,7 @@
     
     
       
-        <title>Run module - PyBotNet</title>
+        <title>Running pybotnet without coding - PyBotNet</title>
       
     
     
@@ -94,7 +94,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Run module
+              Running pybotnet without coding
             
           </span>
         </div>
@@ -351,7 +351,7 @@
       
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Run module
+        Running pybotnet without coding
       </a>
       
     </li>
@@ -562,19 +562,32 @@
             <article class="md-content__inner md-typeset">
               
                 
-  <a href="https://github.com/onionj/pybotnet/edit/master/docs/tutorial_user_guide/run_module.md" title="Edit this page" class="md-content__button md-icon">
+  <a href="https://github.com/onionj/pybotnet/edit/master/docs/tutorial_user_guide/running_pybotnet_without_coding.md" title="Edit this page" class="md-content__button md-icon">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
   </a>
 
 
 
-  <h1>Run module</h1>
+  <h1>Running pybotnet without coding</h1>
 
 <p>We have seen before that we need some code to run pybotnet, but it is possible to run pybotnet as a module</p>
 <p>All you have to do is, install PyBotNet on your system and enter the following command in your terminal:</p>
-<p><code>python3 -m pybotnet -t [TELEGRAM_TOKEN] -i [ADMIN_CHAT_ID] -n [BOT NAME]</code></p>
+<p>‍‍
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="go">pip3 install pybotnet -U --pre</span>
+</code></pre></div></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Currently version 2 of the PyBotNet is pre-release</p>
+<p><code>--pre</code>: 
+    Include pre-release and development versions. By default, pip only finds stable versions.</p>
+<p><code>-U</code>: make sure to upgrade framework to latest version.</p>
+</div>
+<hr />
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="go">python3 -m pybotnet -t [TELEGRAM_TOKEN] -i [ADMIN_CHAT_ID] -n [BOT NAME]</span>
+</code></pre></div>
 <p>somthing like:</p>
-<p><code>python3 -m pybotnet -t 5526760482:AAGweoNtLrHEsasxnklwhjms78ytPS3U8gEO6asc -i 5590231667 -n test</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="go">python3 -m pybotnet -t 5526760482:AAGweoNtLrHEsasxnklwhjms78ytPS3U8gEO6asc -i 5590231667 -n test</span>
+</code></pre></div>
 
               
             </article>
