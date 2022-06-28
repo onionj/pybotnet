@@ -36,14 +36,12 @@ in code above we create a instance of `ExternalScripts` (this a `botNet` child) 
 
 ```py title="main.py"
 
-from pybotnet import BotNet, Context, TelegramEngine
+from pybotnet import BotNet, TelegramEngine
 from external_scripts import external_botnet # (1)
 
 telegram_engine = TelegramEngine(token=TELEGRAM_TOKEN, admin_chat_id=ADMIN_CHAT_ID)
 
 botnet = BotNet(telegram_engine)
-
-
 
 botnet.import_external_scripts(external_botnet) # (2)
 
@@ -55,4 +53,4 @@ botnet.run() # (3)
 3. or you can use botnet.run_background(), botnet.stop_background()
 
 
-import `external_botnet` from `external_script` and add external scripts to `botnet` by call `botnet.import_external_scripts(external_botnet)`
+import `external_botnet` from `external_script.py` and add external scripts to `botnet` by call `botnet.import_external_scripts(external_botnet)`
