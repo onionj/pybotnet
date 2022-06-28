@@ -1,8 +1,7 @@
 
+You can write a series of scripts outside the main file and add it to your botnet by importing `ExternalScripts`
 
-You can write a series of scripts outside the main file and add it to your botnet by `import_external_scripts`
-
-lets see some example:
+For example:
 
 ```py title="external_scripts.py"
 
@@ -28,11 +27,11 @@ def get_system_info(context: Context):
 ```
 
 1. import `ExternalScripts` from pybotnet
-2. create `ExternalScripts` instance
-3. add some simple script
-4. create other script..
+2. Create `ExternalScripts` instance
+3. Add some simple script
+4. Create other script..
 
-in code above we create a instance of `ExternalScripts` (this a `botNet` child) and add our scripts..
+In the above code we created an instance of `ExternalScripts` (this is a `botNet` child) and added our scripts..
 
 ```py title="main.py"
 
@@ -48,7 +47,7 @@ botnet.import_external_scripts(external_botnet) # (2)
 botnet.run() # (3) 
 ```
 
-1. import `external_botnet` from `external_scripts.py`
+1. Import `external_botnet` from `external_scripts.py`
 2. add external scripts to our `botnet` instance
 3. or you can use botnet.run_background(), botnet.stop_background()
 
