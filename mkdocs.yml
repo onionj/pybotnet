@@ -5,14 +5,14 @@ theme:
   name: 'material'
   palette:
     - scheme: default
-      primary: 'red'
-      accent: 'red'
+      primary: 'Purple'
+      accent: 'Purple'
       toggle:
           icon: material/weather-sunny
           name: Switch to dark mode
     - scheme: slate
-      primary: 'red'
-      accent: 'red'
+      primary: 'Purple'
+      accent: 'Purple'
       toggle:
           icon: material/weather-night
           name: Switch to light mode
