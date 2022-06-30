@@ -1,7 +1,7 @@
 
 you can change some config from `BotNet` class
 
-example:
+Example:
 
 
 ```py title="main.py"
