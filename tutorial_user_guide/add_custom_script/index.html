@@ -685,26 +685,29 @@
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># new:</span>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="nd">@botnet</span><span class="o">.</span><span class="n">add_script</span><span class="p">(</span><span class="n">script_version</span><span class="o">=</span><span class="s2">&quot;0.1.0&quot;</span><span class="p">)</span> <span class="c1"># (3)</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="k">def</span> <span class="nf">ping</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">):</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="sd">&quot;&quot;&quot;`/ping`&quot;&quot;&quot;</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">response</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;pong </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">command</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="c1"># (4)</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="k">return</span> <span class="n">response</span> <span class="c1"># (5)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="k">def</span> <span class="nf">ping</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">):</span> <span class="c1"># (4)</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="sd">&quot;&quot;&quot;`/ping`&quot;&quot;&quot;</span> <span class="c1"># (5)</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">response</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;pong </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">command</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="c1"># (6)</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="k">return</span> <span class="n">response</span> <span class="c1"># (7)</span>
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="n">botnet</span><span class="o">.</span><span class="n">run</span><span class="p">()</span> <span class="c1"># (6)</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="n">botnet</span><span class="o">.</span><span class="n">run</span><span class="p">()</span> <span class="c1"># (8)</span>
 </code></pre></div>
 <ol>
 <li>Create engine: Engines transfer messages between user and botnet</li>
 <li>Create BotNet instance</li>
 <li>Create new custom script </li>
+<li>received Context, We will talk about Context below </li>
+<li>PyBotNet use docstrings to create scripts help </li>
 <li>Get user command from context and join it to <code>"pong"</code>, for example, if user sends <code>/ping foo bar</code> the <code>response</code> will be <code>pong foo bar</code></li>
 <li>Return response to user</li>
 <li>Run main loop</li>
 </ol>
 <p>As you can see,  We used a decorator to add our script to the botnet instance, now if we execute the code we have access to the ping script in the control panel.</p>
-<p>Scripts can also contain Context parameters, which include the engine itself, system data, commands sent by the user, and so on.</p>
+<p>Scripts can also contain Context parameters, which include the engine itself, system data, commands sent by the user and etc; We will talk more about Context later</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul>
+<li>PyBotNet use docstrings to create scripts help </li>
 <li>Context is an optional parameter and if you do not include Context in your function, nothing will happen, but you won't have access to the data sent by the user.</li>
 <li>If you return <code>None</code>, Nothing will be sent back to the user.</li>
 </ul>
@@ -720,7 +723,7 @@
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1"># new:</span>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="nd">@botnet</span><span class="o">.</span><span class="n">add_script</span><span class="p">(</span><span class="n">script_version</span><span class="o">=</span><span class="s2">&quot;0.1.0&quot;</span><span class="p">,</span> <span class="n">script_name</span><span class="o">=</span><span class="s2">&quot;1ping&quot;</span><span class="p">)</span> <span class="c1"># (1)</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="k">def</span> <span class="nf">ping</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">):</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="k">def</span> <span class="nf">ping</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">):</span> <span class="c1"># (2)</span>
 <a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    <span class="sd">&quot;&quot;&quot;`/1ping`&quot;&quot;&quot;</span>
 <a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;pong </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">command</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
 <a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
@@ -729,23 +732,28 @@
 </code></pre></div>
 <ol>
 <li>Change script name from default (<code>ping</code>) to <code>1ping</code></li>
+<li>received Context</li>
 </ol>
 <h4 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h4>
-<p>There are the variables and methods you can use in Context.
-* command: List
-    - For example in the above code if the user sends <code>/1ping foo bar</code>, <code>context.command</code> will return this list: <code>["foo", "bar"]</code></p>
+<p><code>Context</code> is a class that we received in the script input parameter.
+It includes the following variables and methods:</p>
 <ul>
 <li>
-<p>time_stamp: str</p>
+<p><code>command</code>: List</p>
+<ul>
+<li>For example in the above code if the user sends <code>/1ping foo bar</code>, <code>context.command</code> will return this list: <code>["foo", "bar"]</code></li>
+</ul>
+</li>
+<li>
+<p><code>time_stamp</code>: str</p>
 <ul>
 <li>context creation time</li>
 </ul>
 </li>
 <li>
-<p>system_info: callable</p>
-<ul>
-<li>This method returns the target system info, for example:
-    <code>context.system_info()</code> returns this data:
+<p><code>system_info</code>: callable</p>
+<p>In scripts, sometimes we need target information, such as IP or MAC address, etc; We can get them with this method.</p>
+<p>for example <code>context.system_info()</code> returns this data:
     <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>scripts_name
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>mac_addres
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>os
@@ -759,25 +767,26 @@
 <a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>pid
 <a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>cpu_count
 <a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>pybotnet_version
-</code></pre></div></li>
-<li>Another method:
+</code></pre></div>
+This method has a flag that if we use it, less data will be returned:
     <code>context.system_info(minimal=True)</code> return just minimal data:
     <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>scripts_name
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>mac_addres
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>os
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>global_ip
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>bot_name
-</code></pre></div></li>
-<li>system_info method cache data for 30s </li>
-</ul>
+</code></pre></div></p>
+<blockquote>
+<p>system_info method cache data for 30s</p>
+</blockquote>
 </li>
 <li>
-<p>engine:</p>
-<ul>
-<li>
-<p>This variable returns the active engine, engines have <code>send()</code>, <code>receive()</code> and <code>send_file()</code> methods;
+<p><code>engine</code>:</p>
+<p>This variable returns the active engine, 
+(Engines transfer messages between user and botnet, for example we used build in TelegramEngine in the above code, You can create custom engines. We will talk about it in the advanced part of the document)</p>
+<p>engines have <code>send()</code>, <code>receive()</code> and <code>send_file()</code> methods;
     You can use them to communicate with the user.</p>
-</li>
+<ul>
 <li>
 <p><code>send</code> method takes two parameter, a string (required) and dict (optional) for adding it to the submessagse
     You can send <code>context.system_info(minimal=True)</code> to the second parameter</p>
@@ -786,27 +795,45 @@
 <p><code>send_file</code> like <code>send</code> method takes two parametr, first parametr gets the route of the file (required), and the second takes a dict (optional) for add it to sub of message..</p>
 </li>
 <li>
-<p><code>recive</code> return not procesed admin command as a list of string, and if not found new admin command, return <code>False</code></p>
+<p><code>recive</code> return not procesed user command as a list of string, and if not found new user command, return <code>False</code></p>
 </li>
 </ul>
+<div class="admonition engines">
+<p class="admonition-title">Engines</p>
+<ul>
+<li>PyBotNet currently has three engines:<ul>
+<li><code>BaseEngine</code>: abstract Engine</li>
+<li><code>TestEngine</code></li>
+<li><code>TelegramEngine</code></li>
+</ul>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p>meta_data: dict</p>
+<p><code>meta_data</code>: dict</p>
 <ul>
 <li>this variable contains current <code>script_name</code>, <code>script_version</code> and <code>script_doc</code> </li>
 </ul>
 </li>
 <li>
-<p>set_global_value: callable</p>
+<p>global values:</p>
+<p>Sometimes we need to set a variable that can be accessed from anywhere in the program; You can use these two methods to do this:</p>
 <ul>
-<li>With this method you can save data in memory, The data is cleared when the botnet is closed ‍‍(This is just a dict!)</li>
-</ul>
+<li>
+<p><code>set_global_value</code>: callable
+    With this method you can save data in temp memory</p>
 </li>
 <li>
-<p>get_global_value: callable</p>
-<ul>
-<li>Takes a key and returns the data</li>
+<p><code>get_global_value</code>: callable
+    Takes a key and returns the data</p>
+</li>
 </ul>
+<p>For example, if we want to store a variable in script A and use it in script B:</p>
+<p>in script A we set value:
+    <code>set_global_value("message_from_A", "hi")</code>
+and in script B we get value:
+    <code>get_global_value("message_from_A")</code></p>
 </li>
 </ul>
 <h4 id="userexception">UserException<a class="headerlink" href="#userexception" title="Permanent link">&para;</a></h4>
@@ -819,7 +846,7 @@
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="nd">@botnet</span><span class="o">.</span><span class="n">add_script</span><span class="p">()</span>
 <a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="k">def</span> <span class="nf">echo</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">Context</span><span class="p">):</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="sd">&quot;&quot;&quot;`/echo &lt;number&gt; &lt;world&gt;`&quot;&quot;&quot;</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="sd">&quot;&quot;&quot;`/echo &lt;number&gt; &lt;word&gt;`&quot;&quot;&quot;</span>
 <a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
 <a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="n">command</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">simple_serializer</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">command</span><span class="p">,</span> <span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="c1"># (2)</span>
 <a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="k">if</span> <span class="n">err</span><span class="p">:</span> 
@@ -827,18 +854,18 @@
 <a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
 <a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>    <span class="c1"># (4)</span>
 <a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>    <span class="n">number</span> <span class="o">=</span> <span class="n">command</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    <span class="n">world</span> <span class="o">=</span> <span class="n">command</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    <span class="n">word</span> <span class="o">=</span> <span class="n">command</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 <a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
 <a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
-<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>        <span class="nb">print</span><span class="p">(</span><span class="n">world</span><span class="p">)</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>        <span class="nb">print</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
 <a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>    <span class="c1"># (5)</span>
 <a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>
 <a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="n">botnet</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </code></pre></div>
 <ol>
 <li>Import simple_serializer from pybotnet</li>
-<li>PyBotNet sends user command with excepted types to simple_serializer</li>
-<li>Send error details user</li>
+<li>sends user command with excepted types to simple_serializer</li>
+<li>Send error details to user</li>
 <li>This is the data returned from simple_serializer, and it has new data types.</li>
 <li>This script dosen't return anything, (by default python returns <code>None</code>) so it won't send back any responses to the user</li>
 </ol>
