@@ -34,10 +34,10 @@ botnet.run()
 
 
 !!! note
-    * `TELEGRAM_TOKEN`: Get it from the telegram @botfather
+    * `TELEGRAM_TOKEN`: You can use telegram `@botfather` to Create new telegram API Bot and get youre `TELEGRAM_TOKEN` 
     * `ADMIN_CHAT_ID`: Get it from @userinfobot telegram bot
-    * this code include default scripts, like: `shell`, `put_file`, `get_file`, `screenshot`, `who`, ...
-
+    * PyBotNet include default scripts, like: `/shell`, `/put_file`, `/get_file`, `/screenshot`, `/who`, ...,
+     you can send `/help` to your telegram bot and see more detail..
 
 #### Run code:
 

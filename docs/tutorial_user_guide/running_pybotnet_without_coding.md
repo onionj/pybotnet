@@ -29,3 +29,9 @@ somthing like:
 ```console
 python3 -m pybotnet -t 5526760482:AAGweoNtLrHEsasxnklwhjms78ytPS3U8gEO6asc -i 5590231667 -n test
 ```
+
+!!! note
+    * `TELEGRAM_TOKEN`: You can use telegram `@botfather` to Create new telegram API Bot and get youre `TELEGRAM_TOKEN` 
+    * `ADMIN_CHAT_ID`: Get it from @userinfobot telegram bot
+    * PyBotNet include default scripts, like: `/shell`, `/put_file`, `/get_file`, `/screenshot`, `/who`, ...,
+     you can send `/help` to your telegram bot and see more detail..
