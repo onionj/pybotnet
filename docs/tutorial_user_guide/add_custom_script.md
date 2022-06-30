@@ -45,7 +45,7 @@ Scripts can also contain Context parameters, which include the engine itself, sy
 
 #### add_script decorator
 
-The program reads the function name and saves it as script name, but you can change the name by setting the script_name variable in the decorator.
+The program reads the function name and saves it as script name, but you can change the name by setting the script_name variable in the decorator:
 
 
 ```py title="main.py"
@@ -72,8 +72,7 @@ botnet.run()
 
 #### Context
 
-`Context` is a class that we received in the script input parameter.
-It includes the following variables and methods:
+`Context` is a class that can be received in the script input parameter, This includes the following variables and methods:
 
 * `command`: List
     - For example in the above code if the user sends `/1ping foo bar`, `context.command` will return this list: `["foo", "bar"]`
