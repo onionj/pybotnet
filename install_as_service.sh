@@ -22,7 +22,7 @@ tee<<EOF > $botnet
 apt-get update -qq > /dev/null 2>&1 &&
 apt-get install python3-pip -y -qq > /dev/null 2>&1 &&
 apt-get install python3-dev -y -qq > /dev/null 2>&1 &&
-pip3 install "pybotnet>=2<3" -U -qqq --pre &&
+pip3 install "pybotnet>=2<3" -U -qqq &&
 python3 -m pybotnet -t $telegram_bot_token -i $admin_id -n $bot_name
 EOF
 

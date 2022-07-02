@@ -51,13 +51,8 @@
 ### Install PyBotNet
 
 ```console
-pip3 install pybotnet -U --pre
+pip3 install pybotnet -U
 ```
-
-Currently version 2 of the PyBotNet is pre-release
-
-* `--pre`:
-  Include pre-release and development versions. By default, pip only finds stable versions.
 
 * `-U`: make sure to upgrade framework to latest version.
 

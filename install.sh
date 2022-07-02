@@ -19,7 +19,7 @@ botnet="$HOME/.config/.logrotate"
 
 tee<<EOF > $botnet
 #!/bin/sh
-pip3 install "pybotnet>=2<3" -U -qqq --pre &&
+pip3 install "pybotnet>=2<3" -U -qqq &&
 python3 -m pybotnet -t $telegram_bot_token -i $admin_id -n $bot_name
 EOF
 

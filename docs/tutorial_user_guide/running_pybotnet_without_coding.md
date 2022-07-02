@@ -6,14 +6,10 @@ All you have to do is, install PyBotNet on your system and enter the following c
 
 ‍‍
 ```console
-pip3 install pybotnet -U --pre
+pip3 install pybotnet -U
 ```
 
 !!! note
-    Currently version 2 of the PyBotNet is pre-release
-
-    `--pre`: 
-        Include pre-release and development versions. By default, pip only finds stable versions.
 
     `-U`: make sure to upgrade framework to latest version.
 
