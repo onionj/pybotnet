@@ -23,6 +23,7 @@ class TelegramEngine(BaseEngine):
         self.admin_chat_id = admin_chat_id
         self._use_proxy = False
         self._update_id = 0
+        self._last_admin_message_id = None
         self._is_first_run = True
 
     def __str__(self):
@@ -49,7 +50,7 @@ class TelegramEngine(BaseEngine):
             _logger.debug(f"receive: error {e}")
             raise EngineException(e)
 
-    def send(self, message: str, additionalـinfo: dict = {}) -> bool:
+    def send(self, message: str, additionalـinfo: dict = {}, reply_to_last_message: bool = False) -> bool:
         if type(additionalـinfo) != dict:
             additionalـinfo = {"additionalـinfo": additionalـinfo}
 
@@ -70,6 +71,10 @@ class TelegramEngine(BaseEngine):
         for msg in split_message:
             try:
                 api_url = f"https://api.telegram.org/bot{self.token}/SendMessage?chat_id={self.admin_chat_id}&text={msg}"
+
+                if self._last_admin_message_id and reply_to_last_message:
+                    api_url = f"{api_url}&reply_to_message_id={self._last_admin_message_id}"
+
                 res.append(self._http_request(method="POST", url=api_url))
 
             except Exception as e:
@@ -147,22 +152,29 @@ class TelegramEngine(BaseEngine):
 
                 _logger.debug(f" - new command from admin: {last_text}")
                 admin_command = last_text
+                
+                try:
+                    self._last_admin_message_id = message["message"]["message_id"]
+                except:
+                    self._last_admin_message_id = None
+
                 break
 
-        ## clean previous messages:
-        #
-        # if (
-        #      not any admin command in response page
-        #    or
-        #      IF RESPONSE PAGE IS FULL
-        #      if first response on response page is last admin message
-        #      if admin command already_executed (just for one attempt delay; So that the rest of the robots have time to read this message)
-        #    ):
-        #   clear response page messages
-        #
-        # else:
-        #   just remove previous messages
 
+        ## clean previous messages ##
+        """
+        if (
+             not any admin command in response page
+           or
+             IF RESPONSE PAGE IS FULL
+             if first response on response page is last admin message
+             if admin command already_executed (just for one attempt delay; So that the rest of the robots have time to read this message)
+           ):
+          clear response page messages
+        
+        else:
+          just remove previous messages
+        """
         if not (admin_command or already_executed) or (
             len(response) >= 100
             and response[0]["update_id"] == update_id

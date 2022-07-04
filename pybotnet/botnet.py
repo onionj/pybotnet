@@ -269,11 +269,14 @@ Docs: {__github_link__}
 
             if command[0] == "help":
                 _help_script_name = None
+
                 if len(command) > 1:
                     _help_script_name = command[1]
+
                 self.engine.send(
                     self._help(_help_script_name),
                     additionalـinfo=self.system_info(minimal=True),
+                    reply_to_last_message=True
                 )
                 time.sleep(self.delay)
                 continue
@@ -317,6 +320,7 @@ Docs: {__github_link__}
                         self.engine.send(
                             script_result,
                             additionalـinfo=self.system_info(minimal=True),
+                            reply_to_last_message=True
                         )
                     time.sleep(self.delay)
 

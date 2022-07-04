@@ -17,7 +17,7 @@ class TestEngine(BaseEngine):
         except IndexError:
             return False
 
-    def send(self, message: str, additionalـinfo:str="") -> bool:
+    def send(self, message: str, additionalـinfo:str="", reply_to_last_message: bool = False) -> bool:
         print(f"<TestEngine.send: ({message} {additionalـinfo})>")
         return True
 

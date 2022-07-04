@@ -31,4 +31,4 @@ def who(context: Context) -> str:
         else:
             info += f"\n{k}: {v}"
 
-    context.engine.send(info)
+    context.engine.send(info, reply_to_last_message=True)
