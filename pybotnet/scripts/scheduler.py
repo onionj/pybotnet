@@ -18,6 +18,11 @@ def scheduler(context: Context) -> str:
         `/schedule list`
         `/schedule stop <schedule_ids>`: Stops that's schedules
 
+        or
+        `[mac-address] /[SCRIPT-NAME]`
+        or
+        `[BOT-NAME] /[SCRIPT-NAME]`
+
     example command:
 
         `/schedule start 10 echo "test" >> test.txt`

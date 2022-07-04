@@ -12,6 +12,8 @@ def screenshot(context: Context) -> str:
     syntax:
         `[mac-address] /screenshot`
         or
+        `[BOT-NAME] /screenshot`
+        or
         `/screenshot`
 
     example command: 

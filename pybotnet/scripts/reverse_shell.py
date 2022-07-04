@@ -10,16 +10,22 @@ from .. import BotNet, Context
 @BotNet.default_script(script_version="0.0.2")
 def shell(context: Context) -> str:
     """
-    `[mac-address] /shell` -> open shell session
-    or
-    `[mac-address] /shell [command]`-> run command and exit
+        `[mac-address] /shell` -> open shell session
+        or
+        `[mac-address] /shell [command]`-> run command and exit
 
-    example input command:
+        or
+        `[BOT-NAME] /shell` -> open shell session
+        or
+        `[BOT-NAME] /shell [command]`-> run command and exit
+
+    Example input command:
          `94945035671481 /shell`  \n
          `94945035671481 /shell ls .`\n
          `94945035671481 /shell ping google.com -c 10`
+
         or
-         `/shell ping google.com -c 10` -> run command in all systems
+         `/shell ping google.com -c 10` -> Run command in all systems
 
 
     special condition:

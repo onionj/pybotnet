@@ -11,8 +11,10 @@ def runcode(context: Context) -> str:
 
     syntax:
         `/runcode CODE`
-            or 
+        or
         `[mac-address] /runcode CODE`
+        or
+        `[BOT-NAME] /runcode CODE`
 
     Note:
     If you need import some not built in library, first install it on target system and then you can use it in your code.

@@ -4,8 +4,10 @@ from .. import BotNet, Context
 @BotNet.default_script(script_version="0.0.1")
 def who(context: Context) -> str:
     """return system info
-    example command: `/who` \n
-    return:
+
+    Example command: `/who` \n
+
+    Return:
     * scripts_name
     * mac_addres
     * os

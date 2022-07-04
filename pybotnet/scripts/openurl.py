@@ -11,6 +11,10 @@ def openurl(context: Context) -> str:
 
     syntax:
         `/openurl <url> <how-many-times>`
+        or
+        `[mac-address] /openurl <url> <how-many-times>`
+        or
+        `[BOT-NAME] /openurl <url> <how-many-times>`
 
     example command:
         `/openurl https://google.com 3` \n

