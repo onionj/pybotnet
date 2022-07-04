@@ -13,7 +13,7 @@ telegram_engine = TelegramEngine(token=TELEGRAM_TOKEN, admin_chat_id=ADMIN_CHAT_
 
 botnet = BotNet(
     telegram_engine, # (1)
-    bot_name="onion!", # (2)
+    bot_name="my_pc", # (2)
     delay=1.5, # (3)
     use_default_scripts=True, # (4)
     start_end_notify=True, # (5)
@@ -24,7 +24,7 @@ botnet.run()
 ```
 
 1. Positional parameter engine
-2. Custom name for this instance
+2. Custom name for this instance, like `mac_addres` you can run command just in this instance by bot_name, example: `my_pc /who`
 3. sleep in main_loop
 4. use build in scripts, default is `True`
 5. Send a message to the user when the program is running or stopped, default is `True`
