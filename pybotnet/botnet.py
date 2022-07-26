@@ -267,6 +267,9 @@ Docs: {__github_link__}
                 if command[0] in [str(uuid.getnode()), self.BOT_NAME] :
                     command = command[1:]
 
+                if command[0] in [str(uuid.getnode()), self.BOT_NAME] :
+                    command = command[1:]
+
             if not self._valid_command(command, check_slash=True):
                 _logger.debug("<There is no command to execute>")
                 time.sleep(self.delay)
