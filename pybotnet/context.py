@@ -1,10 +1,11 @@
-from typing import TYPE_CHECKING, Dict, List
-
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
+from dataclasses import dataclass
 
 if TYPE_CHECKING:
     from . import BaseEngine
 
 
+@dataclass
 class Context:
     """requests data: \n
     * engine: "BaseEngine"
@@ -28,5 +29,10 @@ class Context:
         cls._global_values.update({key: value})
 
     @classmethod
-    def get_global_value(cls, key):
+    def get_global_value(cls, key) ->  Optional[Any]:
+        "return value or None"
         return cls._global_values.get(key)
+
+    @classmethod
+    def get_all_global_values(cls) -> dict[Any, Any]:
+        return cls._global_values

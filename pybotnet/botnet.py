@@ -224,12 +224,13 @@ Docs: {__github_link__}
         return full_info
 
     def _create_context(self, command: List, meta_data: Dict) -> Context:
-        context = Context()
-        context.engine = self.engine
-        context.command = command
-        context.meta_data = meta_data
-        context.system_info = self.system_info
-        context.time_stamp = datetime.datetime.now()
+        context = Context(
+            engine=self.engine,
+            command=command,
+            meta_data=meta_data,
+            system_info=self.system_info,
+            time_stamp=datetime.datetime.now(),
+        )
         return context
 
     def _valid_command(self, command, check_slash=False, expected_length=1) -> bool:
@@ -264,10 +265,10 @@ Docs: {__github_link__}
 
             # check for mac_addres or self.BOT_NAME
             if self._valid_command(command, expected_length=2):
-                if command[0] in [str(uuid.getnode()), self.BOT_NAME] :
+                if command[0] in [str(uuid.getnode()), self.BOT_NAME]:
                     command = command[1:]
 
-                if command[0] in [str(uuid.getnode()), self.BOT_NAME] :
+                if command[0] in [str(uuid.getnode()), self.BOT_NAME]:
                     command = command[1:]
 
             if not self._valid_command(command, check_slash=True):
@@ -286,7 +287,7 @@ Docs: {__github_link__}
                 self.engine.send(
                     self._help(_help_script_name),
                     additionalـinfo=self.system_info(minimal=True),
-                    reply_to_last_message=True
+                    reply_to_last_message=True,
                 )
                 time.sleep(self.delay)
                 continue
@@ -330,7 +331,7 @@ Docs: {__github_link__}
                         self.engine.send(
                             script_result,
                             additionalـinfo=self.system_info(minimal=True),
-                            reply_to_last_message=True
+                            reply_to_last_message=True,
                         )
                     time.sleep(self.delay)
 
