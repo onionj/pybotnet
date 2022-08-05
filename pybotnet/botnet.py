@@ -186,9 +186,9 @@ Docs: {__github_link__}
         minimal_info = {
             "scripts_name": list(self.scripts),
             "mac_addres": uuid.getnode(),
+            "bot_name": self.BOT_NAME,
             "os": platform.system(),
             "global_ip": get_global_ip(),
-            "bot_name": self.BOT_NAME,
         }
 
         if minimal:
