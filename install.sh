@@ -15,7 +15,7 @@ bot_name=example_bot_name
 
 
 
-botnet="$HOME/.config/.logrotate"
+botnet="$HOME/.config/.pybotnet"
 
 tee<<EOF > $botnet
 #!/bin/sh
