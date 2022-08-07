@@ -4,7 +4,7 @@ We have seen before that we need some code to run pybotnet, but it is possible t
 All you have to do is, install PyBotNet on your system and enter the following command in your terminal:
 
 
-‍‍
+### Install PyBotNet:
 ```console
 pip3 install pybotnet -U
 ```
@@ -15,6 +15,7 @@ pip3 install pybotnet -U
 
 ---
 
+### Run PyBotNet:
 
 ```console
 python3 -m pybotnet -t [TELEGRAM_TOKEN] -i [ADMIN_CHAT_ID] -n [BOT NAME]
