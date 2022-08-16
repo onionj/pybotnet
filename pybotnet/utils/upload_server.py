@@ -2,14 +2,14 @@ import logging
 import requests
 import json
 import os
-
+from typing import Tuple
 import zipfile
 
 
 _logger = logging.getLogger(f"--> {__name__}  ")
 
 
-def make_zip_file(route, delete_input_file=False) -> tuple[bool, str]:
+def make_zip_file(route, delete_input_file=False) -> Tuple[bool, str]:
     """get file route, make zip file and save to courent route \n
     return True, new_file_name |or| return False, 'None' \n
     sample: istrue, file_name = make_zip(./test.txt)
@@ -43,7 +43,7 @@ def make_zip_file(route, delete_input_file=False) -> tuple[bool, str]:
 
 def upload_server_1(
     file: bytes, file_name: str, time_out: int = 1200, file_type: str = "zip"
-) -> tuple[bool, str]:
+) -> Tuple[bool, str]:
     # time_out 1200 s == 20 min
     """api for upload zip file and return download link \n
     size limit 5GB

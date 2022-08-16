@@ -1,5 +1,6 @@
+from typing import Tuple, List, Any
 
-def simple_serializer(command, excepted_types:list[any]) ->tuple[list, str]:
+def simple_serializer(command, excepted_types:List[Any]) ->Tuple[List, str]:
     """
     try to conver args type
     

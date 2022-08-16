@@ -1,5 +1,5 @@
 import subprocess
-from typing import Dict, List, Optional, TYPE_CHECKING
+from typing import Dict, List, Optional, TYPE_CHECKING, Tuple
 from functools import wraps
 import threading
 import platform
@@ -191,7 +191,7 @@ class BotNet:
         exp = time.time() + expier_secound
         self.__cache.update({name: {"exp": exp, "data": data}})
 
-    def _get_cache(self, name) -> tuple[bool, any]:
+    def _get_cache(self, name) -> Tuple[bool, any]:
         """return (is_cache, data)"""
         if self.__cache.get(name):
             if self.__cache[name]["exp"] >= time.time():

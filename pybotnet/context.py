@@ -34,5 +34,5 @@ class Context:
         return cls._global_values.get(key)
 
     @classmethod
-    def get_all_global_values(cls) -> dict[Any, Any]:
+    def get_all_global_values(cls) -> Dict[Any, Any]:
         return cls._global_values
