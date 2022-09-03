@@ -25,6 +25,6 @@ class BaseEngine(ABC):
         ...
 
     @abstractmethod
-    def send_file(self, file_route: str) -> bool:
+    def send_file(self, file_route: str, additionalـinfo: dict = {}) -> bool:
         """send file to admin"""
         ...

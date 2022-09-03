@@ -21,6 +21,6 @@ class TestEngine(BaseEngine):
         print(f"<TestEngine.send: ({message} {additionalـinfo})>")
         return True
 
-    def send_file(self, file_route: str) -> bool:
+    def send_file(self, file_route: str, additionalـinfo: dict = {}) -> bool:
         print(f"<TestEngine.send_file: ({file_route})>")
         return True
