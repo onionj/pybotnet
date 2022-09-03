@@ -16,7 +16,7 @@ from pybotnet import __github_link__, __version__
 
 # Package meta-data.
 NAME = "pybotnet"
-DESCRIPTION = "A Python framework for building botnet ,backdoor or trojan with Telegram control panel"
+DESCRIPTION = "A Python framework for building remote control, botnet , trojan or backdoor with Telegram or other control panels"
 URL = __github_link__
 EMAIL = "onionj98@gmail.com"
 AUTHOR = "onionj"
@@ -24,13 +24,16 @@ REQUIRES_PYTHON = ">=3.8.0"
 VERSION = __version__
 KEYWORDS = [
     "onionj pybotnet",
-    "make python trojan",
-    "make python backdoor",
-    "make python botnet",
+    "python remote control",
+    "python trojan",
+    "python backdoor",
+    "python botnet",
     "pybotnet",
     "python ddos",
     "python backdoor",
     "python trojan",
+    "reverse shell",
+    "python keylogger"
     "framework",
 ]
 
