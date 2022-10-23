@@ -1,5 +1,4 @@
 
-import time
 import logging
 
 from pybotnet import BotNet, Context, TelegramEngine
