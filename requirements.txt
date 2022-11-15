@@ -1,5 +1,5 @@
 beautifulsoup4==4.11.1
-pillow==9.2.0
+pillow==9.3.0
 pynput==1.6.8
 requests==2.27.1
 schedule==1.1.0
