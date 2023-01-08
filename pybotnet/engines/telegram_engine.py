@@ -1,8 +1,8 @@
-import os
+from typing import Dict, List, Any
 import logging
 import urllib
-from typing import Dict, List, Any
-
+import json
+import os
 
 from .base_engine import BaseEngine
 
@@ -32,7 +32,7 @@ class TelegramEngine(BaseEngine):
     def receive(self) -> List[str]:
         try:
             api_url = f"https://api.telegram.org/bot{self.token}/Getupdates?offset={self._update_id}&limit=100"
-            response = self._http_request(method="POST", url=api_url)
+            response = self._http_request(method="POST", url=api_url, timeout=5)
 
             if response is False:
                 return False
@@ -42,7 +42,6 @@ class TelegramEngine(BaseEngine):
             if admin_command and not self._is_first_run:
                 return admin_command.strip().split(" ")
 
-
             self._is_first_run = False
             return False
 
@@ -50,7 +49,12 @@ class TelegramEngine(BaseEngine):
             _logger.debug(f"receive: error {e}")
             raise EngineException(e)
 
-    def send(self, message: str, additionalـinfo: dict = {}, reply_to_last_message: bool = False) -> bool:
+    def send(
+        self,
+        message: str,
+        additionalـinfo: dict = {},
+        reply_to_last_message: bool = False,
+    ) -> bool:
         if type(additionalـinfo) != dict:
             additionalـinfo = {"additionalـinfo": additionalـinfo}
 
@@ -64,7 +68,7 @@ class TelegramEngine(BaseEngine):
         message = urllib.parse.quote(message, safe=" ")
 
         res = []
-        split_message = [] # split message to avoid telegram error
+        split_message = []  # split message to avoid telegram error
         for i in range(0, len(message), 4096):
             split_message.append(message[i : i + 4096])
 
@@ -73,7 +77,9 @@ class TelegramEngine(BaseEngine):
                 api_url = f"https://api.telegram.org/bot{self.token}/SendMessage?chat_id={self.admin_chat_id}&text={msg}"
 
                 if self._last_admin_message_id and reply_to_last_message:
-                    api_url = f"{api_url}&reply_to_message_id={self._last_admin_message_id}"
+                    api_url = (
+                        f"{api_url}&reply_to_message_id={self._last_admin_message_id}"
+                    )
 
                 res.append(self._http_request(method="POST", url=api_url))
 
@@ -107,13 +113,24 @@ class TelegramEngine(BaseEngine):
             _logger.debug(f"send_file: error {e}")
             return False
 
-    def _http_request(self, method: str, url: str) -> List[Dict[str, Any]]:
+    def _http_request(self, method: str, url: str, timeout=15) -> List[Dict[str, Any]]:
         if self._getme():
             self._use_proxy = False
-            return requests.request(method=method, url=url, timeout=15).json()["result"]
+            return (
+                requests.request(method=method, url=url, timeout=timeout)
+                .json()
+                .get("result", False)
+            )
         else:
             self._use_proxy = True
-            return proxy.http_request(method=method, url=url, timeout=15)
+            res = proxy.http_request(method=method, url=url, timeout=timeout)
+
+            if res == False:
+                return False
+
+            return json.loads(res.replace("edited_message", "message")).get(
+                "result", False
+            )
 
     def _getme(self):
         try:
@@ -152,14 +169,13 @@ class TelegramEngine(BaseEngine):
 
                 _logger.debug(f" - new command from admin: {last_text}")
                 admin_command = last_text
-                
+
                 try:
                     self._last_admin_message_id = message["message"]["message_id"]
                 except:
                     self._last_admin_message_id = None
 
                 break
-
 
         ## clean previous messages ##
         """

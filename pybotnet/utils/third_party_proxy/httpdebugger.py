@@ -3,20 +3,17 @@ https://httpdebugger.com/Tools/ViewHttpHeaders.aspx
 """
 
 import logging
-
+from typing import Union, Any, Literal
 import requests
 
-
-import json
 from bs4 import BeautifulSoup
-
 
 _logger = logging.getLogger(f"--> {__name__}  ")
 
 
 def http_request(
     method: str, url: str, data: dict = None, headers: dict = None, timeout=10
-):
+) -> Union[any, Literal[False]]:
     """send http request by httpdebugger.com proxy"""
 
     ContentDataBox = ""
@@ -56,8 +53,7 @@ def http_request(
                     "div", id="ResultData"
                 ).text.strip()
                 response_source = response_source.replace("Response Content", "")
-                response_source = response_source.replace("edited_message", "message")
-                response_source = json.loads(response_source)["result"]
+
                 return response_source
 
             except Exception as error:
