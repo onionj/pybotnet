@@ -32,7 +32,7 @@
 ---
 
 ### Features:
-* Built in Telegram control pannel and proxy
+* Built in Telegram control pannel and proxy system
 * Built in scripts like:
     * reverse shell
     * put or get file
@@ -91,7 +91,7 @@ python3 main.py
 
 #### telegram engine
 
-open telegram and send `/who` to your bot; If you have done the steps correctly, you recive message like this:
+open telegram and send `/who` command to your bot; If you have done the steps correctly, you recive a message like this:
 
 ```
 scripts_name:
@@ -123,7 +123,7 @@ from cache: True
 ```
 
 
-you can send `/help` to see help page, or send `/help <script_name>` to recive more help about specific script.
+you can send `/help` to see help page, or send `/help <script_name>` to recive more help about a specific script.
 
 for example send `/help screenshot`, You will receive:
 
@@ -157,7 +157,7 @@ bot_name: no_name
 use_proxy: False
 ```
 
-in top of message you see script name, description, syntax and examples.
+in top of message you see script name, description, syntax, and examples.
 
 for run screenshot script you have two choice:
 
@@ -166,12 +166,12 @@ for run screenshot script you have two choice:
 
 for run script on all client send `/screenshot`.
 
-bot if you need get screen shot on specific system you need send `[mac_addres] /screenshot` for our case: `228362405364 /screenshot`
+bot if you need to get screen-shot on a specific system you need to send `[mac_addres] /screenshot` for our case: `228362405364 /screenshot`
 
 in some case like `/shell` you need to run it just for one system.
 
 
-For see who  can `Add custom scripts`, `Run in background`, `Running pybotnet without coding`, and etc, see the below documentation.
+For see who we can `Add custom scripts`, `Run in background`, `Running the pybotnet without coding`, and etc, see the below documentation.
 
 ### *For more, see [Documentation](https://onionj.github.io/pybotnet/)*
 
