@@ -171,6 +171,7 @@ bot if you need get screen shot on specific system you need send `[mac_addres] /
 in some case like `/shell` you need to run it just for one system.
 
 
+For see who  can `Add custom scripts`, `Run in background`, `Running pybotnet without coding`, and etc, see the below documentation.
 
 ### *For more, see [Documentation](https://onionj.github.io/pybotnet/)*
 
