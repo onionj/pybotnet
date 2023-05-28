@@ -70,9 +70,9 @@ nav:
       - tutorial_user_guide/config_BotNet_class.md
 
     - Advanced User Guide:
+      - tutorial_advanced_guide/linux_services.md
       - tutorial_advanced_guide/create_custom_engine.md
       - tutorial_advanced_guide/linux_crontab.md
-      - tutorial_advanced_guide/linux_services.md
       - tutorial_advanced_guide/windows_startup.md
    
   - help_pybotnet_and_get_help.md
