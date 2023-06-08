@@ -6,7 +6,6 @@ import os
 
 from .base_engine import BaseEngine
 
-from ..exceptions import EngineException
 from ..utils import proxy, upload_server
 import requests
 
@@ -46,8 +45,8 @@ class TelegramEngine(BaseEngine):
             return False
 
         except Exception as e:
-            _logger.debug(f"receive: error {e}")
-            raise EngineException(e)
+            _logger.debug(f"receive: error {type(e)}:{e}")
+            return False
 
     def send(
         self,
@@ -60,19 +59,21 @@ class TelegramEngine(BaseEngine):
 
         if len(additionalـinfo) > 0:
             additionalـinfo_str = ""
+
             for k, v in additionalـinfo.items():
                 additionalـinfo_str += f"\n{k}: {v}"
+
             additionalـinfo_str += f"\nuse_proxy: {self._use_proxy}"
             message = f"{message}\n\n___________________________{additionalـinfo_str}"
 
         message = urllib.parse.quote(message, safe=" ")
 
         res = []
-        split_message = []  # split message to avoid telegram error
+        splited_message = []  # split message to avoid telegram error
         for i in range(0, len(message), 4096):
-            split_message.append(message[i : i + 4096])
+            splited_message.append(message[i : i + 4096])
 
-        for msg in split_message:
+        for msg in splited_message:
             try:
                 api_url = f"https://api.telegram.org/bot{self.token}/SendMessage?chat_id={self.admin_chat_id}&text={msg}"
 
@@ -84,8 +85,8 @@ class TelegramEngine(BaseEngine):
                 res.append(self._http_request(method="POST", url=api_url))
 
             except Exception as e:
-                _logger.debug(f"send: error {e}")
-                raise EngineException(e)
+                _logger.debug(f"send: error: {type(e)}:{e}")
+                return None
 
         return res[0]
 
@@ -128,17 +129,26 @@ class TelegramEngine(BaseEngine):
             if res == False:
                 return False
 
-            return json.loads(res.replace("edited_message", "message")).get(
-                "result", False
-            )
+            elif "(401) Unauthorized" in str(res):
+                _logger.debug(f"Invalied Telegram Bot Token                     <--- Error")
+                return False
+
+            try:
+                return json.loads(res.replace("edited_message", "message")).get("result", False)
+            except:
+                _logger.debug(f"invalied json response: {res}")
+                return False
 
     def _getme(self):
         try:
-            res = requests.get(
-                f"https://api.telegram.org/bot{self.token}/getMe", timeout=0.5
-            )
+            res = requests.get(f"https://api.telegram.org/bot{self.token}/getMe", timeout=1)
+
             if res.status_code == 200:
                 return res.json()
+
+            elif res.status_code == 401:
+                _logger.debug(f"getMe: Invalied Telegram Bot Token:             <--- Error")
+
             return False
 
         except:
