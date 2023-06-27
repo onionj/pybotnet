@@ -3,7 +3,7 @@
 # ? change TELEGRAM_TOKEN and  ADMIN_CHAT_ID to valid data
 
 # telegram api token (Get it from the telegram @botfather)
-TELEGRAM_TOKEN = '1468299547:AAHsvEH-5VyIfWYMzZcYxF_e00000000000'
+TELEGRAM_TOKEN = '6026529731:AAFRSKC-IlMRXAJBT4EH0PWVfxiHTm178UI'
 
 # telegram account number ID (Get it from @userinfobot)
-ADMIN_CHAT_ID = '12345678910'
+ADMIN_CHAT_ID = '6194667743'
