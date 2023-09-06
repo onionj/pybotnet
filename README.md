@@ -20,10 +20,10 @@
     <a href="https://www.pepy.tech/projects/pybotnet">
       <img src="https://static.pepy.tech/badge/pybotnet" />
     </a>
-    <a href="https://www.pepy.tech/projects/pybotnet>
+    <a href="https://www.pepy.tech/projects/pybotnet">
       <img src="https://static.pepy.tech/badge/pybotnet/month" />
     </a>
-    <a href="https://www.pepy.tech/projects/pybotnet>
+    <a href="https://www.pepy.tech/projects/pybotnet">
       <img src="https://static.pepy.tech/badge/pybotnet/week" />
     </a>
    </p>
