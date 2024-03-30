@@ -25,7 +25,6 @@ VERSION = __version__
 KEYWORDS = [
     "onionj pybotnet",
     "python remote control",
-    "python trojan",
     "python backdoor",
     "python botnet",
     "pybotnet",
