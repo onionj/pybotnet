@@ -41,7 +41,6 @@
 
 **ToDo List**: <a href="https://github.com/users/onionj/projects/1" target="_blank">https://github.com/users/onionj/projects/1</a>
 
-https://deepwiki.com/onionj/pybotnet
 ---
 
 ### Features:
