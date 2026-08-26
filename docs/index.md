@@ -1,9 +1,9 @@
  
  <p align="center">
     <a href='https://github.com/onionj/pybotnet' target='_blank'><img src='https://files.virgool.io/upload/users/271869/posts/wxs2bk9hkqfx/ezoxwssoikqm.jpeg' border='5' alt='trojan horse'/></a>
-    <h1 align="center">PyBotNet</h1>
+    <h1 align="center">PyRemote</h1>
     <p align="center"> 
-    A Python framework for building <b>remote control</b>, <b>botnet</b> , <b>trojan</b>  or <b>backdoor</b> with Telegram or other control panels
+    A Python framework for building <b>remote control</b>, <b>botnet</b> , <b>trojan</b>  or <b>backdoor</b> with Telegram or other control panels, published on PyPI as `pybotnet`
     </p>
   <p align="center">
     <a href="https://github.com/onionj/pybotnet">
