@@ -1,30 +1,29 @@
 
  <p align="center">
-    <a href='https://github.com/onionj/pybotnet' target='_blank'><img src='https://files.virgool.io/upload/users/271869/posts/wxs2bk9hkqfx/ezoxwssoikqm.jpeg' border='5' alt='trojan horse'/></a>
-    <h1 align="center">PyBotNet</h1>
+    <h1 align="center">PyRemote</h1>
     <p align="center"> 
-    A Python framework for building <b>remote control</b> with Telegram or other control panels
+    A Python framework for building <b>remote control</b> with Telegram or other control panels, published on PyPI as `pybotnet`
     </p>
   <p align="center">
-    <a href="https://github.com/onionj/pybotnet">
-      <img src="https://img.shields.io/pypi/v/pybotnet?label=pybotnet" />
+    <a href="https://github.com/onionj/pyremote">
+      <img src="https://img.shields.io/pypi/v/pyremote?label=pyremote" />
     </a>
-    <a href="https://github.com/onionj/pybotnet/blob/master/LICENSE">
-      <img src="https://img.shields.io/github/license/onionj/pybotnet" />
+    <a href="https://github.com/onionj/pyremote/blob/master/LICENSE">
+      <img src="https://img.shields.io/github/license/onionj/pyremote" />
     </a>
     <a href="https://www.python.org/">
-    	<img src="https://img.shields.io/pypi/pyversions/pybotnet" />
+    	<img src="https://img.shields.io/pypi/pyversions/pyremote" />
     </a>
    </p>
    <p align="center">
-    <a href="https://www.pepy.tech/projects/pybotnet">
-      <img src="https://static.pepy.tech/badge/pybotnet" />
+    <a href="https://www.pepy.tech/projects/pyremote">
+      <img src="https://static.pepy.tech/badge/pyremote" />
     </a>
-    <a href="https://www.pepy.tech/projects/pybotnet">
-      <img src="https://static.pepy.tech/badge/pybotnet/month" />
+    <a href="https://www.pepy.tech/projects/pyremote">
+      <img src="https://static.pepy.tech/badge/pyremote/month" />
     </a>
-    <a href="https://www.pepy.tech/projects/pybotnet">
-      <img src="https://static.pepy.tech/badge/pybotnet/week" />
+    <a href="https://www.pepy.tech/projects/pyremote">
+      <img src="https://static.pepy.tech/badge/pyremote/week" />
     </a>
    </p>
 </p>
@@ -34,11 +33,9 @@
 
 ---
 
-**Source Code**: <a href="https://github.com/onionj/pybotnet" target="_blank">https://github.com/onionj/pybotnet</a>
+**Source Code**: <a href="https://github.com/onionj/pyremote" target="_blank">https://github.com/onionj/pyremote</a>
 
-**Documentation**: <a href="https://onionj.github.io/pybotnet/" target="_blank">https://onionj.github.io/pybotnet/</a>
-
-**Deep Wiki (AI Generated Documentation)**: <a href="https://deepwiki.com/onionj/pybotnet" target="_blank">https://deepwiki.com/onionj/pybotnet</a>
+**Documentation**: <a href="https://onionj.github.io/pyremote/" target="_blank">https://onionj.github.io/pyremote/</a>
 
 **ToDo List**: <a href="https://github.com/users/onionj/projects/1" target="_blank">https://github.com/users/onionj/projects/1</a>
 
@@ -60,10 +57,10 @@
 * Import external scripts
 * Ability to add custom control panel
 * Add remote control to your apps
-* [...](https://onionj.github.io/pybotnet/)
+* [...](https://onionj.github.io/pyremote/)
 
 
-### Install PyBotNet
+### Install PyBotNet / PyRemote
 
 ```console
 pip3 install pybotnet -U
